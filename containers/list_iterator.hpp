@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 18:26:08 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/03 12:37:19 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/04 19:33:22 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 	
 	// *************** Constructors ***************
 
-		list_iterator() : ptr(nullptr) { return; }
+		list_iterator() : ptr(NULL) { return; }
 
 		list_iterator(node * new_ptr) : ptr(new_ptr) { return; }
 
@@ -67,31 +67,27 @@ namespace ft
 		
 		list_iterator & operator++(void)
 		{
-			// if (this->ptr->next)
-				this->ptr = this->ptr->next;
+			this->ptr = this->ptr->next;
 			return *this;
 		}
 
 		list_iterator operator++(int)
 		{
 			list_iterator temp(*this);
-			// if (this->ptr->next)
-				this->ptr = this->ptr->next;
+			this->ptr = this->ptr->next;
 			return temp;
 		}
 
 		list_iterator & operator--(void)
 		{
-			// if (this->ptr->prev)
-				this->ptr = this->ptr->prev;
+			this->ptr = this->ptr->prev;
 			return *this;
 		}
 
 		list_iterator  operator--(int)
 		{
 			list_iterator temp(*this);
-			// if (this->ptr->prev)
-				this->ptr = this->ptr->prev;
+			this->ptr = this->ptr->prev;
 			return temp;
 		}
   };

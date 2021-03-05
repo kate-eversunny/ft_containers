@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/04 23:07:05 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/05 22:35:07 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ namespace ft
 		typedef T*												pointer;
 		typedef const T*										const_pointer;
 		typedef typename ft::list_iterator<value_type>			iterator;
-		typedef typename ft::list_iterator<value_type>		const_iterator;
-		// typedef typename ft::list_reverse_iterator<value_type>	reverse_iterator;
-		// typedef typename ft::list_reverse_iterator<value_type>	const_reverse_iterator;
+		typedef typename ft::list_iterator<value_type>			const_iterator;
+		typedef typename ft::reverse_list_iterator<value_type>	reverse_iterator;
+		typedef typename ft::reverse_list_iterator<value_type>	const_reverse_iterator;
 		typedef ptrdiff_t										difference_type;
 		typedef size_t											size_type;
 	
@@ -82,6 +82,9 @@ namespace ft
 			return; 
 		}
 		
+		static bool
+		compare(const value_type& val1, const value_type& val2) { return val1 < val2; }
+		
 	public:
 	// *************** Constructors ***************
 		explicit
@@ -100,8 +103,8 @@ namespace ft
 			return;
 		}
 		
-		// // template <class InputIterator>
-		// // list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+		// template <class InputIterator>
+		// list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 		// template <class InputIterator>
 		// list (InputIterator first, InputIterator last)
 		// {
@@ -162,24 +165,40 @@ namespace ft
 		iterator
 		end(void) 
 		{
-			iterator end(this->tail);
-			return end;
+			iterator ending(this->tail);
+			return ending;
 		}
 
 		const_iterator
 		end() const
 		{
-			iterator end(this->tail);
-			return end;
+			iterator ending(this->tail);
+			return ending;
 		}
 
-		// reverse_iterator rbegin();
+		reverse_iterator rbegin()
+		{
+			reverse_iterator rbeg(this->tail->prev);
+			return rbeg;
+		}
 		
-		// const_reverse_iterator rbegin() const;
+		const_reverse_iterator rbegin() const
+		{
+			const_reverse_iterator rbeg(this->tail->prev);
+			return rbeg;
+		}
 
-		// reverse_iterator rend();
+		reverse_iterator rend()
+		{
+			const_reverse_iterator ending(this->tail);
+			return ending;
+		}
 
-		// const_reverse_iterator rend() const;
+		const_reverse_iterator rend() const
+		{
+			const_reverse_iterator ending(this->tail);
+			return ending;
+		}
 		
 	
 	// *************** Capacity ***************
@@ -410,6 +429,11 @@ namespace ft
 		void
 		splice (iterator position, list& x, iterator i)
 		{
+			if (i == x.begin())
+			{
+				splice(position, x);
+				return;
+			}
 			node * pos = position.ptr;
 			node * tmp = i.ptr->prev;
 			iterator temp;
@@ -425,7 +449,7 @@ namespace ft
 				this->tail->value = list_size;
 				if (pos == this->head)
 					this->head = it.ptr;
-				x.tail->value = x.list_size--;
+				x.tail->value = --x.list_size;
 			}
 			x.tail->prev = tmp;
 			tmp->next = x.tail;
@@ -435,6 +459,11 @@ namespace ft
 		void
 		splice (iterator position, list& x, iterator first, iterator last)
 		{
+			if (last == x.end())
+			{
+				splice(position, x, first);
+				return;
+			}
 			node * pos = position.ptr;
 			node * tmp = first.ptr->prev;
 			iterator temp;
@@ -450,66 +479,232 @@ namespace ft
 				this->tail->value = list_size;
 				if (pos == this->head)
 					this->head = it.ptr;
-				x.tail->value = x.list_size--;
+				x.tail->value = --x.list_size;
 			}
+			if (tmp == x.end().ptr)
+				x.head = tmp;
 			last.ptr->prev = tmp;
 			tmp->next = last.ptr;
 			return;
 		}
 		
 		void
-		remove (const value_type& val);
+		remove (const value_type& val)
+		{
+			iterator it = begin();
+			while (it != end())
+			{
+				if (*it == val)
+					it = erase(it);
+				else 
+					it++;
+			}
+		}
 		
 		template <class Predicate>
   		void 
-		remove_if (Predicate pred);
+		remove_if (Predicate pred)
+		{
+			iterator it = begin();
+			while (it != end())
+			{
+				if (pred(*it))
+					it = erase(it);
+				else 
+					it++;
+			}
+		}
 
 		void
-		unique(void);
+		unique(void)
+		{
+			iterator it = begin();
+			iterator temp;
+			while (it != end())
+			{
+				temp = it;
+				++it;
+				if (it != end() && *temp == *it)
+				{
+					erase(it);
+					it = temp;
+				}	
+			}
+			return;
+		}
 
 		template <class BinaryPredicate>
   		void
-		unique (BinaryPredicate binary_pred);
+		unique (BinaryPredicate binary_pred)
+		{
+			iterator it = begin();
+			iterator temp;
+			while (it != end())
+			{
+				temp = it;
+				++it;
+				if (it != end() && binary_pred(*it, *temp))
+				{
+					erase(it);
+					it = temp;
+				}	
+			}
+			return;
+		}
 		
 		void
-		merge (list& x);
+		merge (list& x) { merge(x, compare); }
 
 		template <class Compare>
 		void
-		merge (list& x, Compare comp);
+		merge (list& x, Compare comp)
+		{
+			if (this != &x)
+			{
+				iterator it1 = begin();
+				iterator it2 = x.begin();
+				iterator temp;
+				
+				while (it1 != end() && it2 != x.end())
+				{
+					if (comp(*it1, *it2))
+						++it1;
+					else
+						splice(it1, x, it2, ++it2);
+				}
+				splice(it1, x);
+			}
+			return;
+		}
 
 		void
-		sort(void);
+		sort(void) { sort(compare); }
 		
 		template <class Compare>
 		void
-		sort (Compare comp);
+		sort (Compare comp)
+		{
+			for (iterator it = begin(); it!= end(); )
+			{
+				iterator min = it;
+				for (iterator temp = it; temp != end(); ++temp)
+					if (comp(*temp, *min))
+						min = temp;
+				if (min != it)
+				{
+					if (it.ptr == this->head)
+						this->head = min.ptr;
+					min.ptr->next->prev = min.ptr->prev;
+					min.ptr->prev->next = min.ptr->next;
+					
+					min.ptr->next = it.ptr;
+					min.ptr->prev = it.ptr->prev;
+					it.ptr->prev->next = min.ptr;
+					it.ptr->prev = min.ptr;
+				}
+				else
+					++it;
+			}
+			return;
+		}
 
 		void
-		reverse(void);
+		reverse(void)
+		{
+			node * temp = NULL;
+			for (iterator it = begin(); it != end(); it--)
+			{
+				temp = it.ptr->next;
+				it.ptr->next = it.ptr->prev;
+				it.ptr->prev = temp;
+			}
+			this->head = this->tail->prev;
+			return;
+		}
 	};
 
-	// // *************** Non-member function overloads ***************
+	// *************** Non-member function overloads ***************
+
 	// template <class T, class Alloc>
 	// bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T>
+	bool operator== (const list<T>& lhs, const list<T>& rhs)
+	{
+		if (lhs.size() == rhs.size())
+		{
+			typename ft::list<T>::iterator it1 = lhs.begin();
+			typename ft::list<T>::iterator it2 = rhs.begin();
+			
+			while (it1 != lhs.end())
+			{
+				if (*it1 != *it2)
+					return false;
+				++it1;
+				++it2;
+			}
+			return true;
+		}
+		return false;
+	}
 
 	// template <class T, class Alloc>
 	// bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T>
+	bool operator!= (const list<T>& lhs, const list<T>& rhs)
+	{
+		return !(lhs == rhs);
+	}
 
 	// template <class T, class Alloc>
 	// bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T>
+	bool operator< (const list<T>& lhs, const list<T>& rhs)
+	{
+		typename ft::list<T>::iterator it1 = lhs.begin();
+		typename ft::list<T>::iterator it2 = rhs.begin();
+		
+		while (it1 != lhs.end() && it2 != rhs.end())
+		{
+			if (*it1 > *it2)
+				return false;
+			else if (*it1 < *it2)
+				return true;
+			++it1;
+			++it2;
+		}
+		if (rhs.size() < lhs.size() || rhs.size() == lhs.size())
+			return false;
+		return true;
+	}
 
 	// template <class T, class Alloc>
 	// bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T>
+	bool operator<= (const list<T>& lhs, const list<T>& rhs)
+	{
+		return !(rhs < lhs);
+	}
 
 	// template <class T, class Alloc>
 	// bool operator>  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T>
+	bool operator> (const list<T>& lhs, const list<T>& rhs)
+	{
+		return lhs < rhs;
+	}
 
 	// template <class T, class Alloc>
 	// bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs);
+	template <class T>
+	bool operator>= (const list<T>& lhs, const list<T>& rhs)
+	{
+		return !(lhs < rhs);
+	}
 
 	// template <class T, class Alloc>
 	// void swap (list<T,Alloc>& x, list<T,Alloc>& y);
+	template <class T>
+	void swap (list<T> x, list<T> y) { x.swap(y); return; }
 }
 
 #endif

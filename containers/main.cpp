@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/05 20:41:54 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/08 18:18:30 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 // #include <vector>
 #include <iterator>
 #include "list_iterator.hpp"
+#include <limits>
 
 // for remove_if
 struct is_odd {
@@ -42,35 +43,39 @@ int main(void)
 	b.push_back(3);
 	b.push_front(99);
 	a.push_front(1);
-	ft::list<int>::iterator it = a.begin();
+	ft::list<int>::iterator it = b.begin();
+
+	// a.insert(a.end(), it, b.end());
+	// a.insert(a.end(), 2, 4);
 	
-	if (a < b)
-		std::cout << "yes" << std::endl;
-	else
-		std::cout << "no" << std::endl;
+	// if (a < b)
+	// 	std::cout << "yes" << std::endl;
+	// else
+	// 	std::cout << "no" << std::endl;
 	
 	// a.reverse();
 	// b.reverse();
-	// for (it = a.begin(); it != a.end(); it++)
-	// 	std::cout << a.size() << " " << *it << std::endl;
+	for (it = a.begin(); it != a.end(); it++)
+		std::cout << a.size() << " " << *it << std::endl;
 	// std::cout << std::endl;
 	// for (it = b.begin(); it != b.end(); it++)
 	// 	std::cout << b.size() << " " << *it << std::endl;
 	std::cout << "end\n" << std::endl;
-	std::list<int> c;
-	c.push_back(1);
-	c.push_back(2);
-	c.push_back(3);
-	std::list<int> d;
-	d.push_back(1);
-	d.push_back(2);
-	d.push_back(3);
-	d.push_front(99);
-	c.push_front(1);
-	if (c < d)
-		std::cout << "yes" << std::endl;
-	else
-		std::cout << "no" << std::endl;
+	// std::list<int> c;
+	// c.push_back(1);
+	// c.push_back(2);
+	// c.push_back(3);
+	// std::list<int> d;
+	// d.push_back(1);
+	// d.push_back(2);
+	// d.push_back(3);
+	// d.push_front(99);
+	// c.push_front(1);
+	// if (c < d)
+	// 	std::cout << "yes" << std::endl;
+	// else
+	// 	std::cout << "no" << std::endl;
+	// std::numeric_limits<ft::list<int>::iterator>::is_integer();
 	// std::list<int>::iterator it3 = c.begin();
 	// c.merge(d);
 	// for (it3 = c.begin(); it3 != c.end(); it3++)

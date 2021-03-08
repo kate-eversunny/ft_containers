@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 18:26:08 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/05 22:29:24 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/08 18:55:22 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ namespace ft
 	// *************** Destructor ***************
 		~list_iterator(void) { return ; }
 	
-	// *************** Overloads ***************
+	// *************** Member functions ***************
 		bool operator==(list_iterator const & other) const { return this->ptr==other.ptr; }
 		
 		bool operator!=(list_iterator const & other) const { return this->ptr!=other.ptr; }
@@ -90,7 +90,7 @@ namespace ft
 			this->ptr = this->ptr->prev;
 			return temp;
 		}
-  };
+  	};
 
   	template <class T>
   	struct reverse_list_iterator 
@@ -103,20 +103,19 @@ namespace ft
 		typedef T& 								reference;
 		typedef typename ft::list_iterator<T>	iterator_type;
 
-		iterator_type base;
+		iterator_type base_iterator;
 	
 	public:
 	
 	// *************** Constructors ***************
 
-		reverse_list_iterator() { iterator_type base; return; }
+		reverse_list_iterator() { iterator_type base_iterator; return; }
 
-		explicit reverse_list_iterator(iterator_type it) { iterator_type base(it); return; }
+		explicit reverse_list_iterator(iterator_type it) { iterator_type base_iterator(it); return; }
 
-		template <class T>
-		reverse_iterator (const reverse_list_iterator<T>& toCopy)
+		reverse_list_iterator (const reverse_list_iterator<value_type>& toCopy)
 		{
-			iterator_type base(toCopy.base);
+			iterator_type base_iterator(toCopy.base_iterator);
 			return ;
 		}
 	
@@ -124,41 +123,41 @@ namespace ft
 		~reverse_list_iterator(void) { return ; }
 	
 	// *************** Member functions ***************
-		iterator_type base() const { return this->base; }
+		iterator_type base() const { return this->base_iterator; }
 
-		reference operator*(void) const { return *this->base; }
+		reference operator*(void) const { return *this->base_iterator; }
 
-		pointer operator->(void) const { return &this->base; }
+		pointer operator->(void) const { return &this->base_iterator; }
 		
 		reverse_list_iterator & operator++(void)
 		{
-			this->base--;
+			this->base_iterator--;
 			return *this;
 		}
 
 		reverse_list_iterator operator++(int)
 		{
 			reverse_list_iterator temp(*this);
-			this->base--;
+			this->base_iterator--;
 			return temp;
 		}
 		
 		reverse_list_iterator & operator--(void)
 		{
-			this->base++;
+			this->base_iterator++;
 			return *this;
 		}
 
 		reverse_list_iterator operator--(int)
 		{
 			reverse_list_iterator temp(*this);
-			this->base++;
+			this->base_iterator++;
 			return temp;
 		}
 
-		bool operator==(reverse_list_iterator const & other) const { return this->base==other.base; }
+		bool operator==(reverse_list_iterator const & other) const { return this->base_iterator==other.base_iterator; }
 		
-		bool operator!=(reverse_list_iterator const & other) const { return this->base!=other.base; }
+		bool operator!=(reverse_list_iterator const & other) const { return this->base_iterator!=other.base_iterator; }
   };
 }
 

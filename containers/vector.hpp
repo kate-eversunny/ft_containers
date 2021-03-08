@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/02/09 19:23:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/08 18:45:49 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ namespace ft
 		typedef typename allocator_type::const_reference		const_reference;
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
-		typedef vector_normal_iterator<T>						iterator;
-		typedef vector_normal_iterator<const T>					const_iterator;
+		typedef vector_iterator<T>								iterator;
+		typedef vector_iterator<const T>						const_iterator;
 		// typedef reverse_iterator;
 		// typedef const_reverse_iterator;
 	
@@ -68,11 +68,11 @@ namespace ft
 			return;
 		}
 		
-		template <class InputIterator>
-        vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _allocator(alloc)
-		{
+		// template <class InputIterator>
+        // vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _allocator(alloc)
+		// {
 			
-		}
+		// }
 		
 		vector (vector const & x)
 		{

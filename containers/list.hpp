@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/08 18:39:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/09 15:02:56 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ namespace ft
 		typedef const T&										const_reference;
 		typedef T*												pointer;
 		typedef const T*										const_pointer;
-		typedef typename ft::list_iterator<value_type>			iterator;
+		typedef typename ft::list_iterator<value_type>					iterator;
 		typedef typename ft::list_iterator<value_type>			const_iterator;
-		typedef typename ft::reverse_list_iterator<value_type>	reverse_iterator;
+		typedef typename ft::reverse_list_iterator<value_type>			reverse_iterator;
 		typedef typename ft::reverse_list_iterator<value_type>	const_reverse_iterator;
-		typedef ptrdiff_t										difference_type;
-		typedef size_t											size_type;
+		typedef ptrdiff_t												difference_type;
+		typedef size_t													size_type;
 	
 	private:
 		allocator_type	allocator;
@@ -189,7 +189,7 @@ namespace ft
 		const_iterator
 		begin() const 
 		{
-			iterator beg(this->head);
+			const_iterator beg(this->head);
 			return beg;
 		}
 
@@ -203,7 +203,7 @@ namespace ft
 		const_iterator
 		end() const
 		{
-			iterator ending(this->tail);
+			const_iterator ending(this->tail);
 			return ending;
 		}
 
@@ -224,7 +224,7 @@ namespace ft
 		reverse_iterator
 		rend()
 		{
-			const_reverse_iterator ending(this->tail);
+			reverse_iterator ending(this->tail);
 			return ending;
 		}
 

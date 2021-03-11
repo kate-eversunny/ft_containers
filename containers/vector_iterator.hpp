@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:20:59 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/09 17:41:40 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/10 19:15:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace ft
 	template <typename T>
 	struct vector_iterator
 	{
-	protected:
+	private:
 		T* iter;
 	
 	public:
@@ -75,11 +75,11 @@ namespace ft
 		
 		bool operator<=(vector_iterator const & other) { return this->iter <= other.iter; }
 		
-		vector_iterator & operator+(int value) { this->iter + value; return *this; }
+		vector_iterator & operator+(int value) { this->iter = this->iter + value; return *this; }
 		
-		vector_iterator & operator-(int value) { this->iter - value; return *this; }
+		vector_iterator & operator-(int value) { this->iter = this->iter - value; return *this; }
 		
-		vector_iterator & operator-(vector_iterator const & other) { this->iter - other.iter; return *this; }
+		vector_iterator & operator-(vector_iterator const & other) { this->iter = this->iter - other.iter; return *this; }
 		
 		vector_iterator & operator+=(int value) 
 		{
@@ -91,7 +91,7 @@ namespace ft
 			this->iter -= value; 
 			return *this; 
 		}
-		vector_iterator & operator[](int index) { return this->iter[index]; }
+		reference operator[](int index) { return this->iter[index]; }
 		
 	};
 	
@@ -111,9 +111,9 @@ namespace ft
 	public:
 	
 	// *************** Constructors ***************
-		vector_reverse_iterator(void) { iterator_type base_iterator; return; }
-		vector_reverse_iterator(pointer ptr) { iterator_type base_iterator(ptr); return; }
-		vector_reverse_iterator(vector_reverse_iterator const & other) { iterator_type base_iterator(other.base_iterator); return; }
+		vector_reverse_iterator(void) { this->base_iterator = iterator_type(); return; }
+		vector_reverse_iterator(pointer ptr) { this->base_iterator = iterator_type(ptr); return; }
+		vector_reverse_iterator(vector_reverse_iterator const & other) { this->base_iterator = other.base_iterator; return; }
 	
 	// *************** Destructor ***************
 		~vector_reverse_iterator(void) { return; }

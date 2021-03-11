@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:45:56 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/09 13:14:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/10 18:01:12 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iomanip>
 # include <cstdio>
 # include <cstdlib>
+# include <exception>
 
 /* Include std containers and adapters */
 

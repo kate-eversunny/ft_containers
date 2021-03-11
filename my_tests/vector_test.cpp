@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_test.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:04:46 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/10 20:42:15 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/11 19:04:55 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,14 +227,122 @@ void modifiers(void)
 	ft::vector<VALUE_TYPE>::iterator ftIterator;
 	std::vector<VALUE_TYPE>::iterator stdIterator;
 	
+// push_back && pop_back
+
+	ftVector.push_back(222);
+	ftVector.push_back(222);
+	ftVector.push_back(222);
+	ftVector.push_back(222);
+
+	stdVector.push_back(222);
+	stdVector.push_back(222);
+	stdVector.push_back(222);
+	stdVector.push_back(222);
+	
+	compareValues(testNmb++, stdVector.back(), ftVector.back(), "Push_back (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Push_back (size)");
+
+	ftVector.pop_back();
+	ftVector.pop_back();
+	ftVector.pop_back();
+	ftVector.pop_back();
+
+	stdVector.pop_back();
+	stdVector.pop_back();
+	stdVector.pop_back();
+	stdVector.pop_back();
+	
+	compareValues(testNmb++, stdVector.back(), ftVector.back(), "Pop_back (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Pop_back (size)");
+	
+	getchar();
+	std::cout << std::endl;
+	
+// assign
+
+	ftVector.assign(20, 555);
+	stdVector.assign(20, 555);
+
+	ftIterator = ftVector.begin();
+	stdIterator = stdVector.begin();
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Assign1 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Assign1 (size)");
+
+	ftVector.assign(600, 2121);
+	stdVector.assign(600, 2121);
+
+	ftIterator = ftVector.begin();
+	stdIterator = stdVector.begin();
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Assign2 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Assign2 (size)");
+
+	getchar();
+	std::cout << std::endl;
+
+// insert
+
+	ftIterator = ftVector.end();
+	stdIterator = stdVector.end();
+	
+	ftVector.insert(ftIterator, 565);
+	stdVector.insert(stdIterator, 565);
+
+	ftIterator--;
+	stdIterator--;
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Insert1 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Insert1 (size)");
+	compareValues(testNmb++, stdVector.capacity(), ftVector.capacity(), "Insert1 (capacity)");
+
+	ftIterator = ftVector.begin();
+	stdIterator = stdVector.begin();
+	
+	ftIterator = ftVector.insert(ftIterator, 565);
+	stdIterator = stdVector.insert(stdIterator, 565);
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Insert2 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Insert2 (size)");
+	compareValues(testNmb++, stdVector.capacity(), ftVector.capacity(), "Insert2 (capacity)");
+
+	ftIterator = ftVector.begin();
+	stdIterator = stdVector.begin();
+	
+	ftVector.insert(ftIterator, 20, 333);
+	stdVector.insert(stdIterator, 20, 333);
+
+	ftIterator = ftVector.begin();
+	stdIterator = stdVector.begin();
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Insert3 range (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Insert3 range (size)");
+	compareValues(testNmb++, stdVector.capacity(), ftVector.capacity(), "Insert3 range(capacity)");
+
+	getchar();
+	std::cout << std::endl;
+	
+// swap
+
 	ftVector.swap(ftVector2);
 	stdVector.swap(stdVector2);
 	
 	ftIterator = ftVector.begin();
 	stdIterator = stdVector.begin();
 
-	compareValues(testNmb++, *stdIterator, *ftIterator, "Swap (value)");
-	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Swap (size)");
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Swap1 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Swap1 (size)");
+
+	ftIterator = ftVector2.begin();
+	stdIterator = stdVector2.begin();
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Swap2 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Swap2 (size)");
+
+	getchar();
+	std::cout << std::endl;
+
+// erase
 
 	ftIterator = ftVector.begin();
 	stdIterator = stdVector.begin();
@@ -266,6 +374,9 @@ void modifiers(void)
 	compareValues(testNmb++, *stdIterator, *ftIterator, "Erase one element 3 (value)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Erase one element 3 (size)");
 	
+	getchar();
+	std::cout << std::endl;
+	
 	ftIterator = ftVector.begin();
 	stdIterator = stdVector.begin();
 
@@ -296,6 +407,11 @@ void modifiers(void)
 	compareValues(testNmb++, *stdIterator, *ftIterator, "Erase range of elements 3 (value)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Erase range of elements 3  (size)");
 
+	getchar();
+	std::cout << std::endl;
+
+// clear
+
 	ftVector.push_back(42);
 	ftVector.push_back(42);
 	stdVector.push_back(42);
@@ -318,6 +434,65 @@ void modifiers(void)
 	return;
 }
 
+void non_member_func(void)
+{
+	int testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                              *** Non-member functions overloads ***                          " << NORMAL << std::endl;
+
+	ft::vector<VALUE_TYPE> ftVector1(200, 21);
+	ft::vector<VALUE_TYPE> ftVector2(200, 21);
+	ft::vector<VALUE_TYPE> ftVector3(100, 12);
+	
+	std::vector<VALUE_TYPE> stdVector1(200, 21);
+	std::vector<VALUE_TYPE> stdVector2(200, 21);
+	std::vector<VALUE_TYPE> stdVector3(100, 12);
+	
+	compareValues(testNmb++, stdVector1 == stdVector2, ftVector1 == ftVector2, "Operator== 1");
+	compareValues(testNmb++, stdVector1 == stdVector3, ftVector1 == ftVector3, "Operator== 2");
+
+	compareValues(testNmb++, stdVector1 == stdVector2, ftVector1 == ftVector2, "Operator!= 1");
+	compareValues(testNmb++, stdVector1 == stdVector3, ftVector1 == ftVector3, "Operator!= 2");
+
+	compareValues(testNmb++, stdVector1 < stdVector2, ftVector1 < ftVector2, "Operator< 1");
+	compareValues(testNmb++, stdVector1 < stdVector3, ftVector1 < ftVector3, "Operator< 2");
+
+	compareValues(testNmb++, stdVector1 <= stdVector2, ftVector1 <= ftVector2, "Operator<= 1");
+	compareValues(testNmb++, stdVector1 <= stdVector3, ftVector1 <= ftVector3, "Operator<= 2");
+
+	compareValues(testNmb++, stdVector1 > stdVector2, ftVector1 > ftVector2, "Operator> 1");
+	compareValues(testNmb++, stdVector1 > stdVector3, ftVector1 > ftVector3, "Operator> 2");
+
+	compareValues(testNmb++, stdVector1 >= stdVector2, ftVector1 >= ftVector2, "Operator>= 1");
+	compareValues(testNmb++, stdVector1 >= stdVector3, ftVector1 >= ftVector3, "Operator>= 2");
+	
+	getchar();
+	std::cout << std::endl;
+	
+// swap
+
+	ft::swap(ftVector1, ftVector3);
+	std::swap(stdVector1, stdVector3);
+	
+	ft::vector<VALUE_TYPE>::iterator ftIterator = ftVector1.begin();
+	std::vector<VALUE_TYPE>::iterator stdIterator = stdVector1.begin();
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Swap1 (value)");
+	compareValues(testNmb++, stdVector1.size(), ftVector1.size(), "Swap1 (size)");
+
+	ftIterator = ftVector3.begin();
+	stdIterator = stdVector3.begin();
+
+	compareValues(testNmb++, *stdIterator, *ftIterator, "Swap2 (value)");
+	compareValues(testNmb++, stdVector3.size(), ftVector3.size(), "Swap2 (size)");
+	
+	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
+	
+	getchar();
+	std::system("clear");
+	return;
+}
+
 void vector_test()
 {
 	std::cout << GREEN << std::endl;
@@ -332,7 +507,8 @@ void vector_test()
 	// iterators();
 	// capacity();
 	// element_access();
-	modifiers();
+	// modifiers();
+	non_member_func();
 
-	
+	return;
 }

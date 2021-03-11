@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/01 11:32:12 by gbroccol          #+#    #+#              #
-#    Updated: 2021/03/09 15:04:20 by pvivian          ###   ########.fr        #
+#    Updated: 2021/03/11 18:00:42 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME =		ft_containers
 
 CC =		clang++
 
-FLAGS =		-Wall -Werror -Wextra -std=c++98 -I ../containers -I .
+FLAGS =		-Wall -Werror -Wextra -g -std=c++98 -I ../containers -I .
 
 # HEADER = /.
 

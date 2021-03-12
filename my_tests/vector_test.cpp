@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_test.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:04:46 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/11 19:04:55 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/12 21:58:08 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,18 +123,20 @@ void capacity(void)
 	std::vector<VALUE_TYPE> stdVectorBlank;
 	compareValues(testNmb++, stdVectorBlank.empty(), ftVectorBlank.empty(), "Empty (blank)");
 
-	ft::vector<VALUE_TYPE> ftVector(50, 21);
+	ft::vector<VALUE_TYPE> ftVector(5, 21);
 	ftVector.push_back(42);
 	ftVector.push_back(42);
 	ftVector.push_back(42);
 	ftVector.push_back(42);
 	ftVector.pop_back();
-	std::vector<VALUE_TYPE> stdVector(50, 21);
+	ftVector.push_back(553);
+	std::vector<VALUE_TYPE> stdVector(5, 21);
 	stdVector.push_back(42);
 	stdVector.push_back(42);
 	stdVector.push_back(42);
 	stdVector.push_back(42);
 	stdVector.pop_back();
+	stdVector.push_back(553);
 	
 	compareValues(testNmb++, stdVector.empty(), ftVector.empty(), "Empty (full)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Size");
@@ -145,11 +147,15 @@ void capacity(void)
 	stdVector.reserve(100);
 	compareValues(testNmb++, stdVector.capacity(), ftVector.capacity(), "Reserve1 (capacity)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Reserve1 (size)");
+	compareValues(testNmb++, stdVector.front(), ftVector.front(), "Reserve1 (front)");
+	compareValues(testNmb++, stdVector.back(), ftVector.back(), "Reserve1 (back)");
 	
 	ftVector.reserve(20);
 	stdVector.reserve(20);
 	compareValues(testNmb++, stdVector.capacity(), ftVector.capacity(), "Reserve2 (capacity)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Reserve2 (size)");
+	compareValues(testNmb++, stdVector.front(), ftVector.front(), "Reserve1 (front)");
+	compareValues(testNmb++, stdVector.back(), ftVector.back(), "Reserve2 (back)");
 
 	ftVector.resize(200);
 	stdVector.resize(200);
@@ -190,14 +196,14 @@ void element_access(void)
 		stdVector.at(500);
 	}
 	catch(const std::exception& e) {
-		std::cerr << std::endl << "Std exception: " << e.what() <<std::endl;
+		// std::cerr << std::endl << "Std exception: " << e.what() <<std::endl;
 		stdException = true;
 	}
 	try {
 		ftVector.at(500);
 	}
 	catch(const std::exception& e) {
-		std::cerr << "Ft exception:  " << e.what() <<std::endl;
+		// std::cerr << "Ft exception:  " << e.what() <<std::endl;
 		ftException = true;
 	}
 
@@ -219,9 +225,9 @@ void modifiers(void)
 	
 	std::cout << std::endl << YELLOW << "                              *** Modifiers ***                          " << NORMAL << std::endl;
 
-	ft::vector<VALUE_TYPE> ftVector(500, 21);
+	ft::vector<VALUE_TYPE> ftVector;
 	ft::vector<VALUE_TYPE> ftVector2(200, 42);
-	std::vector<VALUE_TYPE> stdVector(500, 21); // add different values with insert
+	std::vector<VALUE_TYPE> stdVector;
 	std::vector<VALUE_TYPE> stdVector2(200, 42);
 
 	ft::vector<VALUE_TYPE>::iterator ftIterator;
@@ -245,15 +251,18 @@ void modifiers(void)
 	ftVector.pop_back();
 	ftVector.pop_back();
 	ftVector.pop_back();
-	ftVector.pop_back();
 
 	stdVector.pop_back();
 	stdVector.pop_back();
 	stdVector.pop_back();
-	stdVector.pop_back();
 	
-	compareValues(testNmb++, stdVector.back(), ftVector.back(), "Pop_back (value)");
-	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Pop_back (size)");
+	compareValues(testNmb++, stdVector.back(), ftVector.back(), "Pop_back1 (value)");
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Pop_back1 (size)");
+	
+	ftVector.pop_back();
+	stdVector.pop_back();
+
+	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Pop_back2 (size)");
 	
 	getchar();
 	std::cout << std::endl;
@@ -503,11 +512,11 @@ void vector_test()
 	std::cout << "+ ------------------------------ +" << std::endl << std::endl;
 	std::cout << NORMAL;
 
-	// constructor();
-	// iterators();
-	// capacity();
-	// element_access();
-	// modifiers();
+	constructor();
+	iterators();
+	capacity();
+	element_access();
+	modifiers();
 	non_member_func();
 
 	return;

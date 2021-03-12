@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/11 18:53:16 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/12 23:59:47 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ namespace ft
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
 		typedef vector_iterator<T>								iterator;
-		typedef vector_iterator<T>						const_iterator;
+		typedef vector_iterator<T>								const_iterator;
 		typedef vector_reverse_iterator<T>						reverse_iterator;
-		typedef vector_reverse_iterator<T>				const_reverse_iterator;
+		typedef vector_reverse_iterator<T>						const_reverse_iterator;
 	
 	private:
 		allocator_type		_allocator;
@@ -53,12 +53,72 @@ namespace ft
 			return n;
 		}
 
-		void _copyContents(vector const & src, vector & dest)
+		void
+		_copyAttributes(vector const & src, vector & dest)
 		{
 			dest._start = src._start;
 			dest._finish = src._finish;
 			dest._size = src._size;
 			dest._end_of_storage = src._end_of_storage;
+		}
+
+		void
+		_construct(const value_type& value, pointer finish)
+		{
+			++finish;
+			for (pointer i = this->_start; i != finish; i++)
+				_allocator.construct(i, value);
+		}
+
+		void
+		_construct(iterator it, pointer finish)
+		{
+			++finish;
+			for (pointer i = this->_start; i != finish; i++, it++)
+				_allocator.construct(i, *it);
+		}
+
+		pointer
+		_copyValues(iterator srcStart, iterator srcEnd, pointer dest)
+		{
+			for (iterator it = srcStart; it != srcEnd; it++, dest++)
+				_allocator.construct(dest, *it);
+			return dest;
+		}
+		
+		void
+		_destroyAllValues(void)
+		{
+			pointer finish = this->_finish;
+			++finish;
+			for (pointer i = this->_start; i != finish; i++)
+				_allocator.destroy(i);
+		}
+		
+		void
+		_setFinish(void)
+		{
+			this->_finish = this->_start;
+			if (this->_size > 0)
+				this->_finish = this->_start + this->_size - 1;
+		}
+
+		int
+		_calculateDistance(iterator position)
+		{
+			int i;
+			for (i = 0; position != this->begin(); position--)
+				i++;
+			return i;
+		}
+		
+		void
+		_shiftValues(iterator position)
+		{
+			iterator next = position;
+			for (++next; next != end(); next++, position++)
+				*next = *position;
+			return;
 		}
 	
 	public:
@@ -68,17 +128,13 @@ namespace ft
 		vector( const allocator_type& alloc = allocator_type()) : _allocator(alloc), _start(), _finish(), _end_of_storage(), _size(0) { return; }
 		
 		explicit
-		vector( size_type n, const T& value = value_type(), const allocator_type& alloc = allocator_type() ) : _allocator(alloc)
+		vector( size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type() ) : _allocator(alloc)
 		{
-			_start = _allocator.allocate(_check_init_len(n));
-			_end_of_storage = _start + n;
-			_finish = _start;
-			if (n)
-				_finish = _start + n - 1;
-			_size = 0;
-
-			for (pointer i = _start; i != _end_of_storage; i++, ++_size)
-				_allocator.construct(i, value);
+			this->_start = this->_allocator.allocate(_check_init_len(n));
+			this->_size = n;
+			this->_end_of_storage = this->_start + this->_size;
+			_setFinish();
+			_construct(value, this->_finish);
 			return;
 		}
 		
@@ -92,17 +148,11 @@ namespace ft
 		{
 			this->_allocator = allocator_type(x._allocator);
 			size_type capacity = x.capacity();
-			this->_start = _allocator.allocate(_check_init_len(capacity));
-			this->_finish = this->_start;
-			this->_end_of_storage = this->_start + capacity;
-			
-			iterator it = x.begin();
-			for (pointer i = this->_start; i != _end_of_storage; i++, it++)
-				_allocator.construct(i, *it);
+			this->_start = this->_allocator.allocate(_check_init_len(capacity));
 			this->_size = x.size();
-			this->_finish = this->_start;
-			if (this->_size)
-				this->_finish = this->_start + this->_size - 1;
+			_setFinish();
+			this->_end_of_storage = this->_start + capacity;
+			_construct(x.begin(), this->_finish);
 			return;
 		}
 
@@ -110,6 +160,7 @@ namespace ft
 		~vector(void) 
 		{
 			clear();
+			this->_allocator.deallocate(this->_start, this->capacity());
 			return;
 		}
 
@@ -118,7 +169,7 @@ namespace ft
 		operator=(vector const & x)
 		{
 			size_type size = x.size();
-			_allocator = x._allocator;
+			this->_allocator = x._allocator;
 			if (this->capacity() < size)
 			{
 				_allocator.deallocate(this->_start, this->capacity());
@@ -126,17 +177,9 @@ namespace ft
 				this->_finish = this->_start;
 				this->_end_of_storage = this->_start + size;
 			}
-			iterator x_beg;
-			pointer i = this->_start;
-			for (x_beg = x.begin(); x_beg != x.end(); x_beg++)
-			{
-				_allocator.construct(i, *x_beg);
-				++i;
-			}
-			this->_finish = this->_start;
-			if (this->_size)
-				this->_finish = this->_start + this->_size - 1;
-			_size = size;
+			this->_size = size;
+			_setFinish();
+			_construct(x.begin(), this->_finish);
 			return *this;
 		}
 
@@ -205,15 +248,11 @@ namespace ft
 		resize (size_type n, value_type val = value_type())
 		{
 			if (n < this->_size)
-			{
 				while (this->_size != n)
 					pop_back();
-			}
 			else if (n > this->_size)
-			{
 				while (this->_size != n)
 					push_back(val);
-			}
 			return;
 		}
 
@@ -229,14 +268,11 @@ namespace ft
 			if (this->capacity() < n)
 			{
 				pointer new_start = this->_allocator.allocate(_check_init_len(n));
-				iterator it1;
-				iterator it2(new_start);
-				for (it1 = this->begin(); it1 != this->end(); it1++, it2++)
-					*it2 = *it1;
+				_copyValues(this->begin(), this->end(), new_start);
 				this->_allocator.deallocate(this->_start, this->capacity());
 				this->_start = new_start;
-				this->_finish = this->_start + this->_size;
 				this->_end_of_storage = this->_start + n;
+				_setFinish();
 			}
 			return;
 		}
@@ -294,33 +330,16 @@ namespace ft
 		void
 		assign (size_type n, const value_type& val)
 		{
-			if (this->capacity() >= n)
+			_destroyAllValues();
+			if (this->capacity() < n)
 			{
-				pointer i;
-				this->_size = n;
-				for (i = this->_start; i != this->_end_of_storage && n > 0; i++, n--)
-				{
-					_allocator.destroy(i);
-					_allocator.construct(i, val);
-				}
-				this->_finish = this->_start;
-				if(this->_size)
-					this->_finish = this->_start + this->_size - 1;
-				return;
-			}
-			else
-			{
-				pointer new_start = this->_allocator.allocate(_check_init_len(n));
-				this->_end_of_storage = new_start + n;
-				for (pointer i = new_start; i != this->_end_of_storage; i++)
-					_allocator.construct(i, val);
 				this->_allocator.deallocate(this->_start, this->capacity());
-				this->_size = n;
-				this->_start = new_start;
-				this->_finish = this->_start;
-				if (this->_size)
-					this->_finish = this->_start + this->_size - 1;
+				this->_start = this->_allocator.allocate(_check_init_len(n));
+				this->_end_of_storage = this->_start + n;
 			}
+			this->_size = n;
+			_setFinish();
+			_construct(val, this->_finish);
 		}
 
 		void
@@ -330,41 +349,24 @@ namespace ft
 			{
 				size_type new_capacity = this->capacity() * 2;
 				pointer new_start = this->_allocator.allocate(_check_init_len(new_capacity));
-				iterator it1;
-				iterator it2(new_start);
-				for (it1 = this->begin(); it1 != this->end(); it1++, it2++)
-					*it2 = *it1;
-				*it2 = val;
+				_copyValues(this->begin(), this->end(), new_start);
 				this->_allocator.deallocate(this->_start, this->capacity());
 				this->_start = new_start;
-				this->_finish = this->_start + this->_size;
-				this->_size++;
 				this->_end_of_storage = this->_start + new_capacity;
 			}
-			else if (this->_size == 0)
-			{
-				*(this->_finish) = val;
-				this->_size++;
-			}
-			else
-			{
-				++(this->_finish);
-				*(this->_finish) = val;
-				this->_size++;
-			}
+			++this->_size;
+			_setFinish();
+			*(this->_finish) = val;
 		}
 
 		void
 		pop_back()
 		{
-			if (this->_size != 0)
+			 if (this->_size != 0)
 			{
-				pointer new_finish = this->_finish;
-				if (this->_finish != this->_start)
-					--new_finish;
 				this->_allocator.destroy(this->_finish);
 				--this->_size;
-				this->_finish = new_finish;
+				_setFinish();
 			}
 			return;
 		}
@@ -372,6 +374,7 @@ namespace ft
 		iterator
 		insert (iterator position, const value_type& val)
 		{
+			int distance = _calculateDistance(position);
 			if (position == end())
 			{
 				push_back(val);
@@ -381,36 +384,17 @@ namespace ft
 			{
 				size_type new_capacity = this->capacity() * 2;
 				pointer new_start = this->_allocator.allocate(_check_init_len(new_capacity));
-				iterator it1;
-				iterator it2(new_start);
-				for (it1 = this->begin(); it1 != position; it1++, it2++)
-					*it2 = *it1;
-				*it2 = val;
-				iterator pos = it2;
-				for (it1 = position; it1 != ++end(); it1++, ++it2)
-					*it2 = *it1;
+				_copyValues(this->begin(), this->end(), new_start);
 				this->_allocator.deallocate(this->_start, this->capacity());
 				this->_start = new_start;
-				this->_finish = this->_start + this->_size;
-				this->_size++;
 				this->_end_of_storage = this->_start + new_capacity;
-				return pos;
 			}
-			else
-			{
-				iterator it1 = position;
-				iterator temp = position;
-				for (++it1; it1 != ++end(); it1++)
-				{
-					*it1 = *temp;
-					temp = it1;
-					++temp;
-				}
-				*position = val;
-				this->_finish = this->_start + this->_size;
-				this->_size++;
-				return position;
-			}
+			++this->_size;
+			_setFinish();
+			position = this->begin() + distance;
+			_shiftValues(position);
+			*position = val;
+			return position;
 		}
 		
 		void
@@ -445,9 +429,7 @@ namespace ft
 			this->_allocator.deallocate(this->_start, capacity);
 			this->_size--;
 			this->_start = new_start;
-			this->_finish = this->_start;
-			if (this->_size > 0)
-				this->_finish = this->_start + this->_size - 1;
+			_setFinish();
 			this->_end_of_storage = this->_start + capacity;
 			return position;
 		}
@@ -464,9 +446,7 @@ namespace ft
 					it++;
 					this->_size--;
 				}
-				this->_finish = this->_start;
-				if (this->_size > 0)
-					this->_finish = this->_start + this->_size - 1;
+				_setFinish();
 				return this->end();
 			}
 			else
@@ -483,9 +463,7 @@ namespace ft
 					*it2 = *it1;
 				this->_allocator.deallocate(this->_start, capacity);
 				this->_start = new_start;
-				this->_finish = this->_start;
-				if (this->_size)
-					this->_finish = this->_start + this->_size - 1;
+				_setFinish();
 				this->_end_of_storage = this->_start + capacity;
 				return first;
 			}
@@ -496,14 +474,21 @@ namespace ft
 		{
 			ft::vector<value_type> temp;
 			
-			_copyContents(x, temp);
-			_copyContents(*this, x);
-			_copyContents(temp, *this);
+			_copyAttributes(x, temp);
+			_copyAttributes(*this, x);
+			_copyAttributes(temp, *this);
+			temp._start = temp._finish = temp._end_of_storage = NULL;
 			return;
 		}
 		
 		void
-		clear() { erase(begin(), end()); return; }
+		clear() 
+		{ 
+			_destroyAllValues(); 
+			this->_size = 0;
+			_setFinish();
+			return; 
+		}
 	};
 
 	/* ******************* Non-member functions ******************* */	

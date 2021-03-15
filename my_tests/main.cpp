@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:44:26 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/09 15:03:37 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:16:35 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int main()
 	// 		return (0);
 	// 	}
 	// 	if ("list" == command)
-			// list_test();
+			list_test();
 	// 	else if ("map" == command)
 	// 		map_test();
 	// 	else if ("queue" == command)
-	// 		queue_test();
+			queue_test();
 	// 	else if ("stack" == command)
-	// 		stack_test();
+			stack_test();
 	// 	else if ("vector" == command)
 			vector_test();
 	// 	else if ("exit" == command)

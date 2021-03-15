@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/12 23:30:05 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/15 16:13:59 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <stack>
+#include <queue>
 #include "list_iterator.hpp"
 #include <limits>
 #include "vector.hpp"
 #include "vector_iterator.hpp"
+#include "stack.hpp"
+#include "queue.hpp"
+
 
 // for remove_if
 struct is_odd {
@@ -43,22 +48,39 @@ void print_container (std::string testName, Container cont)
 
 int main(void)
 {
-	ft::vector<int> ftVector1(10, 21);
-	ft::vector<int> ftVector2(10, 42);
-	
-	// std::vector<int> stdVector1(50, 21);
-	// std::vector<int> stdVector2(20, 42);
+	ft::queue<int,ft::list<int> > new_queue;
+	ft::queue<int,ft::list<int> > new_queue2;
+	bool res = new_queue == new_queue2;
+	std::cout << res << std::endl;
+	new_queue.push(99);
+	new_queue.push(12);
+	new_queue.push(10);
 
-	ft::vector<int>::iterator ftIterator;
-	// std::vector<int>::iterator stdIterator;
-	
-	ftIterator = ftVector1.begin();
-	// stdIterator = stdVector1.begin();
-	
-	ftVector1.insert(ftIterator, 565);
-	// stdVector1.insert(stdIterator, 565);
+	res = new_queue != new_queue2;
+	std::cout << res << std::endl;
 
-	print_container("Insert", ftVector1);
+	new_queue.pop();
+	
+	res = new_queue < new_queue2;
+	std::cout << res << std::endl;
+
+	std::cout << "std" << std::endl;
+
+	std::queue<int,std::list<int> > std_queue;
+	std::queue<int,std::list<int> > std_queue2;
+	bool res2 = std_queue == std_queue2;
+	std::cout << res2 << std::endl;
+	std_queue.push(99);
+	std_queue.push(12);
+	std_queue.push(10);
+
+	res2 = std_queue != std_queue2;
+	std::cout << res2 << std::endl;
+
+	std_queue.pop();
+	
+	res2 = std_queue < std_queue2;
+	std::cout << res2 << std::endl;
 	
 	return 0;
 }

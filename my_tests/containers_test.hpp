@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   containers_test.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:45:56 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/11 17:12:02 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/15 18:01:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # include "list_iterator.hpp"
 # include "vector.hpp"
 # include "vector_iterator.hpp"
+# include "stack.hpp"
+# include "queue.hpp"
 
 /* Define macros for coloured output */
 

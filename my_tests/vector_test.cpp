@@ -6,14 +6,14 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:04:46 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/12 21:58:08 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/15 17:56:35 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "containers_test.hpp"
 #define VALUE_TYPE int
 
-void constructor(void)
+static void constructor(void)
 {
 	int testNmb = 0;
 	
@@ -66,7 +66,7 @@ void constructor(void)
 	return;
 }
 
-void iterators(void)
+static void iterators(void)
 {
 	int testNmb = 0;
 	
@@ -113,7 +113,7 @@ void iterators(void)
 	return;
 }
 
-void capacity(void)
+static void capacity(void)
 {
 	int testNmb = 0;
 	
@@ -174,7 +174,7 @@ void capacity(void)
 	return;
 }
 
-void element_access(void)
+static void element_access(void)
 {
 	int testNmb = 0;
 	
@@ -219,7 +219,7 @@ void element_access(void)
 	return;
 }
 
-void modifiers(void)
+static void modifiers(void)
 {
 	int testNmb = 0;
 	
@@ -443,7 +443,7 @@ void modifiers(void)
 	return;
 }
 
-void non_member_func(void)
+static void non_member_func(void)
 {
 	int testNmb = 0;
 	

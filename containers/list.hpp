@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/09 15:02:56 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/15 15:41:40 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,14 @@ namespace ft
 		{
 			if (this != &x)
 			{
-				iterator it = x.begin();
 				create_list_end();
-				create_list_head(it.ptr->value);
-				for (++it; it != x.end(); it++)
-					push_back(it.ptr->value);
+				if (x.size() != 0)
+				{
+					iterator it = x.begin();
+					create_list_head(it.ptr->value);
+					for (++it; it != x.end(); it++)
+						push_back(it.ptr->value);
+				}
 			}
 			return;
 		}

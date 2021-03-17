@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/15 16:13:59 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/17 21:01:41 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 #include <iterator>
 #include <stack>
 #include <queue>
+#include <utility>
 #include "list_iterator.hpp"
 #include <limits>
 #include "vector.hpp"
 #include "vector_iterator.hpp"
 #include "stack.hpp"
 #include "queue.hpp"
-
+#include "redBlackTree.hpp"
 
 // for remove_if
 struct is_odd {
@@ -48,39 +49,25 @@ void print_container (std::string testName, Container cont)
 
 int main(void)
 {
-	ft::queue<int,ft::list<int> > new_queue;
-	ft::queue<int,ft::list<int> > new_queue2;
-	bool res = new_queue == new_queue2;
-	std::cout << res << std::endl;
-	new_queue.push(99);
-	new_queue.push(12);
-	new_queue.push(10);
+	ft::redBlackTree<int, int> bst;
+  bst.insert(std::pair<int, int> (1, 55));
+  bst.insert(std::pair<int, int> (2, 40));
+  bst.insert(std::pair<int, int> (3, 65));
+  bst.insert(std::pair<int, int> (4, 60));
+  bst.insert(std::pair<int, int> (5, 75));
+  bst.insert(std::pair<int, int> (6, 57));
+  bst.insert(std::pair<int, int> (7, 60));
+  bst.insert(std::pair<int, int> (8, 75));
+  bst.insert(std::pair<int, int> (9, 57));
+  bst.insert(std::pair<int, int> (10, 60));
+  bst.insert(std::pair<int, int> (11, 75));
+  bst.insert(std::pair<int, int> (12, 57));
 
-	res = new_queue != new_queue2;
-	std::cout << res << std::endl;
-
-	new_queue.pop();
-	
-	res = new_queue < new_queue2;
-	std::cout << res << std::endl;
-
-	std::cout << "std" << std::endl;
-
-	std::queue<int,std::list<int> > std_queue;
-	std::queue<int,std::list<int> > std_queue2;
-	bool res2 = std_queue == std_queue2;
-	std::cout << res2 << std::endl;
-	std_queue.push(99);
-	std_queue.push(12);
-	std_queue.push(10);
-
-	res2 = std_queue != std_queue2;
-	std::cout << res2 << std::endl;
-
-	std_queue.pop();
-	
-	res2 = std_queue < std_queue2;
-	std::cout << res2 << std::endl;
+  bst.print(bst.getRoot(), "", true);
+  std::cout << std::endl
+     << "After deleting" << std::endl;
+//   bst.deleteNode(40);
+//   bst.print();
 	
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/17 21:01:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/03/18 21:14:06 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ int main(void)
   bst.print(bst.getRoot(), "", true);
   std::cout << std::endl
      << "After deleting" << std::endl;
-//   bst.deleteNode(40);
-//   bst.print();
+  bst.deleteNode(6);
+  bst.deleteNode(4);
+  bst.deleteNode(12);
+  bst.print(bst.getRoot(), "", true);
 	
 	return 0;
 }

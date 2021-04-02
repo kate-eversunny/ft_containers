@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/19 15:37:19 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/01 18:33:33 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,35 @@
 
 namespace ft
 {
+	// template <class T1, class T2>
+	// struct pair {
+	// 	T1 first;
+	// 	T2 second;
+	// 	pair() {}
+	// 	pair(const T1& x, const T2& y) : first(x), second(y) {} 
+	// };
+
+	// template <class T1, class T2>
+	// inline bool operator==(const pair<T1,T2>& x, const pair<T1,T2>& y) { 
+	// 	return x.first == y.first && x.second == y.second;
+	// }
+
+	// template <class T1, class T2> 
+	// inline bool operator<(const pair<T1,T2>& x, const pair<T1,T2>& y) {
+	// 	return x.first < y.first 
+	// 		|| (!(y.first < x.first) && x.second < y.second);
+	// }
+
 	template <class Key, class T>
 	struct treeNode
 	{
-		std::pair<Key, T> pair;
-		treeNode *parent;
-		treeNode *left;
-		treeNode *right;
-		bool color;
+		std::pair<Key, T> 	pair;
+		treeNode 			*parent;
+		treeNode 			*left;
+		treeNode 			*right;
+		bool 				color;
+		bool				isFirst;
+		bool				isLast;
 	};
 
 	template <class Key, class T>
@@ -44,14 +65,26 @@ namespace ft
 		typedef Key										key_type;
 		
 		node* _root;
+		node* _first;
+		node* _last;
 		size_type _size;
 
 	public:
 		redBlackTree(void) 
 		{
 			_root = _newNode(value_type());
+			_first = _newNode(value_type());
+			_last = _newNode(value_type());
+			
 			_root->color = BLACK_NODE;
+			_root->left = _first;
+			_root->right = _last;
+			
+			_first->color = _last->color = BLACK_NODE;
+			_first->isFirst = _last->isLast = true;
+			_first->parent = _last->parent = _root;
 			_size = 0;
+			_first->pair.first = _last->pair.first = _size;
 		}
 
 		~redBlackTree(void)
@@ -60,44 +93,55 @@ namespace ft
 		}
 
 		node*
-		insert(const value_type& val)
+		insert(node* hint, const value_type& val)
 		{
+			node* newNode;
 			if (this->_size == 0)
 			{
 				this->_root->pair.operator=(val);
-				return this->_root;
+				newNode = this->_root;
 			}
 			else
 			{
-				node* newNode = _newNode(val);
-				node* parent = _findParent(val);
+				newNode = _newNode(val);
+				node* parent = _findParent(hint, val);
 				newNode->parent = parent;
 				if (parent->pair.first > newNode->pair.first)
+				{
+					newNode->left = parent->left;
+					newNode->left->parent = newNode;
 					parent->left = newNode;
+				}
 				else
+				{
+					newNode->right = parent->right;
+					newNode->right->parent = newNode;
 					parent->right = newNode;
+				}
 				_rebalanceAfterInsert(newNode);
 			}
 			this->_size++;
+			_first->pair.first = _last->pair.first = _size;
 			return newNode;
 		}
 
 		size_type
-		deleteNode(key_type key)
+		deleteNode(node* toDelete)
 		{
 			node* replacement = NULL;
 			bool originalColor;
 			size_type deletedNodes = 0;
-			node* toDelete = findNode(key);
 
-			if (toDelete == NULL)
+			if (toDelete == NULL || toDelete == this->_first || toDelete == this->_last)
 				return deletedNodes;
 			originalColor = toDelete->color;
 			if (toDelete->left == NULL || toDelete->right == NULL)
-				_cutNodeWithOneOrNoChildren(toDelete, replacement);
+				_cutNodeWithOneOrNoChildren(toDelete, &replacement);
 			else
 				_cutNodeWithTwoChildren(toDelete, &originalColor);
 			delete toDelete;
+			this->_size--;
+			_first->pair.first = _last->pair.first = _size;
 			if (originalColor == BLACK_NODE && replacement != NULL)
 				_rebalanceAfterDelete(replacement);
 			return ++deletedNodes;
@@ -110,10 +154,22 @@ namespace ft
 		}
 
 		node*
+		getFirst(void)
+		{
+			return this->_first;
+		}
+
+		node*
+		getLast(void)
+		{
+			return this->_last;
+		}
+
+		node*
 		findNode(const key_type& key)
 		{
 			node* current = this->_root;
-			while (current != NULL)
+			while (current != NULL && current != this->_first && current != this->_last)
 			{
 				if (current->pair.first == key)
 					break;
@@ -126,9 +182,9 @@ namespace ft
 		}
 		
 		void
-		print(node* root,std::string indent, bool right)
+		print(node* root, std::string indent, bool right)
 		{
-			if (root == NULL)
+			if (root == NULL || root == this->_first || root == this->_last)
 				return;
 			std::string sColor = root->color ? RED : NORMAL;
 			std::cout << indent;
@@ -150,7 +206,7 @@ namespace ft
 		node*
 		min(node* node)
 		{
-   			while (node->left != NULL)
+   			while (node->left != NULL && node->left != this->_first)
 				node = node->left;
     		return node;
   		}
@@ -158,7 +214,7 @@ namespace ft
 		node*
 		max(node* node)
 		{
-   			while (node->right != NULL)
+   			while (node->right != NULL && node->right != this->_last)
 				node = node->right;
     		return node;
   		}
@@ -179,16 +235,17 @@ namespace ft
 			newNode->right = NULL;
 			newNode->pair.operator=(val);
 			newNode->color = RED_NODE;
+			newNode->isFirst = false;
+			newNode->isLast = false;
 			return newNode;
 		}
 		
 		node*
-		_findParent(const value_type& val)
+		_findParent(node* current, const value_type& val)
 		{
 			node* parent = NULL;
-			node* current = this->_root;
 			
-			while (current != NULL) 
+			while (current != NULL && current != this->_first && current != this->_last) 
 			{
 				parent = current;
 				if (val.first < current->pair.first)
@@ -200,13 +257,13 @@ namespace ft
 		}
 
 		void
-		_cutNodeWithOneOrNoChildren(node* toDelete, node* replacement)
+		_cutNodeWithOneOrNoChildren(node* toDelete, node** replacement)
 		{
 			if (toDelete->left == NULL)
-				replacement = toDelete->right;
+				*replacement = toDelete->right;
 			else
-				replacement = toDelete->left;
-			_replace(toDelete, replacement);
+				*replacement = toDelete->left;
+			_replace(toDelete, *replacement);
 		}
 
 		void
@@ -291,7 +348,7 @@ namespace ft
 				uncle = newNode->parent->parent->right;
 				if (newNode->parent == newNode->parent->parent->right)
 					uncle = newNode->parent->parent->left;
-				if (uncle != NULL && uncle->color == RED_NODE)
+				if (uncle != NULL && uncle != this->_last && uncle->color == RED_NODE)
 					_recolorIfUncleRed(&newNode, uncle);
 				else 
 				{

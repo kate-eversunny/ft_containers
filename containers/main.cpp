@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 16:55:13 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 18:04:34 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ void print_container (std::string testName, Container cont)
 int main(void)
 {
 	std::list<int> stdList(3, 4);
-	ft::list<int> myList(3, 4);
+	ft::list<const int> myList(3, 4);
 
 	std::list<int>::iterator stdIter = stdList.begin();
 
-	ft::list<int>::const_reverse_iterator myIter = myList.rend();
+	ft::list<const int>::const_reverse_iterator myIter = myList.rend();
 	
 	return 0;
 }

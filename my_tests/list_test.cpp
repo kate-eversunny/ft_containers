@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:13 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/09 13:32:56 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 18:03:36 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	capacity(int testNmb)
 		userIteratorChar++;
 	}
 	compareValues(testNmb++, userListChar.size(), userListChar.size(), "Size is <char>");
-	compareValues(testNmb++, *sysIteratorChar, *userIteratorChar, "Size of list <char>");
+	// compareValues(testNmb++, *sysIteratorChar, *userIteratorChar, "Size of list <char>");
 	getchar();
 	std::system("clear");
 }

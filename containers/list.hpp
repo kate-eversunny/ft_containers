@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 17:22:36 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 18:15:34 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ namespace ft
 		T	value;
 		struct Node *next;
 		struct Node *prev;
+
+		Node(const & T val) : value(val) { return; }
+		~Node(void) { return; }
 	};
 
 }
@@ -65,10 +68,11 @@ namespace ft
 		void
 		create_list_end(void)
 		{
-			this->tail = new node;
+			// this->tail = new node;
+			// this->allocator.construct(&this->tail->value, value_type());
+			this->tail = new node(value_type());
 			this->head = this->tail;
 			this->list_size = 0;
-			this->tail->value = static_cast<value_type>(0);
 			this->tail->prev = this->tail->next = this->head;
 
 			return; 
@@ -77,12 +81,13 @@ namespace ft
 		void
 		create_list_head(const value_type& val)
 		{
-			this->head = new node;
-			this->head->value = val;
+			// this->head = new node;
+			// this->head->value = val;
+			// this->allocator.construct(&this->head->value, val);
+			this->head = new node(val);
 			this->head->prev = this->head->next = this->tail;
 			this->tail->prev = this->tail->next = this->head;
 			this->list_size++;
-			this->tail->value = list_size;
 			return; 
 		}
 		
@@ -255,15 +260,16 @@ namespace ft
 		void
 		push_front (const value_type& val)
 		{
-			node * current = new node;
-			current->value = val;
+			// node * current = new node;
+			// current->value = val;
+			// this->allocator.construct(&current->value, val);
+			node * current = new node(val);
 			current->prev = this->tail;
 			current->next = this->head;
 			this->head->prev = current;
 			this->tail->next = current;
 			this->head = current;
 			this->list_size++;
-			this->tail->value = list_size;
 			return;
 		}
 
@@ -275,7 +281,6 @@ namespace ft
 			delete head;
 			this->head = current;
 			this->list_size--;
-			this->tail->value = list_size;
 			return;
 		}
 
@@ -286,15 +291,16 @@ namespace ft
 				create_list_head(val);
 			else
 			{
-				node * current = new node;
+				// node * current = new node;
 				node * previous = this->tail->prev;
-				current->value = val;
+				// current->value = val;
+				// this->allocator.construct(&current->value, val);
+				node * current = new node(val);
 				current->prev = previous;
 				previous->next = current;
 				current->next = this->tail;
 				this->tail->prev = current;
 				this->list_size++;
-				this->tail->value = list_size;
 			}
 			return;
 		}
@@ -307,7 +313,6 @@ namespace ft
 			delete this->tail->prev;
 			this->tail->prev = current;
 			this->list_size--;
-			this->tail->value = list_size;
 			return;
 		}
 
@@ -321,15 +326,16 @@ namespace ft
 			}
 			else
 			{
-				node *new_node = new node;
+				// node *new_node = new node;
 				node *prev = position.ptr->prev;
-				new_node->value = val;
+				// new_node->value = val;
+				// this->allocator.construct(&new_node->value, val);
+				node *new_node = new node(val);
 				new_node->prev = prev;
 				new_node->next = position.ptr;
 				prev->next = new_node;
 				position.ptr->prev = new_node;
 				this->list_size++;
-				this->tail->value = list_size;
 				return iterator(new_node);
 			}
 		}
@@ -367,7 +373,6 @@ namespace ft
 				delete temp.ptr;
 				temp.ptr = NULL;
 				this->list_size--;
-				this->tail->value = list_size;
 			}
 			return position;
 		}
@@ -426,14 +431,13 @@ namespace ft
 				pos->prev->next = it.ptr;
 				pos->prev = it.ptr;
 				this->list_size++;
-				this->tail->value = list_size;
 				if (pos == this->head)
 					this->head = it.ptr;
 				x.head = temp.ptr;
 			}
 			x.head = x.tail;
 			x.tail->next = x.tail->prev = x.head;
-			x.list_size = x.tail->value = 0;
+			x.list_size = 0;
 			return;
 		}
 
@@ -457,10 +461,9 @@ namespace ft
 				pos->prev->next = it.ptr;
 				pos->prev = it.ptr;
 				this->list_size++;
-				this->tail->value = list_size;
 				if (pos == this->head)
 					this->head = it.ptr;
-				x.tail->value = --x.list_size;
+				--x.list_size;
 			}
 			x.tail->prev = tmp;
 			tmp->next = x.tail;
@@ -487,10 +490,9 @@ namespace ft
 				pos->prev->next = it.ptr;
 				pos->prev = it.ptr;
 				this->list_size++;
-				this->tail->value = list_size;
 				if (pos == this->head)
 					this->head = it.ptr;
-				x.tail->value = --x.list_size;
+				--x.list_size;
 			}
 			if (tmp == x.end().ptr)
 				x.head = tmp;

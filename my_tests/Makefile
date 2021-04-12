@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/01 11:32:12 by gbroccol          #+#    #+#              #
-#    Updated: 2021/03/15 18:02:57 by pvivian          ###   ########.fr        #
+#    Updated: 2021/04/12 17:19:28 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ FLAGS =		-Wall -Werror -Wextra -g -std=c++98 -I ../containers -I .
 
 SRCS =		main.cpp \
 			list_test.cpp \
-			vector_test.cpp \
-			stack_test.cpp \
-			queue_test.cpp
+			# vector_test.cpp \
+			# stack_test.cpp \
+			# queue_test.cpp
 			# map_test.cpp \
 			
 OBJ =		$(SRCS:.cpp=.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:20:59 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/10 19:15:44 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 16:17:41 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ namespace ft
 	
 	public:
 		typedef T						value_type;
-		typedef std::size_t				size_type;
-		typedef std::ptrdiff_t			difference_type;
 		typedef T&						reference;
 		typedef T*						pointer;
 		
@@ -94,97 +92,56 @@ namespace ft
 		reference operator[](int index) { return this->iter[index]; }
 		
 	};
-	
-	template <typename T>
-	struct vector_reverse_iterator
+
+	template <class T>
+  	struct const_vector_iterator : public vector_iterator<T>
 	{
 	private:
-		typedef typename ft::vector_iterator<T>				iterator_type;
-		typedef typename iterator_type::value_type			value_type;
-		typedef std::size_t									size_type;
-		typedef std::ptrdiff_t								difference_type;
-		typedef typename iterator_type::reference			reference;
-		typedef typename iterator_type::pointer				pointer;
-	
-		iterator_type base_iterator;
+		typedef T						value_type;
+		typedef const value_type*		const_pointer;
+		typedef const value_type& 		const_reference;
 	
 	public:
-	
 	// *************** Constructors ***************
-		vector_reverse_iterator(void) { this->base_iterator = iterator_type(); return; }
-		vector_reverse_iterator(pointer ptr) { this->base_iterator = iterator_type(ptr); return; }
-		vector_reverse_iterator(vector_reverse_iterator const & other) { this->base_iterator = other.base_iterator; return; }
+
+		const_vector_iterator() { return; }
+
+		const_vector_iterator(const_pointer new_ptr) { this->ptr = new_ptr; return; }
+
+		const_vector_iterator(const_vector_iterator const & toCopy)
+		{
+			this->ptr = toCopy.ptr;
+			return;
+		}
+
+		const_vector_iterator(vector_iterator<T> const & toCopy)
+		{
+			this->ptr = toCopy.ptr;
+			return;
+		}
+
+		const_vector_iterator & operator= (const_vector_iterator const & toCopy)
+		{
+			if (this != &toCopy)
+				this->ptr = toCopy.ptr;
+			return *this;
+		}
 	
+		const_vector_iterator & operator= (vector_iterator<T> const & toCopy)
+		{
+			if (this != &toCopy)
+				this->ptr = toCopy.ptr;
+			return *this;
+		}
 	// *************** Destructor ***************
-		~vector_reverse_iterator(void) { return; }
+		~const_vector_iterator(void) { return ; }
 	
 	// *************** Member functions ***************
-		iterator_type base(void) { return this->base_iterator; }
-		
-		vector_reverse_iterator & operator=(vector_reverse_iterator const & other) { this->base_iterator = other.base_iterator; return *this; }
-		
-		bool operator==(vector_reverse_iterator const & other) { return this->base_iterator == other.base_iterator ; }
-		
-		bool operator!=(vector_reverse_iterator const & other) { return this->base_iterator != other.base_iterator; }
-		
-		pointer operator->(void) const {return *this->base_iterator; }
-		
-		reference operator*(void) const { return *(this->base_iterator);  }
-		
-		vector_reverse_iterator & operator++(void) 
-		{
-			this->base_iterator--; 
-			return *this; 
-		}
-		
-		vector_reverse_iterator operator++(int) 
-		{
-			vector_reverse_iterator temp(*this);
-			this->base_iterator--;
-			return temp;
-		}
-		
-		vector_reverse_iterator & operator--(void) 
-		{
-			this->base_iterator++; 
-			return *this; 
-		}
-		
-		vector_reverse_iterator operator--(int) 
-		{
-			vector_reverse_iterator temp(*this);
-			this->base_iterator++;
-			return temp;
-		}
-
-		bool operator>(vector_reverse_iterator const & other) { return this->base_iterator < other.base_iterator; }
-
-		bool operator<(vector_reverse_iterator const & other) { return this->base_iterator > other.base_iterator; }
-
-		bool operator>=(vector_reverse_iterator const & other) { return this->base_iterator <= other.base_iterator; }
-
-		bool operator<=(vector_reverse_iterator const & other) { return this->base_iterator >= other.base_iterator; }
-
-		vector_reverse_iterator & operator+(int value) { this->base_iterator - value; return *this; }
-		
-		vector_reverse_iterator & operator-(int value) { this->base_iterator + value; return *this; }
-		
-		vector_reverse_iterator & operator-(vector_reverse_iterator const & other) { this->base_iterator + other.base_iterator; return *this; }
-		
-		vector_reverse_iterator & operator+=(int value) 
-		{
-			this->base_iterator -= value; 
-			return *this; 
-		}
-		
-		vector_reverse_iterator & operator-=(int value) 
-		{
-			this->base_iterator += value; 
-			return *this; 
-		}
-		
-		vector_reverse_iterator & operator[](int index) { return this->base_iterator[index]; }
+		const_reference operator*(void) const { return this->ptr->pair; }
+		const_pointer operator->(void) const { return &this->ptr->pair; }
+		const_reference operator[](int index) const { return this->iter[index]; }
 	};
+
 }
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/08 14:12:22 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 17:18:45 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <cstddef> //for fundamental types
 # include "redBlackTree.hpp"
 # include "map_iterator.hpp"
+# include "reverse_iterator.hpp"
 # include <limits>
 # include <type_traits>
 # include <memory>
@@ -35,23 +36,23 @@ namespace ft
 		typedef Key															key_type;
 		typedef T 															mapped_type;
 		typedef typename std::pair<const key_type,mapped_type>				value_type;
-		typedef typename std::less<key_type>								key_compare;
+		typedef Compare														key_compare;
 		typedef Allocator													allocator_type;
 		typedef value_type&													reference;
 		typedef const value_type&											const_reference;
 		typedef value_type*													pointer;
 		typedef const value_type*											const_pointer;
-		typedef typename ft::map_iterator<key_type, mapped_type>			iterator;
-		typedef typename ft::const_map_iterator<key_type, mapped_type>		const_iterator;
-		typedef typename ft::reverse_map_iterator<key_type, mapped_type>	reverse_iterator;
-		typedef typename ft::reverse_map_iterator<key_type, mapped_type>	const_reverse_iterator; /////////// 
 		typedef ptrdiff_t													difference_type;
 		typedef size_t														size_type;
+		typedef typename ft::map_iterator<key_type, mapped_type>			iterator;
+		typedef typename ft::const_map_iterator<key_type, mapped_type>		const_iterator;
+		typedef typename ft::reverse_iterator<value_type, iterator>			reverse_iterator;
+		typedef typename ft::const_reverse_iterator<value_type, iterator>	const_reverse_iterator;
 		typedef typename ft::redBlackTree<key_type, mapped_type>			tree_type;
 	
 		class value_compare : std::binary_function<value_type, value_type, bool>
 		{
-			friend class map;
+			// friend class map;
 		protected:
 			key_compare comp;
 			value_compare (key_compare c) : comp(c) {}
@@ -215,7 +216,6 @@ namespace ft
 		iterator
 		insert(iterator position, const value_type& val)
 		{
-			//TODO: make check of parents
 			treeNode<key_type, mapped_type>* node = this->_tree.findNode(val.first);
 			if (node == NULL || node == this->_tree.getFirst() || node == this->_tree.getLast())
 				node = this->_tree.insert(position.ptr, val);
@@ -364,8 +364,6 @@ namespace ft
 		{
 			return std::pair<iterator, iterator> (lower_bound(k), upper_bound(k));
 		}
-
-		
 	};
 }
 

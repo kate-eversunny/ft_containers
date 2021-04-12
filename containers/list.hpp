@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/08 14:12:31 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 17:22:36 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <cstddef> //for fundamental types
 # include "list_iterator.hpp"
+# include "reverse_iterator.hpp"
 # include <limits>
 # include <type_traits>
 # include <memory>
@@ -39,19 +40,19 @@ namespace ft
 	class list
 	{
 	public:
-		typedef T 												value_type;
-		typedef Allocator										allocator_type;
-		typedef typename ft::Node<T>							node;
-		typedef T&												reference;
-		typedef const T&										const_reference;
-		typedef T*												pointer;
-		typedef const T*										const_pointer;
-		typedef typename ft::list_iterator<value_type>					iterator;
-		typedef typename ft::list_iterator<value_type>			const_iterator;
-		typedef typename ft::reverse_list_iterator<value_type>			reverse_iterator;
-		typedef typename ft::reverse_list_iterator<value_type>	const_reverse_iterator;
-		typedef ptrdiff_t												difference_type;
-		typedef size_t													size_type;
+		typedef T 																value_type;
+		typedef Allocator														allocator_type;
+		typedef typename ft::Node<T>											node;
+		typedef T&																reference;
+		typedef const T&														const_reference;
+		typedef T*																pointer;
+		typedef const T*														const_pointer;
+		typedef typename ft::list_iterator<value_type>							iterator;
+		typedef typename ft::const_list_iterator<value_type>					const_iterator;
+		typedef typename ft::reverse_iterator<value_type, iterator>				reverse_iterator;
+		typedef typename ft::const_reverse_iterator<value_type, iterator>		const_reverse_iterator;
+		typedef ptrdiff_t														difference_type;
+		typedef size_t															size_type;
 	
 	private:
 		allocator_type	allocator;

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 18:26:08 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/08 18:55:22 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 16:33:05 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_ITERATOR_HPP
 # define LIST_ITERATOR_HPP
 
-# include <cstddef> //for fundamental types
 # include "list.hpp"
 
 namespace ft
@@ -26,7 +25,6 @@ namespace ft
 	{
 	private:
 		typedef T						value_type;
-		typedef ptrdiff_t				difference_type;
 		typedef typename ft::Node<T>	node;
 		typedef T*						pointer;
 		typedef T& 						reference;
@@ -92,73 +90,56 @@ namespace ft
 		}
   	};
 
-  	template <class T>
-  	struct reverse_list_iterator 
+	template <class T>
+  	struct const_list_iterator : public list_iterator<T>
 	{
 	private:
-		typedef T								value_type;
-		typedef ptrdiff_t						difference_type;
-		typedef typename ft::Node<T>			node;
-		typedef T*								pointer;
-		typedef T& 								reference;
-		typedef typename ft::list_iterator<T>	iterator_type;
-
-		iterator_type base_iterator;
+		typedef typename ft::Node<T>	node;
+		typedef T						value_type;
+		typedef const value_type*		const_pointer;
+		typedef const value_type& 		const_reference;
 	
 	public:
-	
 	// *************** Constructors ***************
 
-		reverse_list_iterator() { iterator_type base_iterator; return; }
+		const_list_iterator() { return; }
 
-		explicit reverse_list_iterator(iterator_type it) { iterator_type base_iterator(it); return; }
+		const_list_iterator(node* new_ptr) { this->ptr = new_ptr; return; }
 
-		reverse_list_iterator (const reverse_list_iterator<value_type>& toCopy)
+		const_list_iterator(const_list_iterator const & toCopy)
 		{
-			iterator_type base_iterator(toCopy.base_iterator);
-			return ;
+			this->ptr = toCopy.ptr;
+			return;
+		}
+
+		const_list_iterator(list_iterator<T> const & toCopy)
+		{
+			this->ptr = toCopy.ptr;
+			return;
+		}
+		
+		const_list_iterator & operator= (const_list_iterator const & toCopy)
+		{
+			if (this != &toCopy)
+				this->ptr = toCopy.ptr;
+			return *this;
 		}
 	
+		const_list_iterator & operator= (list_iterator<T> const & toCopy)
+		{
+			if (this != &toCopy)
+				this->ptr = toCopy.ptr;
+			return *this;
+		}
+		
 	// *************** Destructor ***************
-		~reverse_list_iterator(void) { return ; }
+		~const_list_iterator(void) { return ; }
 	
 	// *************** Member functions ***************
-		iterator_type base() const { return this->base_iterator; }
+		const_reference operator*(void) const { return this->ptr->value; }
+		const_pointer operator->(void) const { return &this->ptr->value; }
+	};
 
-		reference operator*(void) const { return *this->base_iterator; }
-
-		pointer operator->(void) const { return &this->base_iterator; }
-		
-		reverse_list_iterator & operator++(void)
-		{
-			this->base_iterator--;
-			return *this;
-		}
-
-		reverse_list_iterator operator++(int)
-		{
-			reverse_list_iterator temp(*this);
-			this->base_iterator--;
-			return temp;
-		}
-		
-		reverse_list_iterator & operator--(void)
-		{
-			this->base_iterator++;
-			return *this;
-		}
-
-		reverse_list_iterator operator--(int)
-		{
-			reverse_list_iterator temp(*this);
-			this->base_iterator++;
-			return temp;
-		}
-
-		bool operator==(reverse_list_iterator const & other) const { return this->base_iterator==other.base_iterator; }
-		
-		bool operator!=(reverse_list_iterator const & other) const { return this->base_iterator!=other.base_iterator; }
-  };
 }
 
 #endif

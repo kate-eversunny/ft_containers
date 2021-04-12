@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/07 22:09:52 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/12 16:36:45 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,13 @@ namespace ft
 		{
 			node* parent = NULL;
 			
+			// if (current != this->_root)
+			// {
+			// 	if (current == current->parent->left)
+			// 	{
+			// 		if (current->parent )
+			// 	}
+			// }
 			while (current != NULL && current != this->_first && current != this->_last) 
 			{
 				parent = current;

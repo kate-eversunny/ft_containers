@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/01 18:33:33 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/07 22:09:52 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ namespace ft
 
 		~redBlackTree(void)
 		{
-			//clear and deallocate
+			delete this->_first;
+			delete this->_last;
+			return;
 		}
 
 		node*
@@ -412,7 +414,7 @@ namespace ft
 						_leftRotate(x->parent);
 						s = x->parent->right;
 					}
-					if (s->left->color == BLACK_NODE && s->right->color == BLACK_NODE)
+					if ((!s->left || s->left->color == BLACK_NODE) && (!s->right || s->right->color == BLACK_NODE))
 					{
 						s->color = RED_NODE;
 						x = x->parent;

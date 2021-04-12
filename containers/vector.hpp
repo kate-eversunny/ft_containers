@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/15 15:55:43 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/08 14:52:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <iostream>
 # include <exception>
 # include <memory>
+# include <limits>
+# include <type_traits>
 # include "vector_iterator.hpp"
 
 namespace ft
@@ -64,11 +66,24 @@ namespace ft
 			return;
 		}
 		
-		// template <class InputIterator>
-        // vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _allocator(alloc)
-		// {
+		template <class InputIterator>
+        vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0): _allocator(alloc)
+		{
+			iterator it = first;
+			size_type newSize = 0;
+			pointer i;
 			
-		// }
+			for (; it != last; it++)
+				++newSize;
+			this->_start = i = this->_allocator.allocate(_check_init_len(newSize));
+			this->_size = newSize;
+			this->_end_of_storage = this->_start + this->_size;
+			_setFinish();
+			for (; first != last; i++, first++)
+				this->_allocator.construct(i, *first);
+			return;
+		}
 		
 		vector(vector const & x)
 		{
@@ -86,7 +101,7 @@ namespace ft
 	/* ******************* Destructor ******************* */
 		~vector(void) 
 		{
-			clear();
+			// clear();
 			this->_allocator.deallocate(this->_start, this->capacity());
 			return;
 		}
@@ -191,6 +206,7 @@ namespace ft
 		void
 		resize(size_type n, value_type val = value_type())
 		{
+			_check_init_len(n);
 			if (n < this->_size)
 				while (this->_size != n)
 					pop_back();
@@ -215,6 +231,7 @@ namespace ft
 		void
 		reserve(size_type n)
 		{
+			_check_init_len(n);
 			if (this->capacity() < n)
 			{
 				_reallocateWithValues(n);
@@ -281,9 +298,15 @@ namespace ft
 
 	/* ******************* Modifiers ******************* */	
 
-		// template <class InputIterator>
-		// void
-		// assign (InputIterator first, InputIterator last);
+		template <class InputIterator>
+		void
+		assign (InputIterator first, InputIterator last,
+			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+		{
+			_destroyAllValues();
+			insert(this->begin(), first, last);
+			return;
+		}
 		
 		void
 		assign(size_type n, const value_type& val)
@@ -294,6 +317,7 @@ namespace ft
 			this->_size = n;
 			_setFinish();
 			_construct(val, this->_finish);
+			return;
 		}
 
 		void
@@ -338,11 +362,22 @@ namespace ft
 		{
 			for (size_type i = 0; i < n; i++)
 				insert(position, val);
+			return;
 		}
 
-		// template <class InputIterator>
-		// void
-		// insert (iterator position, InputIterator first, InputIterator last);
+		template <class InputIterator>
+		void
+		insert (iterator position, InputIterator first, InputIterator last,
+			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+		{
+			while (first != last)
+			{
+				insert(position, *first);
+				++position;
+				++first;
+			}
+			return;
+		}
 
 		iterator
 		erase(iterator position)
@@ -402,6 +437,7 @@ namespace ft
 			dest._finish = src._finish;
 			dest._size = src._size;
 			dest._end_of_storage = src._end_of_storage;
+			return;
 		}
 
 		void
@@ -418,6 +454,7 @@ namespace ft
 			++finish;
 			for (pointer i = this->_start; i != finish; i++, it++)
 				_allocator.construct(i, *it);
+			return;
 		}
 
 		void
@@ -427,6 +464,7 @@ namespace ft
 			this->_allocator.deallocate(this->_start, this->capacity());
 			this->_start = new_start;
 			this->_end_of_storage = this->_start + new_capacity;
+			return;
 		}
 
 		void
@@ -437,6 +475,7 @@ namespace ft
 			this->_allocator.deallocate(this->_start, this->capacity());
 			this->_start = new_start;
 			this->_end_of_storage = this->_start + new_capacity;
+			return;
 		}
 		
 		pointer
@@ -454,6 +493,7 @@ namespace ft
 			++finish;
 			for (pointer i = this->_start; i != finish; i++)
 				_allocator.destroy(i);
+			return;
 		}
 		
 		void
@@ -462,6 +502,7 @@ namespace ft
 			this->_finish = this->_start;
 			if (this->_size > 0)
 				this->_finish = this->_start + this->_size - 1;
+			return;
 		}
 
 		int

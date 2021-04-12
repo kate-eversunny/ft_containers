@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/03/15 15:41:40 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/08 14:12:31 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <cstddef> //for fundamental types
 # include "list_iterator.hpp"
 # include <limits>
+# include <type_traits>
 # include <memory>
 
 #include <iostream>
@@ -30,9 +31,6 @@ namespace ft
 		struct Node *prev;
 	};
 
-	struct type { };
-	struct true_type : type { };
-	struct false_type : type { };
 }
 
 namespace ft
@@ -89,35 +87,6 @@ namespace ft
 		
 		static bool
 		compare(const value_type& val1, const value_type& val2) { return val1 < val2; }
-
-		// template<class T1>
-		// ft::type myIsInteger(void)
-		// {
-		// 	ft::type Type;
-		// 	ft::false_type False;
-		// 	ft::true_type True;
-		// 	if (std::numeric_limits<T1>::is_integer == false)
-		// 		return dynamic_cast<ft::false_type*>(Type);
-		// 	return ft::true_type();
-		// }
-		
-		// template <class InputIterator>
-		// void
-		// myInsert (iterator position, InputIterator first, InputIterator last, ft::false_type)
-		// {
-		// 	InputIterator it;
-		// 	for (it = first; it != last; it++)
-		// 		insert(position, *(it));
-		// 	return;
-		// }
-
-		void
-		myInsert (iterator position, size_type n, const value_type& val, ft::true_type)
-		{
-			for (size_type i = 0; i < n; i++)
-				insert(position, val);
-			return;
-		}
 		
 	public:
 	// *************** Constructors ***************
@@ -136,13 +105,14 @@ namespace ft
 			return;
 		}
 		
-		// template <class InputIterator>
-		// list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : allocator(alloc)
-		// {
-		// 	create_list_end();
-		// 	insert(end(), first, last);
-		// 	return;
-		// }
+		template <class InputIterator>
+		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0) : allocator(alloc)
+		{
+			create_list_end();
+			insert(end(), first, last);
+			return;
+		}
 		
 		list (const list& x)
 		{
@@ -263,14 +233,15 @@ namespace ft
 		back(void) const { return this->tail->prev->value; }
 	
 	// *************** Modifiers ***************
-		// template <class InputIterator>
-		// void assign (InputIterator first, InputIterator last)
-		// {
-		// 	ft::list<T> temp(first, last);
-		// 	clear();
-		// 	*this = temp;
-		// 	return;
-		// }
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last,
+			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+		{
+			ft::list<T> temp(first, last);
+			clear();
+			*this = temp;
+			return;
+		}
 
 		void
 		assign (size_type n, const value_type& val)
@@ -365,22 +336,21 @@ namespace ft
 		void
 		insert (iterator position, size_type n, const value_type& val)
 		{
-			myInsert(position, n, val, ft::true_type());
+			for (size_type i = 0; i < n; i++)
+				insert(position, val);
 			return;
 		}
 
-		// template <class InputIterator>
-		// void insert (iterator position, InputIterator first, InputIterator last)
-		// {
-		// 	myInsert(position, first, last, myIsInteger<InputIterator>());
-		// 	// bool isIteratorIntegral = std::numeric_limits<InputIterator>::is_integer;
-		// 	// if (isIteratorIntegral)
-		// 	// 	// myInsert(position, first, last, ft::true_type());
-		// 	// 	std::cout << "Weird" << std::endl;
-		// 	// else 
-		// 	// 	myInsert(position, first, last, ft::false_type());
-		// 	return;
-		// }
+		template <class InputIterator>
+		void
+		insert (iterator position, InputIterator first, InputIterator last,
+			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+		{
+			InputIterator it;
+			for (it = first; it != last; it++, position++)
+				insert(position, *(it));
+			return;
+		}
 
 		iterator
 		erase (iterator position)

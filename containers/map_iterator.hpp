@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:26:44 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/01 16:45:22 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/07 17:40:07 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,49 @@ namespace ft
 		
 		bool operator!=(reverse_map_iterator const & other) const { return this->base_iterator!=other.base_iterator; }
   };
+
+  	template <class Key, class T>
+  	struct const_map_iterator : public map_iterator<Key, T>
+	{
+	private:
+		typedef treeNode<Key, T>						node;
+		typedef typename std::pair<Key, T>				value_type;
+		typedef const value_type*						const_pointer;
+		typedef const value_type& 						const_reference;
+	
+	public:
+	// *************** Constructors ***************
+
+		const_map_iterator() { return; }
+
+		const_map_iterator(node* new_ptr) { this->ptr = new_ptr; return; }
+
+		const_map_iterator(const_map_iterator const & toCopy)
+		{
+			this->ptr = toCopy.ptr;
+			return;
+		}
+
+		const_map_iterator & operator= (const_map_iterator const & toCopy)
+		{
+			if (this != &toCopy)
+				this->ptr = toCopy.ptr;
+			return *this;
+		}
+	
+		const_map_iterator & operator= (map_iterator<Key, T> const & toCopy)
+		{
+			if (this != &toCopy)
+				this->ptr = toCopy.ptr;
+			return *this;
+		}
+	// *************** Destructor ***************
+		~const_map_iterator(void) { return ; }
+	
+	// *************** Member functions ***************
+		const_reference operator*(void) const { return this->ptr->pair; }
+		const_pointer operator->(void) const { return &this->ptr->pair; }
+	};
 }
 
 #endif

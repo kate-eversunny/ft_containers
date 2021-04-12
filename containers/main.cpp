@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/01 18:24:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/07 17:53:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int main(void)
 // 		;
 // 	}
 
-	// std::map<int,int> stdMap;
-	// stdMap.insert(std::pair<int, int> (1, 55));
-	// stdMap.insert(std::pair<int, int> (2, 40));
+	// std::map<const int, const int> stdMap;
+	// stdMap.insert(std::pair<const int, const int> (1, 55));
+	// stdMap.insert(std::pair<const int, const int> (2, 40));
 	// stdMap.insert(std::pair<int, int> (3, 65));
 	// stdMap.insert(std::pair<int, int> (4, 60));
 	// stdMap.insert(std::pair<int, int> (5, 75));
@@ -99,12 +99,15 @@ int main(void)
 	// stdMap.insert(std::pair<int, int> (11, 75));
 	// stdMap.insert(std::pair<int, int> (13, 57));
 
-	// std::map<int, int>::iterator it;
+	// std::map<const int, const int>::iterator it;
 	// std::map<int, int>::reverse_iterator rit;
 
 	// stdMap.erase(stdMap.begin(), stdMap.end());
 	// for (it = stdMap.begin(); it != stdMap.end(); it++)
 	// 	std::cout << it->first << std::endl;
+
+	// it = stdMap.begin();
+	// it->first = 0;
 	
 	// for (it = stdMap.end(); it != stdMap.begin(); --it)
 	// 	std::cout << it->first << std::endl;
@@ -114,19 +117,19 @@ int main(void)
 	// std::cout << rit->first << std::endl;
 
 
-	ft::map<int,int> ftMap;
-	ftMap.insert(std::pair<int, int> (1, 55));
-	ftMap.insert(std::pair<int, int> (2, 40));
-	ftMap.insert(std::pair<int, int> (3, 65));
-	ftMap.insert(std::pair<int, int> (4, 60));
-	ftMap.insert(std::pair<int, int> (5, 75));
-	ftMap.insert(std::pair<int, int> (6, 57));
-	ftMap.insert(std::pair<int, int> (7, 60));
-	ftMap.insert(std::pair<int, int> (8, 75));
-	ftMap.insert(std::pair<int, int> (9, 57));
-	ftMap.insert(std::pair<int, int> (10, 60));
-	ftMap.insert(std::pair<int, int> (11, 75));
-	ftMap.insert(std::pair<int, int> (13, 57));
+	ft::map<const int, const int> ftMap;
+	ftMap.insert(std::pair<const int, const int> (1, 55));
+	ftMap.insert(std::pair<const int, const int> (2, 40));
+	// ftMap.insert(std::pair<int, int> (3, 65));
+	// ftMap.insert(std::pair<int, int> (4, 60));
+	// ftMap.insert(std::pair<int, int> (5, 75));
+	// ftMap.insert(std::pair<int, int> (6, 57));
+	// ftMap.insert(std::pair<int, int> (7, 60));
+	// ftMap.insert(std::pair<int, int> (8, 75));
+	// ftMap.insert(std::pair<int, int> (9, 57));
+	// ftMap.insert(std::pair<int, int> (10, 60));
+	// ftMap.insert(std::pair<int, int> (11, 75));
+	// ftMap.insert(std::pair<int, int> (13, 57));
 	// ftMap.insert(std::pair<int, int> (14, 55));
 	// ftMap.insert(std::pair<int, int> (15, 40));
 	// ftMap.insert(std::pair<int, int> (16, 65));
@@ -141,15 +144,18 @@ int main(void)
 	// ftMap.insert(std::pair<int, int> (25, 57));
 	
 	
-	ft::map<int, int>::iterator it;
+	ft::map<const int, const int>::iterator it;
 	// // ft::map<int, int>::reverse_iterator rit;
+	it = ftMap.begin();
+	
+	// it->first = 9;
 	
 	// it = ftMap.end();
 	// --it;
 	// --it;
 	// ftMap.insert(it, std::pair<int, int> (26, 57));
 	
-	ftMap.erase(1);
+	// ftMap.erase(1);
 	// it = ftMap.begin();
 	// ftMap.erase(it);
 	// for (it = ftMap.begin(); it != ftMap.end(); it++)
@@ -160,23 +166,27 @@ int main(void)
 	
 	
 	// ft::redBlackTree<int, int> tree;
-	// tree.insert(std::pair<int, int> (1, 55));
-	// tree.insert(std::pair<int, int> (2, 40));
-	// tree.insert(std::pair<int, int> (3, 65));
-	// tree.insert(std::pair<int, int> (4, 60));
-	// tree.insert(std::pair<int, int> (5, 75));
-	// tree.insert(std::pair<int, int> (6, 57));
-	// tree.insert(std::pair<int, int> (7, 60));
-	// tree.insert(std::pair<int, int> (8, 75));
-	// tree.insert(std::pair<int, int> (9, 57));
-	// tree.insert(std::pair<int, int> (10, 60));
-	// tree.insert(std::pair<int, int> (11, 75));
-	// tree.insert(std::pair<int, int> (14, 57));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (1, 55));
+	// tree.print(tree.getRoot(), "", true);
+	// tree.insert(tree.getRoot(), std::pair<int, int> (2, 40));
+	// tree.print(tree.getRoot(), "", true);
+	// tree.insert(tree.getRoot(), std::pair<int, int> (3, 65));
+	// tree.print(tree.getRoot(), "", true);
+	// tree.insert(tree.getRoot(), std::pair<int, int> (4, 60));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (5, 75));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (6, 57));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (7, 60));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (8, 75));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (9, 57));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (10, 60));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (11, 75));
+	// tree.insert(tree.getRoot(), std::pair<int, int> (14, 57));
 	// tree.print(tree.getRoot(), "", true);
 	
+	// tree.deleteNode()
 
-	for (it = ftMap.begin(); it != ftMap.end(); it++)
-		std::cout << it->first << std::endl;
+	// for (it = ftMap.begin(); it != ftMap.end(); it++)
+	// 	std::cout << it->first << std::endl;
 	// it = ftMap.end();
 	// for (--it; it != ftMap.begin(); --it)
 	// 	std::cout << it->first << std::endl;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 17:17:01 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:48:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <iostream>
 # include <exception>
-# include <memory>
+# include "allocator.hpp"
 # include <limits>
 # include <type_traits>
 # include "vector_iterator.hpp"
@@ -23,7 +23,7 @@
 
 namespace ft
 {
-	template<class T, class Allocator = std::allocator<T> > 
+	template<class T, class Allocator = ft::allocator<T> > 
 	class vector
 	{
 	public:
@@ -31,10 +31,10 @@ namespace ft
 		typedef Allocator													allocator_type;
 		typedef typename std::size_t										size_type;
 		typedef typename std::ptrdiff_t										difference_type;
-		typedef typename allocator_type::reference							reference;
-		typedef typename allocator_type::const_reference					const_reference;
-		typedef typename allocator_type::pointer							pointer;
-		typedef typename allocator_type::const_pointer						const_pointer;
+		typedef value_type&													reference;
+		typedef const value_type&											const_reference;
+		typedef value_type*													pointer;
+		typedef const value_type*											const_pointer;
 		typedef typename ft::vector_iterator<value_type>					iterator;
 		typedef typename ft::const_vector_iterator<value_type>				const_iterator;
 		typedef typename ft::reverse_iterator<value_type, iterator>			reverse_iterator;
@@ -51,7 +51,7 @@ namespace ft
 	
 	/* ******************* Constructors ******************* */
 		explicit
-		vector( const allocator_type& alloc = allocator_type()) : _allocator(alloc), _start(), _finish(), _end_of_storage(), _size(0) 
+		vector( const allocator_type& alloc = allocator_type()) : _allocator(alloc), _start(0), _finish(0), _end_of_storage(0), _size(0) 
 		{
 			return;
 		}
@@ -63,7 +63,8 @@ namespace ft
 			this->_size = n;
 			this->_end_of_storage = this->_start + this->_size;
 			_setFinish();
-			_construct(value, this->_finish);
+			for (pointer i = this->_start; i != this->_end_of_storage; i++)
+				_allocator.construct(i, value);
 			return;
 		}
 		
@@ -71,7 +72,7 @@ namespace ft
         vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0): _allocator(alloc)
 		{
-			iterator it = first;
+			InputIterator it = first;
 			size_type newSize = 0;
 			pointer i;
 			
@@ -102,8 +103,11 @@ namespace ft
 	/* ******************* Destructor ******************* */
 		~vector(void) 
 		{
-			// clear();
-			this->_allocator.deallocate(this->_start, this->capacity());
+			if (this->capacity() > 0)
+			{
+				clear();
+				this->_allocator.deallocate(this->_start, this->capacity());
+			}
 			return;
 		}
 
@@ -117,7 +121,9 @@ namespace ft
 				_reallocate(size);
 			this->_size = size;
 			_setFinish();
-			_construct(x.begin(), this->_finish);
+			iterator it = x.begin();
+			for (pointer i = this->_start; i != this->_end_of_storage; i++, it++)
+				*i = *it;
 			return *this;
 		}
 
@@ -234,10 +240,7 @@ namespace ft
 		{
 			_check_init_len(n);
 			if (this->capacity() < n)
-			{
 				_reallocateWithValues(n);
-				_setFinish();
-			}
 			return;
 		}
 
@@ -304,7 +307,7 @@ namespace ft
 		assign (InputIterator first, InputIterator last,
 			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
 		{
-			_destroyAllValues();
+			clear();
 			insert(this->begin(), first, last);
 			return;
 		}
@@ -312,23 +315,25 @@ namespace ft
 		void
 		assign(size_type n, const value_type& val)
 		{
-			_destroyAllValues();
+			clear();
 			if (this->capacity() < n)
 				_reallocate(n);
 			this->_size = n;
 			_setFinish();
-			_construct(val, this->_finish);
+			for (pointer i = this->_start; i != this->_end_of_storage; i++)
+				*i = val;
 			return;
 		}
 
 		void
 		push_back(const value_type& val)
 		{
+			value_type save = val;
 			if (this->_size == this->capacity())
 				_reallocateWithValues(this->capacity() * 2);
 			++this->_size;
 			_setFinish();
-			*(this->_finish) = val;
+			*(this->_finish) = save;
 			return;
 		}
 
@@ -347,6 +352,7 @@ namespace ft
 		iterator
 		insert(iterator position, const value_type& val)
 		{
+			value_type save = val;
 			int distance = _calculateDistanceToPosition(this->begin(), position);
 			if (this->_size + 1 > capacity())
 				_reallocateWithValues(this->capacity() * 2);
@@ -354,15 +360,16 @@ namespace ft
 			_setFinish();
 			position = this->begin() + distance;
 			_shiftValuesToEnd(position);
-			*position = val;
+			*position = save;
 			return position;
 		}
 		
 		void
 		insert(iterator position, size_type n, const value_type& val)
 		{
+			value_type save = val;
 			for (size_type i = 0; i < n; i++)
-				insert(position, val);
+				position = insert(position, save);
 			return;
 		}
 
@@ -373,7 +380,7 @@ namespace ft
 		{
 			while (first != last)
 			{
-				insert(position, *first);
+				position = insert(position, *first);
 				++position;
 				++first;
 			}
@@ -409,12 +416,13 @@ namespace ft
 			_copyAttributes(*this, x);
 			_copyAttributes(temp, *this);
 			temp._start = temp._finish = temp._end_of_storage = NULL;
+			temp._size = 0;
 			return;
 		}
 		
 		void
 		clear(void) 
-		{ 
+		{
 			_destroyAllValues(); 
 			this->_size = 0;
 			_setFinish();
@@ -462,6 +470,9 @@ namespace ft
 		_reallocate(size_type new_capacity)
 		{
 			pointer new_start = this->_allocator.allocate(_check_init_len(new_capacity));
+			for (pointer i = new_start; i != new_start + new_capacity; i++)
+				_allocator.construct(i, value_type());
+			_destroyAllValues();
 			this->_allocator.deallocate(this->_start, this->capacity());
 			this->_start = new_start;
 			this->_end_of_storage = this->_start + new_capacity;
@@ -471,28 +482,34 @@ namespace ft
 		void
 		_reallocateWithValues(size_type new_capacity)
 		{
+			if (new_capacity == 0)
+				++new_capacity;
 			pointer new_start = this->_allocator.allocate(_check_init_len(new_capacity));
-			_copyValues(new_start);
+			for (pointer i = new_start; i != new_start + new_capacity; i++)
+				_allocator.construct(i, value_type());
+			if (this->_size > 0)
+				_copyValues(&new_start);
+			_destroyAllValues();
 			this->_allocator.deallocate(this->_start, this->capacity());
 			this->_start = new_start;
 			this->_end_of_storage = this->_start + new_capacity;
+			_setFinish();
 			return;
 		}
 		
-		pointer
-		_copyValues(pointer dest)
+		void
+		_copyValues(pointer * dest)
 		{
-			for (iterator it = begin(); it != end(); it++, dest++)
-				_allocator.construct(dest, *it);
-			return dest;
+			pointer res = *dest;
+			for (pointer p = this->_start; p != this->_finish; p++, res++)
+				*res = *p;
+			*res = *(this->_finish);
 		}
 		
 		void
 		_destroyAllValues(void)
 		{
-			pointer finish = this->_finish;
-			++finish;
-			for (pointer i = this->_start; i != finish; i++)
+			for (pointer i = this->_start; i != this->_end_of_storage; i++)
 				_allocator.destroy(i);
 			return;
 		}
@@ -518,9 +535,11 @@ namespace ft
 		void
 		_shiftValuesToEnd(iterator position)
 		{
-			iterator next = position;
-			for (++next; next != end(); next++, position++)
-				*next = *position;
+			iterator current = end();
+			iterator next = --current;
+		
+			for (--next; current != position; next--, current--)
+				*current = *next;
 			return;
 		}
 

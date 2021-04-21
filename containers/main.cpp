@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 18:04:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 20:52:23 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include <sstream>
 #include "list.hpp"
 #include <list>
 #include <iostream>
@@ -24,7 +26,7 @@
 #include "vector_iterator.hpp"
 #include "stack.hpp"
 #include "queue.hpp"
-//#include "redBlackTree.hpp"
+#include "redBlackTree.hpp"
 #include <map>
 #include "map_iterator.hpp"
 #include "map.hpp"
@@ -51,14 +53,42 @@ void print_container (std::string testName, Container cont)
 	std::cout << std::endl;
 }
 
+bool mycomparison (int first, int second) { return (first % 2) < (second % 2); }
+
 int main(void)
 {
-	std::list<int> stdList(3, 4);
-	ft::list<const int> myList(3, 4);
+		std::vector<int> vect1;
+		std::vector<int> vect2;
+		for (int i = 0; i < 10; i++) { vect1.push_back(rand() % 100); }
+		for (int i = 0; i < 10; i++) { vect2.push_back(rand() % 100); }
 
-	std::list<int>::iterator stdIter = stdList.begin();
+		std::list<int> ls1(vect1.begin(), vect1.end());
+		std::list<int> ls2(vect2.begin(), vect2.end());
+		ls1.sort();
+		ls2.sort();
 
-	ft::list<const int>::const_reverse_iterator myIter = myList.rend();
+		ft::list<int> myls1(vect1.begin(), vect1.end());
+		ft::list<int> myls2(vect2.begin(), vect2.end());
+		myls1.sort();
+		myls2.sort();
+
+		ls1.merge(ls2);
+		myls1.merge(myls2);
+
+	print_container("std1", ls1);
+	print_container("my1 ", myls1);
+
+	ls2.assign(vect1.begin(), vect1.end());
+	myls2.assign(vect1.begin(), vect1.end());
+	ls2.sort();
+	myls2.sort();
 	
+	ls1.merge(ls2, mycomparison);
+	myls1.merge(myls2, mycomparison);
+	
+	print_container("std1", ls1);
+	print_container("my1 ", myls1);
+
+
 	return 0;
 }

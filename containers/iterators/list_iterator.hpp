@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_iterator.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 18:26:08 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 16:33:05 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:43:24 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ namespace ft
 
 		const_list_iterator(node* new_ptr) { this->ptr = new_ptr; return; }
 
-		const_list_iterator(const_list_iterator const & toCopy)
+		const_list_iterator(const_list_iterator const & toCopy) : list_iterator<T>(toCopy)
 		{
 			this->ptr = toCopy.ptr;
 			return;
 		}
 
-		const_list_iterator(list_iterator<T> const & toCopy)
+		const_list_iterator(list_iterator<T> const & toCopy) : list_iterator<T>(toCopy)
 		{
 			this->ptr = toCopy.ptr;
 			return;

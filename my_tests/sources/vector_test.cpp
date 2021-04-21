@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:04:46 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/15 17:56:35 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:15:45 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ static void iterators(void)
 	
 	ftIterator = ftVector.end();
 	stdIterator = stdVector.end();
+	
+	--ftIterator;
+	--stdIterator;
 
 	compareValues(testNmb++, *stdIterator, *ftIterator, "End (value)");
 
@@ -101,6 +104,9 @@ static void iterators(void)
 	ftRevIterator = ftVector.rend();
 	stdRevIterator = stdVector.rend();
 
+	--ftRevIterator;
+	--stdRevIterator;
+	
 	compareValues(testNmb++, *stdRevIterator, *ftRevIterator, "Rend (value)");
 	
 
@@ -298,6 +304,9 @@ static void modifiers(void)
 	ftVector.insert(ftIterator, 565);
 	stdVector.insert(stdIterator, 565);
 
+	ftIterator = ftVector.end();
+	stdIterator = stdVector.end();
+	
 	ftIterator--;
 	stdIterator--;
 

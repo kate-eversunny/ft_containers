@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 13:54:47 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 17:16:30 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:44:53 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@ namespace ft
 	
 	// *************** Constructors ***************
 
-		reverse_iterator() { iterator_type base_iterator; return; }
+		reverse_iterator() { return; }
 
-		explicit reverse_iterator(iterator_type it) { iterator_type base_iterator(it); return; }
+		explicit reverse_iterator(const iterator_type& it) { base_iterator = it; return; }
 
 		reverse_iterator (const reverse_iterator<value_type, iterator_type>& toCopy)
 		{
-			iterator_type base_iterator(toCopy.base_iterator);
+			base_iterator = toCopy.base_iterator;
 			return ;
 		}
 
 		reverse_iterator & operator=(const reverse_iterator<value_type, iterator_type>& toCopy)
 		{
 			this->base_iterator = toCopy.base_iterator;
-			return ;
+			return *this;
 		}
 	
 	// *************** Destructor ***************
@@ -135,13 +135,13 @@ namespace ft
 
 		explicit const_reverse_iterator(iterator_type it) { iterator_type base_iterator(it); return; }
 
-		const_reverse_iterator (const_reverse_iterator<value_type, iterator_type> const& toCopy)
+		const_reverse_iterator (const_reverse_iterator<value_type, iterator_type> const& toCopy) : reverse_iterator<T, Iterator>(toCopy)
 		{
 			this->base_iterator = toCopy.base();
 			return ;
 		}
 
-		const_reverse_iterator (reverse_iterator<value_type, iterator_type> const& toCopy)
+		const_reverse_iterator (reverse_iterator<value_type, iterator_type> const& toCopy) : reverse_iterator<T, Iterator>(toCopy)
 		{
 			this->base_iterator = toCopy.base();
 			return ;

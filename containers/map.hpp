@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 17:18:45 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:08:16 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,20 @@
 # include <type_traits>
 # include <memory>
 # include <iostream>
-# include <utility>
 # include <functional>
 
 namespace ft
 {	
 	template <class Key, class T,
 			class Compare = std::less<Key>,
-			class Allocator = std::allocator<std::pair<const Key,T> > >
+			class Allocator = std::allocator<ft::pair<const Key,T> > >
 	class map
 	{
 	public:
 		
 		typedef Key															key_type;
 		typedef T 															mapped_type;
-		typedef typename std::pair<const key_type,mapped_type>				value_type;
+		typedef typename ft::pair<const key_type,mapped_type>				value_type;
 		typedef Compare														key_compare;
 		typedef Allocator													allocator_type;
 		typedef value_type&													reference;
@@ -192,13 +191,16 @@ namespace ft
 		{
 			treeNode<key_type, mapped_type>* node = this->_tree._findNode(k);
 			if (node == NULL)
+			{
+				_check_init_len(this->size() + 1);
 				node = this->_tree.insert(value_type(k, mapped_type()));
+			}
 			return node->pair.second;
 		}
 	
 	// *************** Modifiers ***************
 
-		std::pair<iterator, bool>
+		ft::pair<iterator, bool>
 		insert(const value_type& val)
 		{
 			bool res = false;
@@ -206,10 +208,11 @@ namespace ft
 	
 			if (node == NULL || node == this->_tree.getFirst() || node == this->_tree.getLast())
 			{
+				_check_init_len(this->size() + 1);
 				node = this->_tree.insert(this->_tree.getRoot(), val);
 				res = true;
 			}
-			std::pair<iterator, bool> pair(iterator(node), res);
+			ft::pair<iterator, bool> pair(iterator(node), res);
 			return pair;
 		}
 		
@@ -218,7 +221,10 @@ namespace ft
 		{
 			treeNode<key_type, mapped_type>* node = this->_tree.findNode(val.first);
 			if (node == NULL || node == this->_tree.getFirst() || node == this->_tree.getLast())
+			{
+				_check_init_len(this->size() + 1);
 				node = this->_tree.insert(position.ptr, val);
+			}
 			return iterator(node);
 		}
 
@@ -264,7 +270,6 @@ namespace ft
 			}
 		}
 
-		
 		void
 		swap (map& x)
 		{
@@ -353,16 +358,26 @@ namespace ft
 			return ++it;
 		}
 
-		std::pair<const_iterator, const_iterator>
+		ft::pair<const_iterator, const_iterator>
 		equal_range (const key_type& k) const
 		{
-			return std::pair<const_iterator, const_iterator> (lower_bound(k), upper_bound(k));
+			return ft::pair<const_iterator, const_iterator> (lower_bound(k), upper_bound(k));
 		}
 		
-		std::pair<iterator, iterator>
+		ft::pair<iterator, iterator>
 		equal_range (const key_type& k)
 		{
-			return std::pair<iterator, iterator> (lower_bound(k), upper_bound(k));
+			return ft::pair<iterator, iterator> (lower_bound(k), upper_bound(k));
+		}
+	
+// 	// *************** Additional functions***************
+private:
+		size_type
+		_check_init_len(size_type n)
+		{
+			if (n > max_size())
+				throw std::range_error("cannot create ft::map larger than max_size()");
+			return n;
 		}
 	};
 }

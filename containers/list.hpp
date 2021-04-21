@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 18:15:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 20:59:56 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 # include <cstddef> //for fundamental types
 # include "list_iterator.hpp"
 # include "reverse_iterator.hpp"
+# include "allocator.hpp"
 # include <limits>
 # include <type_traits>
-# include <memory>
-
 #include <iostream>
 
 namespace ft
@@ -30,26 +29,23 @@ namespace ft
 		T	value;
 		struct Node *next;
 		struct Node *prev;
-
-		Node(const & T val) : value(val) { return; }
-		~Node(void) { return; }
 	};
 
 }
 
 namespace ft
 {	
-	template<class T, class Allocator = std::allocator<T> >
+	template<class T, class Allocator = ft::allocator<T> >
 	class list
 	{
 	public:
 		typedef T 																value_type;
 		typedef Allocator														allocator_type;
-		typedef typename ft::Node<T>											node;
-		typedef T&																reference;
-		typedef const T&														const_reference;
-		typedef T*																pointer;
-		typedef const T*														const_pointer;
+		typedef typename ft::Node<value_type>									node;
+		typedef value_type&														reference;
+		typedef const value_type&												const_reference;
+		typedef value_type*														pointer;
+		typedef const value_type*												const_pointer;
 		typedef typename ft::list_iterator<value_type>							iterator;
 		typedef typename ft::const_list_iterator<value_type>					const_iterator;
 		typedef typename ft::reverse_iterator<value_type, iterator>				reverse_iterator;
@@ -65,12 +61,27 @@ namespace ft
 		
 
 	// *************** Additional functions ***************
+		size_type
+		check_init_len(size_type n)
+		{
+			if (n > max_size())
+				throw std::range_error("cannot create ft::list larger than max_size()");
+			return n;
+		}
+		
+		node * 
+		allocate_node(const value_type& val)
+		{
+			node* newNode = (node*)::operator new(sizeof(node));
+			this->allocator.construct(&(newNode->value), val);
+			return newNode;
+		}
+		
 		void
 		create_list_end(void)
 		{
-			// this->tail = new node;
-			// this->allocator.construct(&this->tail->value, value_type());
-			this->tail = new node(value_type());
+			check_init_len(1);
+			this->tail = allocate_node(value_type());
 			this->head = this->tail;
 			this->list_size = 0;
 			this->tail->prev = this->tail->next = this->head;
@@ -81,10 +92,8 @@ namespace ft
 		void
 		create_list_head(const value_type& val)
 		{
-			// this->head = new node;
-			// this->head->value = val;
-			// this->allocator.construct(&this->head->value, val);
-			this->head = new node(val);
+			check_init_len(1);
+			this->head = allocate_node(val);
 			this->head->prev = this->head->next = this->tail;
 			this->tail->prev = this->tail->next = this->head;
 			this->list_size++;
@@ -104,7 +113,7 @@ namespace ft
 		}
 		
 		explicit
-		list (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : allocator(alloc)
+		list ( size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type() ) : allocator(alloc)
 		{
 			create_list_end();
 			insert(end(), n, val);
@@ -260,10 +269,8 @@ namespace ft
 		void
 		push_front (const value_type& val)
 		{
-			// node * current = new node;
-			// current->value = val;
-			// this->allocator.construct(&current->value, val);
-			node * current = new node(val);
+			check_init_len(this->list_size + 1);
+			node * current = allocate_node(val);
 			current->prev = this->tail;
 			current->next = this->head;
 			this->head->prev = current;
@@ -291,11 +298,9 @@ namespace ft
 				create_list_head(val);
 			else
 			{
-				// node * current = new node;
+				check_init_len(this->list_size + 1);
 				node * previous = this->tail->prev;
-				// current->value = val;
-				// this->allocator.construct(&current->value, val);
-				node * current = new node(val);
+				node * current = allocate_node(val);
 				current->prev = previous;
 				previous->next = current;
 				current->next = this->tail;
@@ -319,6 +324,7 @@ namespace ft
 		iterator
 		insert (iterator position, const value_type& val)
 		{
+			check_init_len(this->list_size + 1);
 			if (position == this->head)
 			{
 				push_front(val);
@@ -326,11 +332,8 @@ namespace ft
 			}
 			else
 			{
-				// node *new_node = new node;
-				node *prev = position.ptr->prev;
-				// new_node->value = val;
-				// this->allocator.construct(&new_node->value, val);
-				node *new_node = new node(val);
+				node *prev = position.ptr->prev;;
+				node * new_node = allocate_node(val);
 				new_node->prev = prev;
 				new_node->next = position.ptr;
 				prev->next = new_node;
@@ -343,6 +346,7 @@ namespace ft
 		void
 		insert (iterator position, size_type n, const value_type& val)
 		{
+			check_init_len(this->list_size + n);
 			for (size_type i = 0; i < n; i++)
 				insert(position, val);
 			return;
@@ -355,7 +359,7 @@ namespace ft
 		{
 			InputIterator it;
 			for (it = first; it != last; it++, position++)
-				insert(position, *(it));
+				position = insert(position, *(it));
 			return;
 		}
 
@@ -444,58 +448,35 @@ namespace ft
 		void
 		splice (iterator position, list& x, iterator i)
 		{
-			if (i == x.begin())
-			{
-				splice(position, x);
-				return;
-			}
 			node * pos = position.ptr;
-			node * tmp = i.ptr->prev;
-			iterator temp;
-			for (iterator it = i; it != x.end(); it = temp)
-			{
-				it = i;
-				temp = ++i;
-				it.ptr->prev = pos->prev;
-				it.ptr->next = pos;
-				pos->prev->next = it.ptr;
-				pos->prev = it.ptr;
-				this->list_size++;
-				if (pos == this->head)
-					this->head = it.ptr;
-				--x.list_size;
-			}
-			x.tail->prev = tmp;
-			tmp->next = x.tail;
+			node * prev = i.ptr->prev;
+			node * next = i.ptr->next;
+			
+			i.ptr->prev = pos->prev;
+			i.ptr->next = pos;
+			pos->prev->next = i.ptr;
+			pos->prev = i.ptr;
+			this->list_size++;
+			if (pos == this->head)
+				this->head = i.ptr;
+			--x.list_size;
+		
+			next->prev = prev;
+			prev->next = next;
 			return;
 		}
 
 		void
 		splice (iterator position, list& x, iterator first, iterator last)
 		{
-			if (last == x.end())
-			{
-				splice(position, x, first);
-				return;
-			}
-			node * pos = position.ptr;
 			node * tmp = first.ptr->prev;
 			iterator temp;
 			for (iterator it = first; it != last; it = temp)
 			{
-				it = first;
 				temp = ++first;
-				it.ptr->prev = pos->prev;
-				it.ptr->next = pos;
-				pos->prev->next = it.ptr;
-				pos->prev = it.ptr;
-				this->list_size++;
-				if (pos == this->head)
-					this->head = it.ptr;
-				--x.list_size;
+				splice(position, x, it);
 			}
-			if (tmp == x.end().ptr)
-				x.head = tmp;
+			x.head = last.ptr;
 			last.ptr->prev = tmp;
 			tmp->next = last.ptr;
 			return;
@@ -693,7 +674,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator>  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 	{
-		return lhs < rhs;
+		return rhs < lhs;
 	}
 
 	template <class T, class Alloc>

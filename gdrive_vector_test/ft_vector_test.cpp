@@ -3,6 +3,8 @@
 
 #include "test.hpp"       // class Test;
 #include "../containers/vector.hpp"
+#include "../containers/iterators/vector_iterator.hpp"
+#include "../containers/iterators/reverse_iterator.hpp"
 
 // Constructors ================================================================
 
@@ -288,7 +290,6 @@ void ft_reserve_test() {
 		std::cout << empty[i].some_ << " ";
 	}
 	std::cout << std::endl;
-
 
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:20:59 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 16:17:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:42:27 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace ft
 	template <typename T>
 	struct vector_iterator
 	{
-	private:
+	public:
 		T* iter;
 	
 	public:
@@ -98,6 +98,7 @@ namespace ft
 	{
 	private:
 		typedef T						value_type;
+		typedef value_type*				pointer;
 		typedef const value_type*		const_pointer;
 		typedef const value_type& 		const_reference;
 	
@@ -106,39 +107,39 @@ namespace ft
 
 		const_vector_iterator() { return; }
 
-		const_vector_iterator(const_pointer new_ptr) { this->ptr = new_ptr; return; }
+		const_vector_iterator(pointer new_iter) { this->iter = new_iter; return; }
 
-		const_vector_iterator(const_vector_iterator const & toCopy)
+		const_vector_iterator(const_vector_iterator const & toCopy) : vector_iterator<T>(toCopy)
 		{
-			this->ptr = toCopy.ptr;
+			this->iter = toCopy.iter;
 			return;
 		}
 
-		const_vector_iterator(vector_iterator<T> const & toCopy)
+		const_vector_iterator(vector_iterator<T> const & toCopy) : vector_iterator<T>(toCopy)
 		{
-			this->ptr = toCopy.ptr;
+			this->iter = toCopy.iter;
 			return;
 		}
 
 		const_vector_iterator & operator= (const_vector_iterator const & toCopy)
 		{
 			if (this != &toCopy)
-				this->ptr = toCopy.ptr;
+				this->iter = toCopy.iter;
 			return *this;
 		}
 	
 		const_vector_iterator & operator= (vector_iterator<T> const & toCopy)
 		{
 			if (this != &toCopy)
-				this->ptr = toCopy.ptr;
+				this->iter = toCopy.iter;
 			return *this;
 		}
 	// *************** Destructor ***************
 		~const_vector_iterator(void) { return ; }
 	
 	// *************** Member functions ***************
-		const_reference operator*(void) const { return this->ptr->pair; }
-		const_pointer operator->(void) const { return &this->ptr->pair; }
+		const_reference operator*(void) const { return *this->iter; }
+		const_pointer operator->(void) const { return this->iter; }
 		const_reference operator[](int index) const { return this->iter[index]; }
 	};
 

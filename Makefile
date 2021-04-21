@@ -1,0 +1,70 @@
+SHELL = /bin/sh
+
+B&W = \033[0;0m
+RED  = \033[0;31m
+GREEN = \033[0;32m
+PURPLE = \033[0;35m
+	
+CC = g++
+STD = -std=c++98
+CFLAGS = -Wall -Werror -Wextra -g
+# CFLAGS += $(STD)
+RM = rm -rf
+
+#-O3 -fsanitize=address
+
+NAME = test
+
+SRC = main.cpp \
+	  test_runner.cpp \
+	  vector_tests.cpp \
+	  list_tests.cpp \
+	#   stack_tests.cpp \
+	#   queue_tests.cpp  \
+	#   map_tests.cpp \
+	#   multimap_tests.cpp \
+	#   set_tests.cpp \
+	#   multiset_tests.cpp \
+	#   deque_tests.cpp
+
+SRCDIR = ./tests/
+INCLUDES = ./containers/
+MAIN = $(SRCDIR)main.cpp
+
+OBJS = $(SRC:.cpp=.o)
+OBJDIR = ./objects/
+OBJ = $(addprefix $(OBJDIR), $(OBJS))
+
+DEP = $(OBJ:.o=.d)
+
+all: $(NAME)
+
+$(NAME): $(OBJ) $(MAIN)
+	@$(CC) $(OBJ) -o test -I$(INCLUDES) -I ./containers/iterators $(CFLAGS)
+	@echo ""
+	@echo "$(GREEN)~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~$(B&W)"
+	@echo "$(GREEN)^						^$(B&W)"
+	@echo "$(GREEN)^	 $(B&W)Project: ft_services by $(GREEN)pdemocri	^$(B&W)"
+	@echo "$(GREEN)^						^$(B&W)"
+	@echo "$(GREEN)^						^$(B&W)"
+	@echo "$(GREEN)^ [Tests created]				^$(B&W)"
+	@echo "$(GREEN)^ $(RED)[For start tests]:$(B&W) $(GREEN)./test$(B&W)$(GREEN)			^$(B&W)"
+	@echo "$(GREEN)~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~$(B&W)"
+	@echo ""
+
+-include $(DEP)
+
+$(OBJDIR)%.o: $(SRCDIR)%.cpp
+	@test -d $(OBJDIR) || mkdir $(OBJDIR)
+	@$(CC) -I$(INCLUDES) -I ./containers/iterators -MMD -c $< -o $@ $(CFLAGS)
+
+clean:
+	@$(RM) $(OBJDIR)
+
+fclean:
+	@$(RM) $(OBJDIR) $(NAME) test_c98 a.out
+	@echo "$(RED) All tests deleted $(B&W)"
+
+re: fclean all
+
+.PHONY: all bonus clean fclean re

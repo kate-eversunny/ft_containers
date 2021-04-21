@@ -30,6 +30,7 @@ public:
 		// std::cout << "Test operator =" << std::endl;
 		if (this == &x)
 			return (*this);
+		free(this->str_);
 		this->str_ = (char*)malloc(10);
 		this->some_ = x.some_;
 		return (*this);

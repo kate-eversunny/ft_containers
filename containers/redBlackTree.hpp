@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 16:36:45 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/19 18:13:46 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,45 @@
 
 namespace ft
 {
-	// template <class T1, class T2>
-	// struct pair {
-	// 	T1 first;
-	// 	T2 second;
-	// 	pair() {}
-	// 	pair(const T1& x, const T2& y) : first(x), second(y) {} 
-	// };
-
-	// template <class T1, class T2>
-	// inline bool operator==(const pair<T1,T2>& x, const pair<T1,T2>& y) { 
-	// 	return x.first == y.first && x.second == y.second;
-	// }
-
-	// template <class T1, class T2> 
-	// inline bool operator<(const pair<T1,T2>& x, const pair<T1,T2>& y) {
-	// 	return x.first < y.first 
-	// 		|| (!(y.first < x.first) && x.second < y.second);
-	// }
-
-	template <class Key, class T>
-	struct treeNode
-	{
-		std::pair<Key, T> 	pair;
-		treeNode 			*parent;
-		treeNode 			*left;
-		treeNode 			*right;
-		bool 				color;
-		bool				isFirst;
-		bool				isLast;
+	template <class T1, class T2>
+	struct pair {
+		T1 first;
+		T2 second;
+		pair() {}
+		pair(const T1& x, const T2& y) : first(x), second(y) {} 
 	};
 
-	template <class Key, class T>
+	template <class T1, class T2>
+	inline bool operator==(const pair<T1,T2>& x, const pair<T1,T2>& y) { 
+		return x.first == y.first && x.second == y.second;
+	}
+
+	template <class T1, class T2> 
+	inline bool operator<(const pair<T1,T2>& x, const pair<T1,T2>& y) {
+		return x.first < y.first 
+			|| (!(y.first < x.first) && x.second < y.second);
+	}
+
+	template <class Key, class T, class Pair = ft::pair<Key, T> >
+	struct treeNode
+	{
+		Pair 		pair;
+		treeNode 	*parent;
+		treeNode 	*left;
+		treeNode 	*right;
+		bool 		color;
+		bool		isFirst;
+		bool		isLast;
+	};
+
+	template <class Key, class T, class Pair =  ft::pair<Key, T> >
 	class redBlackTree
 	{
 	private:
-		typedef treeNode<Key, T>						node;
-		typedef size_t									size_type;
-		typedef typename std::pair<const Key, T>		value_type;
-		typedef Key										key_type;
+		typedef treeNode<Key, T>		node;
+		typedef size_t					size_type;
+		typedef Pair					value_type;
+		typedef Key						key_type;
 		
 		node* _root;
 		node* _first;
@@ -84,7 +84,6 @@ namespace ft
 			_first->isFirst = _last->isLast = true;
 			_first->parent = _last->parent = _root;
 			_size = 0;
-			_first->pair.first = _last->pair.first = _size;
 		}
 
 		~redBlackTree(void)
@@ -123,7 +122,6 @@ namespace ft
 				_rebalanceAfterInsert(newNode);
 			}
 			this->_size++;
-			_first->pair.first = _last->pair.first = _size;
 			return newNode;
 		}
 
@@ -143,7 +141,6 @@ namespace ft
 				_cutNodeWithTwoChildren(toDelete, &originalColor);
 			delete toDelete;
 			this->_size--;
-			_first->pair.first = _last->pair.first = _size;
 			if (originalColor == BLACK_NODE && replacement != NULL)
 				_rebalanceAfterDelete(replacement);
 			return ++deletedNodes;

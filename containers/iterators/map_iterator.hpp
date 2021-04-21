@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:26:44 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/12 16:17:15 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:44:08 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	template <class Key, class T>
+	template <class Key, class T, class Pair>
 	struct treeNode;
 	
 	template <class Key, class T>
@@ -38,7 +38,7 @@ namespace ft
 
 		map_iterator(node* new_ptr) : ptr(new_ptr) { return; }
 
-		map_iterator(map_iterator const & toCopy)
+		map_iterator(map_iterator const & toCopy) 
 		{
 			ptr = toCopy.ptr;
 			return ;
@@ -168,13 +168,13 @@ namespace ft
 
 		const_map_iterator(node* new_ptr) { this->ptr = new_ptr; return; }
 
-		const_map_iterator(const_map_iterator const & toCopy)
+		const_map_iterator(const_map_iterator const & toCopy) : map_iterator<Key, T>(toCopy)
 		{
 			this->ptr = toCopy.ptr;
 			return;
 		}
 
-		const_map_iterator(map_iterator<Key, T> const & toCopy)
+		const_map_iterator(map_iterator<Key, T> const & toCopy) : map_iterator<Key, T>(toCopy)
 		{
 			this->ptr = toCopy.ptr;
 			return;

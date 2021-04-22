@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 12:57:48 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/21 17:46:28 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 21:19:48 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ namespace ft
 		};
 	
 		allocator() throw() {}
-		
-		// allocator(const allocator& alloc) throw() { *this = alloc; }
-		
-		// template <class U>
-  		// allocator (const allocator<U>& alloc) throw() { *this = alloc; }
 
 		~allocator(void) throw() {}
 		
@@ -77,6 +72,14 @@ namespace ft
 			p->~value_type();
 		}
 	};
+
+	template<bool, typename T = void>
+    struct enable_if
+    { };
+
+  	template<typename T>
+    struct enable_if<true, T>
+    { typedef T type; };
 }
 
 #endif

@@ -8,7 +8,7 @@ PURPLE = \033[0;35m
 CC = g++
 STD = -std=c++98
 CFLAGS = -Wall -Werror -Wextra -g
-# CFLAGS += $(STD)
+CFLAGS += $(STD)
 RM = rm -rf
 
 #-O3 -fsanitize=address

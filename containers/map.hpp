@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 21:02:45 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 21:18:20 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "reverse_iterator.hpp"
 # include "allocator.hpp"
 # include <limits>
-# include <type_traits>
 # include <iostream>
 # include <functional>
 
@@ -83,7 +82,7 @@ namespace ft
 
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), 
-			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0) : _compare(comp), _allocator(alloc), _val_compare(value_compare(comp))
+			typename ft::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0) : _compare(comp), _allocator(alloc), _val_compare(value_compare(comp))
 		{
 			insert(first, last);
 			return;
@@ -231,7 +230,7 @@ namespace ft
 		template <class InputIterator>
   		void
 		insert (InputIterator first, InputIterator last,
-				typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+				typename ft::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
 		{
 			while(first != last)
 			{

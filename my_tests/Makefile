@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/01 11:32:12 by gbroccol          #+#    #+#              #
-#    Updated: 2021/04/22 18:19:10 by pvivian          ###   ########.fr        #
+#    Updated: 2021/04/22 21:20:30 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = ft_containers
 
 CC = clang++
 
-FLAGS =	-Wall -Werror -Wextra -g -fsanitize=address -I ../containers -I ../containers/iterators/ -I . -MMD
+FLAGS =	-Wall -Werror -Wextra -g -fsanitize=address -std=c++98 -I ../containers -I ../containers/iterators/ -I . -MMD
 
 MAIN = $(SRCS_DIR)main.cpp
 

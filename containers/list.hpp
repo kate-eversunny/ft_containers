@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/21 20:59:56 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 21:17:50 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "reverse_iterator.hpp"
 # include "allocator.hpp"
 # include <limits>
-# include <type_traits>
 #include <iostream>
 
 namespace ft
@@ -122,7 +121,7 @@ namespace ft
 		
 		template <class InputIterator>
 		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0) : allocator(alloc)
+			typename ft::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0) : allocator(alloc)
 		{
 			create_list_end();
 			insert(end(), first, last);
@@ -250,7 +249,7 @@ namespace ft
 	// *************** Modifiers ***************
 		template <class InputIterator>
 		void assign (InputIterator first, InputIterator last,
-			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+			typename ft::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
 		{
 			ft::list<T> temp(first, last);
 			clear();
@@ -355,7 +354,7 @@ namespace ft
 		template <class InputIterator>
 		void
 		insert (iterator position, InputIterator first, InputIterator last,
-			typename std::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
+			typename ft::enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type* = 0)
 		{
 			InputIterator it;
 			for (it = first; it != last; it++, position++)

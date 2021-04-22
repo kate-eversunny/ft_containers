@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/19 18:13:46 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 20:20:35 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <utility>
 # include <iostream>
+# include "allocator.hpp"
 
 # define BLACK_NODE false
 # define RED_NODE 	true
@@ -28,7 +29,8 @@ namespace ft
 	struct pair {
 		T1 first;
 		T2 second;
-		pair() {}
+		pair() : first(0), second(0) {}
+		pair(const pair & toCopy) : first(toCopy.first), second(toCopy.second) {}
 		pair(const T1& x, const T2& y) : first(x), second(y) {} 
 	};
 
@@ -43,7 +45,7 @@ namespace ft
 			|| (!(y.first < x.first) && x.second < y.second);
 	}
 
-	template <class Key, class T, class Pair = ft::pair<Key, T> >
+	template <class Key, class T, class Pair = ft::pair<const Key, T> >
 	struct treeNode
 	{
 		Pair 		pair;
@@ -55,7 +57,7 @@ namespace ft
 		bool		isLast;
 	};
 
-	template <class Key, class T, class Pair =  ft::pair<Key, T> >
+	template <class Key, class T, class Pair =  ft::pair<const Key, T>, class Allocator = ft::allocator<ft::pair<const Key,T> > >
 	class redBlackTree
 	{
 	private:
@@ -64,17 +66,20 @@ namespace ft
 		typedef Pair					value_type;
 		typedef Key						key_type;
 		
-		node* _root;
-		node* _first;
-		node* _last;
-		size_type _size;
+		Allocator	_allocator;
+		node* 		_root;
+		node* 		_first;
+		node*		_last;
+		size_type 	_size;
 
 	public:
 		redBlackTree(void) 
 		{
-			_root = _newNode(value_type());
-			_first = _newNode(value_type());
-			_last = _newNode(value_type());
+			_root = _newNode();
+			_first = _newNode();
+			_last = _newNode();
+			this->_allocator.construct(&(_first->pair), value_type());
+			this->_allocator.construct(&(_last->pair), value_type());
 			
 			_root->color = BLACK_NODE;
 			_root->left = _first;
@@ -99,12 +104,13 @@ namespace ft
 			node* newNode;
 			if (this->_size == 0)
 			{
-				this->_root->pair.operator=(val);
+				this->_allocator.construct(&(this->_root->pair), val);
 				newNode = this->_root;
 			}
 			else
 			{
-				newNode = _newNode(val);
+				newNode = _newNode();
+				this->_allocator.construct(&(newNode->pair), val);
 				node* parent = _findParent(hint, val);
 				newNode->parent = parent;
 				if (parent->pair.first > newNode->pair.first)
@@ -147,19 +153,19 @@ namespace ft
 		}
 
 		node*
-		getRoot(void)
+		getRoot(void) const
 		{
 			return this->_root;
 		}
 
 		node*
-		getFirst(void)
+		getFirst(void) const
 		{
 			return this->_first;
 		}
 
 		node*
-		getLast(void)
+		getLast(void) const
 		{
 			return this->_last;
 		}
@@ -219,20 +225,21 @@ namespace ft
   		}
 
 		size_type
-		size(void)
+		size(void) const
 		{
 			return this->_size;
 		}
   
 	private:
 		node*
-		_newNode(const value_type& val)
+		_newNode()
 		{
-			node* newNode = new node;
+			// node* newNode = new node;
+			node* newNode = (node*)::operator new(sizeof(node));
 			newNode->parent = NULL;
 			newNode->left = NULL;
 			newNode->right = NULL;
-			newNode->pair.operator=(val);
+			// newNode->pair.operator=(val);
 			newNode->color = RED_NODE;
 			newNode->isFirst = false;
 			newNode->isLast = false;

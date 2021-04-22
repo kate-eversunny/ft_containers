@@ -62,20 +62,20 @@ int main() {
 			last_test = ft_vector::vector_test;
 			ft_vector::vector_test();
 
-		// } else if (index == ft::Map) {
+		} else if (index == ft::Map) {
 
-		// 	last_test = ft_map::map_test;
-		// 	ft_map::map_test();
+			last_test = ft_map::map_test;
+			ft_map::map_test();
 
-		// } else if (index == ft::Stack) {
+		} else if (index == ft::Stack) {
 
-		// 	last_test = ft_stack::stack_test;
-		// 	ft_stack::stack_test();
+			last_test = ft_stack::stack_test;
+			ft_stack::stack_test();
 
-		// } else if (index == ft::Queue) {
+		} else if (index == ft::Queue) {
 
-		// 	last_test = ft_queue::queue_test;
-		// 	ft_queue::queue_test();
+			last_test = ft_queue::queue_test;
+			ft_queue::queue_test();
 
 		// } else if (index == ft::Deque) {
 

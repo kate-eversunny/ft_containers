@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/21 17:48:44 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 20:01:59 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,8 @@ namespace ft
 				_reallocateWithValues(this->capacity() * 2);
 			++this->_size;
 			_setFinish();
-			*(this->_finish) = save;
+			this->_allocator.destroy(this->_finish);
+			this->_allocator.construct(this->_finish, save);
 			return;
 		}
 
@@ -360,7 +361,8 @@ namespace ft
 			_setFinish();
 			position = this->begin() + distance;
 			_shiftValuesToEnd(position);
-			*position = save;
+			this->_allocator.destroy(position.iter);
+			this->_allocator.construct(position.iter, save);
 			return position;
 		}
 		
@@ -502,8 +504,12 @@ namespace ft
 		{
 			pointer res = *dest;
 			for (pointer p = this->_start; p != this->_finish; p++, res++)
-				*res = *p;
-			*res = *(this->_finish);
+			{
+				this->_allocator.destroy(res);
+				this->_allocator.construct(res, *p);
+			}
+			this->_allocator.destroy(res);
+			this->_allocator.construct(res, *(this->_finish));
 		}
 		
 		void
@@ -539,7 +545,10 @@ namespace ft
 			iterator next = --current;
 		
 			for (--next; current != position; next--, current--)
-				*current = *next;
+			{
+				this->_allocator.destroy(current.iter);
+				this->_allocator.construct(current.iter, *next);
+			}
 			return;
 		}
 
@@ -549,7 +558,10 @@ namespace ft
 			iterator next = position;
 			next += distance;
 			for (; next != end(); next++, position++)
-				*position = *next;
+			{
+				this->_allocator.destroy(position.iter);
+				this->_allocator.construct(position.iter, *next);
+			}
 			return;
 		}
 	};

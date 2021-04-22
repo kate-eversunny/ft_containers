@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:26:44 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/21 17:44:08 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 21:04:51 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
 	{
 	private:
 		typedef treeNode<Key, T>						node;
-		typedef typename std::pair<Key, T>				value_type;
+		typedef typename ft::pair<const Key, T>		value_type;
 		typedef value_type*								pointer;
 		typedef value_type& 							reference;
 
@@ -157,7 +157,7 @@ namespace ft
 	{
 	private:
 		typedef treeNode<Key, T>						node;
-		typedef typename std::pair<Key, T>				value_type;
+		typedef typename std::pair<const Key, T>		value_type;
 		typedef const value_type*						const_pointer;
 		typedef const value_type& 						const_reference;
 	

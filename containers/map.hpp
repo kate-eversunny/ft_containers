@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/21 17:08:16 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/22 21:02:45 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include "redBlackTree.hpp"
 # include "map_iterator.hpp"
 # include "reverse_iterator.hpp"
+# include "allocator.hpp"
 # include <limits>
 # include <type_traits>
-# include <memory>
 # include <iostream>
 # include <functional>
 
@@ -27,14 +27,14 @@ namespace ft
 {	
 	template <class Key, class T,
 			class Compare = std::less<Key>,
-			class Allocator = std::allocator<ft::pair<const Key,T> > >
+			class Allocator = ft::allocator<ft::pair<const Key,T> > >
 	class map
 	{
 	public:
 		
 		typedef Key															key_type;
 		typedef T 															mapped_type;
-		typedef typename ft::pair<const key_type,mapped_type>				value_type;
+		typedef typename ft::pair<const key_type, mapped_type>				value_type;
 		typedef Compare														key_compare;
 		typedef Allocator													allocator_type;
 		typedef value_type&													reference;
@@ -51,7 +51,7 @@ namespace ft
 	
 		class value_compare : std::binary_function<value_type, value_type, bool>
 		{
-			// friend class map;
+			friend class map;
 		protected:
 			key_compare comp;
 			value_compare (key_compare c) : comp(c) {}
@@ -89,7 +89,7 @@ namespace ft
 			return;
 		}
 
-		map(const map& x)
+		map(map const & x) : _val_compare(value_compare(key_compare()))
 		{
 			if (this != &x)
 			{

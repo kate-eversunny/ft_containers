@@ -19,9 +19,9 @@ SRC = main.cpp \
 	  test_runner.cpp \
 	  vector_tests.cpp \
 	  list_tests.cpp \
-	#   stack_tests.cpp \
-	#   queue_tests.cpp  \
-	#   map_tests.cpp \
+	  stack_tests.cpp \
+	  queue_tests.cpp  \
+	  map_tests.cpp \
 	#   multimap_tests.cpp \
 	#   set_tests.cpp \
 	#   multiset_tests.cpp \

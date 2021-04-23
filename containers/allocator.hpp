@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   allocator.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 12:57:48 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 21:19:48 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:29:08 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ namespace ft
 
 		size_type max_size(void) const throw()
 		{
-			return std::numeric_limits<difference_type>::max() / sizeof(value_type);
+			return std::numeric_limits<size_type>::max() / sizeof(value_type);
 		}
 
 		void construct ( pointer p, const_reference val )

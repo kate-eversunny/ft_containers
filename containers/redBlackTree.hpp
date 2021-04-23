@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 20:20:35 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 17:49:46 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,7 @@
 
 namespace ft
 {
-	template <class T1, class T2>
-	struct pair {
-		T1 first;
-		T2 second;
-		pair() : first(0), second(0) {}
-		pair(const pair & toCopy) : first(toCopy.first), second(toCopy.second) {}
-		pair(const T1& x, const T2& y) : first(x), second(y) {} 
-	};
-
-	template <class T1, class T2>
-	inline bool operator==(const pair<T1,T2>& x, const pair<T1,T2>& y) { 
-		return x.first == y.first && x.second == y.second;
-	}
-
-	template <class T1, class T2> 
-	inline bool operator<(const pair<T1,T2>& x, const pair<T1,T2>& y) {
-		return x.first < y.first 
-			|| (!(y.first < x.first) && x.second < y.second);
-	}
-
-	template <class Key, class T, class Pair = ft::pair<const Key, T> >
+	template <class Key, class T, class Pair = std::pair<const Key, T> >
 	struct treeNode
 	{
 		Pair 		pair;
@@ -57,7 +37,7 @@ namespace ft
 		bool		isLast;
 	};
 
-	template <class Key, class T, class Pair =  ft::pair<const Key, T>, class Allocator = ft::allocator<ft::pair<const Key,T> > >
+	template <class Key, class T, class Pair =  std::pair<const Key, T>, class Allocator = ft::allocator<std::pair<const Key,T> > >
 	class redBlackTree
 	{
 	private:
@@ -78,6 +58,7 @@ namespace ft
 			_root = _newNode();
 			_first = _newNode();
 			_last = _newNode();
+			// this->_allocator.construct(&(_root->pair), value_type());
 			this->_allocator.construct(&(_first->pair), value_type());
 			this->_allocator.construct(&(_last->pair), value_type());
 			
@@ -104,6 +85,17 @@ namespace ft
 			node* newNode;
 			if (this->_size == 0)
 			{
+				if (this->_root == this->_last || this->_root == this->_first)
+				{
+					this->_root = _newNode();
+					_root->color = BLACK_NODE;
+					_root->left = _first;
+					_root->right = _last;
+			
+					_first->color = _last->color = BLACK_NODE;
+					_first->parent = _last->parent = _root;
+				}
+				// this->_allocator.destroy(&(this->_root->pair));
 				this->_allocator.construct(&(this->_root->pair), val);
 				newNode = this->_root;
 			}
@@ -146,7 +138,8 @@ namespace ft
 			else
 				_cutNodeWithTwoChildren(toDelete, &originalColor);
 			delete toDelete;
-			this->_size--;
+			if (this->_size != 0)
+				this->_size--;
 			if (originalColor == BLACK_NODE && replacement != NULL)
 				_rebalanceAfterDelete(replacement);
 			return ++deletedNodes;
@@ -234,12 +227,10 @@ namespace ft
 		node*
 		_newNode()
 		{
-			// node* newNode = new node;
 			node* newNode = (node*)::operator new(sizeof(node));
 			newNode->parent = NULL;
 			newNode->left = NULL;
 			newNode->right = NULL;
-			// newNode->pair.operator=(val);
 			newNode->color = RED_NODE;
 			newNode->isFirst = false;
 			newNode->isLast = false;
@@ -251,13 +242,14 @@ namespace ft
 		{
 			node* parent = NULL;
 			
-			// if (current != this->_root)
-			// {
-			// 	if (current == current->parent->left)
-			// 	{
-			// 		if (current->parent )
-			// 	}
-			// }
+			if (current == NULL || current == this->_first || current == this->_last)
+				current = this->_root;
+			else if (current != this->_root)
+			{
+				if ( (current == current->parent->left && current->parent->pair < val) || 
+				(current == current->parent->right && current->parent->pair >= val) )
+						current = this->_root;
+			}
 			while (current != NULL && current != this->_first && current != this->_last) 
 			{
 				parent = current;

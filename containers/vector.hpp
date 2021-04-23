@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 21:17:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:28:36 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,18 +114,18 @@ namespace ft
 		vector & 
 		operator=(vector const & x)
 		{
-			size_type size = x.size();
-			this->_allocator = x._allocator;
-			if (this->capacity() < size)
-				_reallocate(size);
-			this->_size = size;
-			_setFinish();
-			iterator it = x.begin();
-			for (pointer i = this->_start; i != this->_end_of_storage; i++, it++)
-				*i = *it;
+			// size_type size = x.size();
+			// this->_allocator = x._allocator;
+			// if (this->capacity() < size)
+			// 	_reallocate(size);
+			// this->_size = size;
+			// _setFinish();
+			// iterator it = x.begin();
+			// for (pointer i = this->_start; i != this->_end_of_storage; i++, it++)
+			// 	*i = *it;
+			assign(x.begin(), x.end());
 			return *this;
 		}
-
 	/* ******************* Iterators ******************* */
 
 		iterator
@@ -320,7 +320,10 @@ namespace ft
 			this->_size = n;
 			_setFinish();
 			for (pointer i = this->_start; i != this->_end_of_storage; i++)
-				*i = val;
+			{
+				this->_allocator.destroy(i);
+				this->_allocator.construct(i, val);
+			}
 			return;
 		}
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_test.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:04:46 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/21 17:15:45 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 14:25:28 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,6 +389,9 @@ static void modifiers(void)
 	ftIterator = ftVector.erase(ftIterator);
 	stdIterator = stdVector.erase(stdIterator);
 
+	--ftIterator;
+	--stdIterator;
+
 	compareValues(testNmb++, *stdIterator, *ftIterator, "Erase one element 3 (value)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Erase one element 3 (size)");
 	
@@ -422,7 +425,7 @@ static void modifiers(void)
 	ftIterator = ftVector.erase(ftIterator, ftVector.end());
 	stdIterator = stdVector.erase(stdIterator, stdVector.end());
 
-	compareValues(testNmb++, *stdIterator, *ftIterator, "Erase range of elements 3 (value)");
+	// compareValues(testNmb++, *stdIterator, *ftIterator, "Erase range of elements 3 (value)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Erase range of elements 3  (size)");
 
 	getchar();
@@ -441,7 +444,7 @@ static void modifiers(void)
 	ftIterator = ftVector.begin();
 	stdIterator = stdVector.begin();
 
-	compareValues(testNmb++, *stdIterator, *ftIterator, "Clear (value)");
+	// compareValues(testNmb++, *stdIterator, *ftIterator, "Clear (value)");
 	compareValues(testNmb++, stdVector.size(), ftVector.size(), "Clear (size)");
 	compareValues(testNmb++, stdVector.capacity(), ftVector.capacity(), "Clear (capacity)");
 	

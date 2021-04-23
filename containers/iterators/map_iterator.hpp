@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:26:44 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 21:04:51 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 17:33:22 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
 	{
 	private:
 		typedef treeNode<Key, T>						node;
-		typedef typename ft::pair<const Key, T>		value_type;
+		typedef typename std::pair<const Key, T>		value_type;
 		typedef value_type*								pointer;
 		typedef value_type& 							reference;
 
@@ -68,6 +68,8 @@ namespace ft
 			node* current;
 			if (this->ptr->isFirst)
 				this->ptr = this->ptr->parent;
+			else if (this->ptr->isLast)
+				return *this;
 			else if (this->ptr->right)
 				this->ptr = min(this->ptr->right);
 			else if (this->ptr->parent)
@@ -86,6 +88,8 @@ namespace ft
 			node* current;
 			if (this->ptr->isFirst)
 				this->ptr = this->ptr->parent;
+			else if (this->ptr->isLast)
+				return temp;
 			else if (this->ptr->right)
 				this->ptr = min(this->ptr->right);
 			else if (this->ptr->parent)
@@ -103,6 +107,8 @@ namespace ft
 			node* current;
 			if (this->ptr->isLast)
 				this->ptr = this->ptr->parent;
+			else if (this->ptr->isFirst)
+				return *this;
 			else if (this->ptr->left)
 				this->ptr = max(this->ptr->left);
 			else if (this->ptr->parent)
@@ -121,6 +127,8 @@ namespace ft
 			node* current;
 			if (this->ptr->isLast)
 				this->ptr = this->ptr->parent;
+			else if (this->ptr->isFirst)
+				return temp;
 			else if (this->ptr->left)
 				this->ptr = max(this->ptr->left);
 			else if (this->ptr->parent)

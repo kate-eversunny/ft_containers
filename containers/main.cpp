@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:58:00 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 21:15:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 17:41:52 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,15 @@ int main(void)
 	// print_container("std1", ls1);
 	// print_container("my1 ", myls1);
 
-	ft::vector<int> vect;
-	vect.reserve(10);
-	vect.push_back(12);
+	// ft::map<int, int> ftmap;
+	// ft::map<int, int> ftmap2;
+	// for (int i = 0; i < 2; i++)
+	// 	ftmap.insert(std::make_pair(i, i + 15));
 
-	ft::vector<int> vect2(vect.begin(), vect.end());
+	// ftmap.swap(ftmap2);
+	std::map<int, int> m;
+	std::map<int, int>::iterator it = m.begin();
+	m.erase(it);
 
-	print_container("", vect);
-	print_container("", vect2);
 	return 0;
 }

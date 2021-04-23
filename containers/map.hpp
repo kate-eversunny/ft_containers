@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/22 21:18:20 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/23 16:38:59 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ namespace ft
 {	
 	template <class Key, class T,
 			class Compare = std::less<Key>,
-			class Allocator = ft::allocator<ft::pair<const Key,T> > >
+			class Allocator = ft::allocator<std::pair<const Key,T> > >
 	class map
 	{
 	public:
 		
 		typedef Key															key_type;
 		typedef T 															mapped_type;
-		typedef typename ft::pair<const key_type, mapped_type>				value_type;
+		typedef typename std::pair<const key_type, mapped_type>				value_type;
 		typedef Compare														key_compare;
 		typedef Allocator													allocator_type;
 		typedef value_type&													reference;
@@ -182,24 +182,26 @@ namespace ft
 		size(void) const { return this->_tree.size(); }
 		
 		size_type
-		max_size(void) const { return std::numeric_limits<difference_type>::max() / sizeof(ft::treeNode<key_type, mapped_type> ); }
+		max_size(void) const 
+		{ return std::numeric_limits<size_type>::max() / sizeof(ft::treeNode<key_type, mapped_type> ); }
+
 	
 	// *************** Element access ***************
 	
 		mapped_type& operator[] (const key_type& k)
 		{
-			treeNode<key_type, mapped_type>* node = this->_tree._findNode(k);
+			treeNode<key_type, mapped_type>* node = this->_tree.findNode(k);
 			if (node == NULL)
 			{
 				_check_init_len(this->size() + 1);
-				node = this->_tree.insert(value_type(k, mapped_type()));
+				node = this->_tree.insert(this->_tree.getRoot(), value_type(k, mapped_type()));
 			}
 			return node->pair.second;
 		}
 	
 	// *************** Modifiers ***************
 
-		ft::pair<iterator, bool>
+		std::pair<iterator, bool>
 		insert(const value_type& val)
 		{
 			bool res = false;
@@ -211,7 +213,7 @@ namespace ft
 				node = this->_tree.insert(this->_tree.getRoot(), val);
 				res = true;
 			}
-			ft::pair<iterator, bool> pair(iterator(node), res);
+			std::pair<iterator, bool> pair(iterator(node), res);
 			return pair;
 		}
 		
@@ -243,7 +245,8 @@ namespace ft
 		void
 		erase (iterator position)
 		{
-			this->_tree.deleteNode(position.ptr);
+			if (this->size() != 0)
+				this->_tree.deleteNode(position.ptr);
 			return;
 		}
 
@@ -251,8 +254,12 @@ namespace ft
 		size_type
 		erase (const key_type& k)
 		{
-			treeNode<key_type, mapped_type>* toDelete = this->_tree.findNode(k);
-			size_type deletedNodes = this->_tree.deleteNode(toDelete);
+			size_type deletedNodes = 0;
+			if (this->size() != 0)
+			{
+				treeNode<key_type, mapped_type>* toDelete = this->_tree.findNode(k);
+				deletedNodes = this->_tree.deleteNode(toDelete);
+			}
 			return deletedNodes;
 		}
 
@@ -357,16 +364,16 @@ namespace ft
 			return ++it;
 		}
 
-		ft::pair<const_iterator, const_iterator>
+		std::pair<const_iterator, const_iterator>
 		equal_range (const key_type& k) const
 		{
-			return ft::pair<const_iterator, const_iterator> (lower_bound(k), upper_bound(k));
+			return std::pair<const_iterator, const_iterator> (lower_bound(k), upper_bound(k));
 		}
 		
-		ft::pair<iterator, iterator>
+		std::pair<iterator, iterator>
 		equal_range (const key_type& k)
 		{
-			return ft::pair<iterator, iterator> (lower_bound(k), upper_bound(k));
+			return std::pair<iterator, iterator> (lower_bound(k), upper_bound(k));
 		}
 	
 // 	// *************** Additional functions***************

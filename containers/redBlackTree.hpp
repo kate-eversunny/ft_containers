@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/26 18:03:12 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/26 22:06:43 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 # define BLACK_NODE false
 # define RED_NODE 	true
 
-# define RED		"\x1b[31m"
+# ifndef RED
+	# define RED		"\x1b[31m"
+# endif
 # define NORMAL		"\x1b[0m"
 
 namespace ft
@@ -37,7 +39,7 @@ namespace ft
 		bool		isLast;
 	};
 
-	template <class Key, class T, class Pair =  std::pair<const Key, T>, class Allocator = ft::allocator<std::pair<const Key,T> > >
+	template <class Key, class T, class Pair =  std::pair<const Key, T>, class Allocator = ft::allocator<std::pair<const Key, T> > >
 	class redBlackTree
 	{
 	private:
@@ -108,13 +110,15 @@ namespace ft
 				if (parent->pair.first > newNode->pair.first)
 				{
 					newNode->left = parent->left;
-					newNode->left->parent = newNode;
+					if (newNode->left != NULL)
+						newNode->left->parent = newNode;
 					parent->left = newNode;
 				}
 				else
 				{
 					newNode->right = parent->right;
-					newNode->right->parent = newNode;
+					if (newNode->right != NULL)
+						newNode->right->parent = newNode;
 					parent->right = newNode;
 				}
 				_rebalanceAfterInsert(newNode);
@@ -246,8 +250,8 @@ namespace ft
 				current = this->_root;
 			else if (current != this->_root)
 			{
-				if ( (current == current->parent->left && current->parent->pair < val) || 
-				(current == current->parent->right && current->parent->pair >= val) )
+				if ( (current == current->parent->left && current->parent->pair.first < val.first) || 
+				(current == current->parent->right && current->parent->pair.first >= val.first) )
 						current = this->_root;
 			}
 			while (current != NULL && current != this->_first && current != this->_last) 

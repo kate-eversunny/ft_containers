@@ -28,9 +28,9 @@ namespace ft {
 		All
 	};
 
-	template<typename U>
-	void
-	print_tree(U& tree) { if (ENABLE_LOGS) tree._print_tree(); }
+	// template<typename U>
+	// void
+	// print_tree(U& tree) { if (ENABLE_LOGS) tree._print_tree(); }
 }
 
 static int arr_int[16] = {1,2,3,4,5,6,7,8,9,0,1,2,3,1,3,-1};

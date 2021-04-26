@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_test.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:16 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/26 18:22:51 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/26 21:05:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "containers_test.hpp"
-#define VALUE_TYPE const int, const int
+#define VALUE_TYPE int, int
 
 static void constructor(void)
 {
@@ -450,64 +450,74 @@ static void operations(void)
 	// std::system("clear");
 }
 
-// static void non_member_func(void)
-// {
-// 	int testNmb = 0;
+static void non_member_func(void)
+{
+	int testNmb = 0;
 	
-// 	std::cout << std::endl << YELLOW << "                              *** Non-member functions overloads ***                          " << NORMAL << std::endl;
+	std::cout << std::endl << YELLOW << "                              *** Non-member functions overloads ***                          " << NORMAL << std::endl;
 
-// 	ft::vector<VALUE_TYPE> ftVector1(200, 21);
-// 	ft::vector<VALUE_TYPE> ftVector2(200, 21);
-// 	ft::vector<VALUE_TYPE> ftVector3(100, 12);
+	std::map<VALUE_TYPE> stdmap1;
+	for (size_t i = 0; i < 300; i++)
+		stdmap1.insert(std::make_pair(i, i + 10));
+
+	std::map<VALUE_TYPE> stdmap2;
+	for (size_t i = 0; i < 300; i++)
+		stdmap2.insert(std::make_pair(i, i + 10));
+
+	std::map<VALUE_TYPE> stdmap3;
+	for (size_t i = 0; i < 100; i++)
+		stdmap3.insert(std::make_pair(i, i + 11));
+
+	ft::map<VALUE_TYPE> ftmap1;
+	for (int i = 0; i < 300; i++)
+		ftmap1.insert(std::make_pair(i, i + 10));
+
+	ft::map<VALUE_TYPE> ftmap2;
+	for (int i = 0; i < 300; i++)
+		ftmap2.insert(std::make_pair(i, i + 10));
+
+	ft::map<VALUE_TYPE> ftmap3;
+	for (size_t i = 0; i < 100; i++)
+		ftmap3.insert(std::make_pair(i, i + 11));
 	
-// 	std::vector<VALUE_TYPE> stdVector1(200, 21);
-// 	std::vector<VALUE_TYPE> stdVector2(200, 21);
-// 	std::vector<VALUE_TYPE> stdVector3(100, 12);
+	compareValues(++testNmb, stdmap1 == stdmap2, ftmap1 == ftmap2, "Operator== 1");
+	compareValues(++testNmb, stdmap1 == stdmap3, ftmap1 == ftmap3, "Operator== 2");
+
+	compareValues(++testNmb, stdmap1 == stdmap2, ftmap1 == ftmap2, "Operator!= 1");
+	compareValues(++testNmb, stdmap1 == stdmap3, ftmap1 == ftmap3, "Operator!= 2");
+
+	compareValues(++testNmb, stdmap1 < stdmap2, ftmap1 < ftmap2, "Operator< 1");
+	compareValues(++testNmb, stdmap1 < stdmap3, ftmap1 < ftmap3, "Operator< 2");
+
+	compareValues(++testNmb, stdmap1 <= stdmap2, ftmap1 <= ftmap2, "Operator<= 1");
+	compareValues(++testNmb, stdmap1 <= stdmap3, ftmap1 <= ftmap3, "Operator<= 2");
+
+	compareValues(++testNmb, stdmap1 > stdmap2, ftmap1 > ftmap2, "Operator> 1");
+	compareValues(++testNmb, stdmap1 > stdmap3, ftmap1 > ftmap3, "Operator> 2");
+
+	compareValues(++testNmb, stdmap1 >= stdmap2, ftmap1 >= ftmap2, "Operator>= 1");
+	compareValues(++testNmb, stdmap1 >= stdmap3, ftmap1 >= ftmap3, "Operator>= 2");
 	
-// 	compareValues(++testNmb, stdVector1 == stdVector2, ftVector1 == ftVector2, "Operator== 1");
-// 	compareValues(++testNmb, stdVector1 == stdVector3, ftVector1 == ftVector3, "Operator== 2");
-
-// 	compareValues(++testNmb, stdVector1 == stdVector2, ftVector1 == ftVector2, "Operator!= 1");
-// 	compareValues(++testNmb, stdVector1 == stdVector3, ftVector1 == ftVector3, "Operator!= 2");
-
-// 	compareValues(++testNmb, stdVector1 < stdVector2, ftVector1 < ftVector2, "Operator< 1");
-// 	compareValues(++testNmb, stdVector1 < stdVector3, ftVector1 < ftVector3, "Operator< 2");
-
-// 	compareValues(++testNmb, stdVector1 <= stdVector2, ftVector1 <= ftVector2, "Operator<= 1");
-// 	compareValues(++testNmb, stdVector1 <= stdVector3, ftVector1 <= ftVector3, "Operator<= 2");
-
-// 	compareValues(++testNmb, stdVector1 > stdVector2, ftVector1 > ftVector2, "Operator> 1");
-// 	compareValues(++testNmb, stdVector1 > stdVector3, ftVector1 > ftVector3, "Operator> 2");
-
-// 	compareValues(++testNmb, stdVector1 >= stdVector2, ftVector1 >= ftVector2, "Operator>= 1");
-// 	compareValues(++testNmb, stdVector1 >= stdVector3, ftVector1 >= ftVector3, "Operator>= 2");
+	getchar();
+	std::cout << std::endl;
 	
-// 	getchar();
-// 	std::cout << std::endl;
-	
-// // swap
+// swap
 
-// 	ft::swap(ftVector1, ftVector3);
-// 	std::swap(stdVector1, stdVector3);
-	
-// 	ft::vector<VALUE_TYPE>::iterator ftIterator = ftVector1.begin();
-// 	std::vector<VALUE_TYPE>::iterator stdIterator = stdVector1.begin();
+	ft::swap(ftmap1, ftmap3);
+	std::swap(stdmap1, stdmap3);
 
-// 	compareValues(++testNmb, *stdIterator, *ftIterator, "Swap1 (value)");
-// 	compareValues(++testNmb, stdVector1.size(), ftVector1.size(), "Swap1 (size)");
+	compareContainers(++testNmb, stdmap1, ftmap1, "Swap1 (value)");
+	compareValues(++testNmb, stdmap1.size(), ftmap1.size(), "Swap1 (size)");
 
-// 	ftIterator = ftVector3.begin();
-// 	stdIterator = stdVector3.begin();
-
-// 	compareValues(++testNmb, *stdIterator, *ftIterator, "Swap2 (value)");
-// 	compareValues(++testNmb, stdVector3.size(), ftVector3.size(), "Swap2 (size)");
+	compareContainers(++testNmb, stdmap3, ftmap3, "Swap2 (value)");
+	compareValues(++testNmb, stdmap3.size(), ftmap3.size(), "Swap2 (size)");
 	
-// 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
+	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
-// 	getchar();
-// 	std::system("clear");
-// 	return;
-// }
+	getchar();
+	std::system("clear");
+	return;
+}
 
 void map_test()
 {

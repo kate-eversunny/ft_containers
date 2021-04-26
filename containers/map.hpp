@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/26 18:02:50 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/26 20:53:46 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,6 +386,75 @@ private:
 			return n;
 		}
 	};
+
+	// *************** Non-member function overloads ***************
+
+template <class Key, class T, class Compare, class Alloc>
+	bool operator== (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+	{
+		if (lhs.size() == rhs.size())
+		{
+			typename ft::map<Key,T,Compare,Alloc>::iterator it1 = lhs.begin();
+			typename ft::map<Key,T,Compare,Alloc>::iterator it2 = rhs.begin();
+			
+			while (it1 != lhs.end())
+			{
+				if (*it1 != *it2)
+					return false;
+				++it1;
+				++it2;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator!= (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<  (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+	{
+		typename ft::map<Key,T,Compare,Alloc>::iterator it1 = lhs.begin();
+		typename ft::map<Key,T,Compare,Alloc>::iterator it2 = rhs.begin();
+		
+		while (it1 != lhs.end() && it2 != rhs.end())
+		{
+			if (*it1 > *it2)
+				return false;
+			else if (*it1 < *it2)
+				return true;
+			++it1;
+			++it2;
+		}
+		if (rhs.size() < lhs.size() || rhs.size() == lhs.size())
+			return false;
+		return true;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<= (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+	{
+		return !(rhs < lhs);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>  (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+	{
+		return rhs < lhs;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>= (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y) { x.swap(y); return; }	
 }
 
 #endif

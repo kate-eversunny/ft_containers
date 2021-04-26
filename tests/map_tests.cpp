@@ -4,7 +4,6 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
-#include <map>
 #include "tests.hpp"
 #include "test_runner.h"
 #include "map.hpp"
@@ -226,21 +225,21 @@ namespace ft_map
 			ft::map<int, int> my_mp(g_map1.begin(), g_map1.end());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 		{
 			std::map<int, int> mp(g_map2.begin(), g_map2.end());	// map from std::map<int, int> - sorted
 			ft::map<int, int> my_mp(g_map2.begin(), g_map2.end());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 		{
 			std::map<std::string, int> mp(g_map3.begin(), g_map3.end());	// map from std::map<std::string, int> - unsorted
 			ft::map<std::string, int> my_mp(g_map3.begin(), g_map3.end());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 		{
 			std::vector<std::pair<int, int> > v;
@@ -250,7 +249,7 @@ namespace ft_map
 			ft::map<int, int> my_mp(v.begin(), v.end());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 	}
 
@@ -326,7 +325,7 @@ namespace ft_map
 		mp1.insert(g_map2.begin(), g_map2.end());
 		my_mp1.insert(g_map2.begin(), g_map2.end());
 		ASSERT_EQUAL(mapToString(mp1), mapToString(my_mp1));
-		print_tree(my_mp1);
+		// print_tree(my_mp1);
 
 		std::map<std::string, int> mp2;
 		ft::map<std::string, int> my_mp2;
@@ -470,7 +469,7 @@ namespace ft_map
 
 			std::pair<std::map<int, int>::iterator, bool> pr = mp.insert(make_pair(64, 1));
 			std::pair<ft::map<int, int>::iterator, bool> my_pr = my_mp.insert(make_pair(64, 1));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			std::map<int, int>::iterator it = pr.first;
 			ft::map<int, int>::iterator my_it = my_pr.first;
@@ -478,7 +477,7 @@ namespace ft_map
 			my_mp.erase(my_it);
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			it = mp.find(35);
 			my_it = my_mp.find(35);
@@ -488,25 +487,25 @@ namespace ft_map
 			mapToString(mp);
 			mapToString(my_mp);
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			mp.erase(mp.begin());
 			my_mp.erase(my_mp.begin());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			mp.erase(mp.begin());
 			my_mp.erase(my_mp.begin());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 			
 			mp.erase(mp.begin());
 			my_mp.erase(my_mp.begin());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 			
 			mp.erase(--mp.end());
 			my_mp.erase(--my_mp.end());
@@ -522,7 +521,7 @@ namespace ft_map
 			my_mp.erase(--my_mp.end());
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 		{
 			std::map<std::string, int> mp(g_map3.begin(), g_map3.end());
@@ -533,17 +532,17 @@ namespace ft_map
 			my_mp.erase(my_mp.begin());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
 
-			print_tree(my_mp);
+			// print_tree(my_mp);
 			mp.erase(++mp.begin());
 			my_mp.erase(++my_mp.begin());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
 			
-			print_tree(my_mp);
+			// print_tree(my_mp);
 			mp.erase(++mp.begin());
 			my_mp.erase(++my_mp.begin());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
 
-			print_tree(my_mp);
+			// print_tree(my_mp);
 			mp.erase(mp.begin());
 			my_mp.erase(my_mp.begin());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
@@ -566,7 +565,7 @@ namespace ft_map
 			my_mp.erase(my_it);
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			it = mp.find("seven");
 			my_it = my_mp.find("seven");
@@ -574,7 +573,7 @@ namespace ft_map
 			my_mp.erase(my_it);
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			it = mp.find("three");
 			my_it = my_mp.find("three");
@@ -582,7 +581,7 @@ namespace ft_map
 			my_mp.erase(my_it);
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			it = mp.find("thirteen");
 			my_it = my_mp.find("thirteen");
@@ -590,7 +589,7 @@ namespace ft_map
 			my_mp.erase(my_it);
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 
 			it = mp.find("ten");
 			my_it = my_mp.find("ten");
@@ -598,7 +597,7 @@ namespace ft_map
 			my_mp.erase(my_it);
 			ASSERT_EQUAL(mp.size(), my_mp.size());
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 	}
 
@@ -646,7 +645,7 @@ namespace ft_map
 
 			ASSERT_EQUAL(mapToString(mp), mapToString(my_mp));
 
-			print_tree(my_mp);
+			// print_tree(my_mp);
 		}
 	}
 

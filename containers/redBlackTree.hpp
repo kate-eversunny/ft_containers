@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/23 17:49:46 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/26 18:03:12 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ namespace ft
 		}
 
 		node*
-		findNode(const key_type& key)
+		findNode(const key_type& key) const
 		{
 			node* current = this->_root;
 			while (current != NULL && current != this->_first && current != this->_last)
@@ -410,19 +410,19 @@ namespace ft
 				if (x == x->parent->left)
 				{
 					s = x->parent->right;
-					if (s->color == RED_NODE)
+					if (s && s->color == RED_NODE)
 					{
 						s->color = BLACK_NODE;
 						x->parent->color = RED_NODE;
 						_leftRotate(x->parent);
 						s = x->parent->right;
 					}
-					if ((!s->left || s->left->color == BLACK_NODE) && (!s->right || s->right->color == BLACK_NODE))
+					if (s && (!s->left || s->left->color == BLACK_NODE) && (!s->right || s->right->color == BLACK_NODE))
 					{
 						s->color = RED_NODE;
 						x = x->parent;
 					}
-					else
+					else if (s)
 					{
 						if (s->right->color == BLACK_NODE)
 						{
@@ -437,6 +437,8 @@ namespace ft
 						_leftRotate(x->parent);
 						x = this->_root;
 					}
+					else
+						x = this->_root;
 				}
 				else
 				{

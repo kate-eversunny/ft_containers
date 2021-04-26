@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_test.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:20 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/03/15 17:59:47 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/26 15:21:41 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static void constructor(void)
 	ft::stack<VALUE_TYPE> ftStackList;
 	std::stack<VALUE_TYPE> stdStackList;
 
-	compareValues(testNmb++, stdStackList.size(), ftStackList.size(), "Constructor list stack (size)");
-	compareValues(testNmb++, stdStackList.empty(), ftStackList.empty(), "Constructor list stack (empty)");
+	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Constructor list stack (size)");
+	compareValues(++testNmb, stdStackList.empty(), ftStackList.empty(), "Constructor list stack (empty)");
 
 	ft::stack<VALUE_TYPE, ft::vector<VALUE_TYPE> > ftStackVector;
 	std::stack<VALUE_TYPE, std::vector<VALUE_TYPE> > stdStackVector;
 
-	compareValues(testNmb++, stdStackVector.size(), ftStackVector.size(), "Constructor vector stack (size)");
-	compareValues(testNmb++, stdStackVector.empty(), ftStackVector.empty(), "Constructor vector stack (empty)");
+	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Constructor vector stack (size)");
+	compareValues(++testNmb, stdStackVector.empty(), ftStackVector.empty(), "Constructor vector stack (empty)");
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
@@ -48,8 +48,8 @@ static void capacity(void)
 	ft::stack<VALUE_TYPE> ftStackList;
 	std::stack<VALUE_TYPE> stdStackList;
 
-	compareValues(testNmb++, stdStackList.size(), ftStackList.size(), "Size1 list stack");
-	compareValues(testNmb++, stdStackList.empty(), ftStackList.empty(), "Empty1 list stack");
+	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Size1 list stack");
+	compareValues(++testNmb, stdStackList.empty(), ftStackList.empty(), "Empty1 list stack");
 
 	ftStackList.push(42);
 	ftStackList.push(42);
@@ -65,8 +65,8 @@ static void capacity(void)
 	stdStackList.pop();
 	stdStackList.push(553);
 
-	compareValues(testNmb++, stdStackList.size(), ftStackList.size(), "Size2 list stack");
-	compareValues(testNmb++, stdStackList.empty(), ftStackList.empty(), "Empty2 list stack");
+	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Size2 list stack");
+	compareValues(++testNmb, stdStackList.empty(), ftStackList.empty(), "Empty2 list stack");
 
 	getchar();
 	std::cout << std::endl;
@@ -74,8 +74,8 @@ static void capacity(void)
 	ft::stack<VALUE_TYPE, ft::vector<VALUE_TYPE> > ftStackVector;
 	std::stack<VALUE_TYPE, std::vector<VALUE_TYPE> > stdStackVector;
 	
-	compareValues(testNmb++, stdStackVector.size(), ftStackVector.size(), "Size1 vector stack");
-	compareValues(testNmb++, stdStackVector.empty(), ftStackVector.empty(), "Empty1 vector stack");
+	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Size1 vector stack");
+	compareValues(++testNmb, stdStackVector.empty(), ftStackVector.empty(), "Empty1 vector stack");
 
 	ftStackVector.push(42);
 	ftStackVector.push(42);
@@ -91,8 +91,8 @@ static void capacity(void)
 	stdStackVector.pop();
 	stdStackVector.push(553);
 
-	compareValues(testNmb++, stdStackVector.size(), ftStackVector.size(), "Size2 vector stack");
-	compareValues(testNmb++, stdStackVector.empty(), ftStackVector.empty(), "Empty2 vector stack");
+	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Size2 vector stack");
+	compareValues(++testNmb, stdStackVector.empty(), ftStackVector.empty(), "Empty2 vector stack");
 
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
@@ -120,7 +120,7 @@ static void element_access(void)
 	stdStackList.push(43);
 	stdStackList.push(15);
 
-	compareValues(testNmb++, stdStackList.top(), ftStackList.top(), "Top1 list stack");
+	compareValues(++testNmb, stdStackList.top(), ftStackList.top(), "Top1 list stack");
 	
 	ftStackList.pop();
 	ftStackList.push(553);
@@ -128,7 +128,7 @@ static void element_access(void)
 	stdStackList.pop();
 	stdStackList.push(553);
 
-	compareValues(testNmb++, stdStackList.top(), ftStackList.top(), "Top2 list stack");
+	compareValues(++testNmb, stdStackList.top(), ftStackList.top(), "Top2 list stack");
 
 	ft::stack<VALUE_TYPE, ft::vector<VALUE_TYPE> > ftStackVector;
 	std::stack<VALUE_TYPE, std::vector<VALUE_TYPE> > stdStackVector;
@@ -143,7 +143,7 @@ static void element_access(void)
 	stdStackVector.push(515);
 	stdStackVector.push(1048);
 	
-	compareValues(testNmb++, stdStackVector.top(), ftStackVector.top(), "Top1 vector stack");
+	compareValues(++testNmb, stdStackVector.top(), ftStackVector.top(), "Top1 vector stack");
 	
 	ftStackVector.pop();
 	ftStackVector.push(553);
@@ -152,7 +152,7 @@ static void element_access(void)
 	stdStackVector.push(553);
 
 	
-	compareValues(testNmb++, stdStackVector.top(), ftStackVector.top(), "Top2 vector stack");
+	compareValues(++testNmb, stdStackVector.top(), ftStackVector.top(), "Top2 vector stack");
 
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
@@ -181,8 +181,8 @@ static void modifiers(void)
 	stdStackList.push(884);
 	stdStackList.push(13);
 	
-	compareValues(testNmb++, stdStackList.top(), ftStackList.top(), "Push list(value)");
-	compareValues(testNmb++, stdStackList.size(), ftStackList.size(), "Push list(size)");
+	compareValues(++testNmb, stdStackList.top(), ftStackList.top(), "Push list(value)");
+	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Push list(size)");
 
 	ftStackList.pop();
 	ftStackList.pop();
@@ -192,13 +192,13 @@ static void modifiers(void)
 	stdStackList.pop();
 	stdStackList.pop();
 	
-	compareValues(testNmb++, stdStackList.top(), ftStackList.top(), "Pop1 list(value)");
-	compareValues(testNmb++, stdStackList.size(), ftStackList.size(), "Pop1 list(size)");
+	compareValues(++testNmb, stdStackList.top(), ftStackList.top(), "Pop1 list(value)");
+	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Pop1 list(size)");
 	
 	ftStackList.pop();
 	stdStackList.pop();
 
-	compareValues(testNmb++, stdStackList.size(), ftStackList.size(), "Pop2 list(size)");
+	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Pop2 list(size)");
 
 	std::cout << std::endl;
 	getchar();
@@ -216,8 +216,8 @@ static void modifiers(void)
 	stdStackVector.push(884);
 	stdStackVector.push(13);
 	
-	compareValues(testNmb++, stdStackVector.top(), ftStackVector.top(), "Push vector(value)");
-	compareValues(testNmb++, stdStackVector.size(), ftStackVector.size(), "Push vector(size)");
+	compareValues(++testNmb, stdStackVector.top(), ftStackVector.top(), "Push vector(value)");
+	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Push vector(size)");
 
 	ftStackVector.pop();
 	ftStackVector.pop();
@@ -227,13 +227,13 @@ static void modifiers(void)
 	stdStackVector.pop();
 	stdStackVector.pop();
 	
-	compareValues(testNmb++, stdStackVector.top(), ftStackVector.top(), "Pop1 vector(value)");
-	compareValues(testNmb++, stdStackVector.size(), ftStackVector.size(), "Pop1 vector(size)");
+	compareValues(++testNmb, stdStackVector.top(), ftStackVector.top(), "Pop1 vector(value)");
+	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Pop1 vector(size)");
 	
 	ftStackVector.pop();
 	stdStackVector.pop();
 
-	compareValues(testNmb++, stdStackVector.size(), ftStackVector.size(), "Pop2 vector(size)");
+	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Pop2 vector(size)");
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
@@ -264,23 +264,23 @@ static void non_member_func(void)
 	stdStackList2.push(213);
 	stdStackList3.push(213);
 	
-	compareValues(testNmb++, stdStackList1 == stdStackList2, ftStackList1 == ftStackList2, "Operator== 1");
-	compareValues(testNmb++, stdStackList1 == stdStackList3, ftStackList1 == ftStackList3, "Operator== 2");
+	compareValues(++testNmb, stdStackList1 == stdStackList2, ftStackList1 == ftStackList2, "Operator== 1");
+	compareValues(++testNmb, stdStackList1 == stdStackList3, ftStackList1 == ftStackList3, "Operator== 2");
 
-	compareValues(testNmb++, stdStackList1 == stdStackList2, ftStackList1 == ftStackList2, "Operator!= 1");
-	compareValues(testNmb++, stdStackList1 == stdStackList3, ftStackList1 == ftStackList3, "Operator!= 2");
+	compareValues(++testNmb, stdStackList1 == stdStackList2, ftStackList1 == ftStackList2, "Operator!= 1");
+	compareValues(++testNmb, stdStackList1 == stdStackList3, ftStackList1 == ftStackList3, "Operator!= 2");
 
-	compareValues(testNmb++, stdStackList1 < stdStackList2, ftStackList1 < ftStackList2, "Operator< 1");
-	compareValues(testNmb++, stdStackList1 < stdStackList3, ftStackList1 < ftStackList3, "Operator< 2");
+	compareValues(++testNmb, stdStackList1 < stdStackList2, ftStackList1 < ftStackList2, "Operator< 1");
+	compareValues(++testNmb, stdStackList1 < stdStackList3, ftStackList1 < ftStackList3, "Operator< 2");
 
-	compareValues(testNmb++, stdStackList1 <= stdStackList2, ftStackList1 <= ftStackList2, "Operator<= 1");
-	compareValues(testNmb++, stdStackList1 <= stdStackList3, ftStackList1 <= ftStackList3, "Operator<= 2");
+	compareValues(++testNmb, stdStackList1 <= stdStackList2, ftStackList1 <= ftStackList2, "Operator<= 1");
+	compareValues(++testNmb, stdStackList1 <= stdStackList3, ftStackList1 <= ftStackList3, "Operator<= 2");
 
-	compareValues(testNmb++, stdStackList1 > stdStackList2, ftStackList1 > ftStackList2, "Operator> 1");
-	compareValues(testNmb++, stdStackList1 > stdStackList3, ftStackList1 > ftStackList3, "Operator> 2");
+	compareValues(++testNmb, stdStackList1 > stdStackList2, ftStackList1 > ftStackList2, "Operator> 1");
+	compareValues(++testNmb, stdStackList1 > stdStackList3, ftStackList1 > ftStackList3, "Operator> 2");
 
-	compareValues(testNmb++, stdStackList1 >= stdStackList2, ftStackList1 >= ftStackList2, "Operator>= 1");
-	compareValues(testNmb++, stdStackList1 >= stdStackList3, ftStackList1 >= ftStackList3, "Operator>= 2");
+	compareValues(++testNmb, stdStackList1 >= stdStackList2, ftStackList1 >= ftStackList2, "Operator>= 1");
+	compareValues(++testNmb, stdStackList1 >= stdStackList3, ftStackList1 >= ftStackList3, "Operator>= 2");
 
 	std::cout << std::endl;
 	getchar();
@@ -301,23 +301,23 @@ static void non_member_func(void)
 	stdStackVector2.push(213);
 	stdStackVector3.push(213);
 	
-	compareValues(testNmb++, stdStackVector1 == stdStackVector2, ftStackVector1 == ftStackVector2, "Operator== 1");
-	compareValues(testNmb++, stdStackVector1 == stdStackVector3, ftStackVector1 == ftStackVector3, "Operator== 2");
+	compareValues(++testNmb, stdStackVector1 == stdStackVector2, ftStackVector1 == ftStackVector2, "Operator== 1");
+	compareValues(++testNmb, stdStackVector1 == stdStackVector3, ftStackVector1 == ftStackVector3, "Operator== 2");
 
-	compareValues(testNmb++, stdStackVector1 == stdStackVector2, ftStackVector1 == ftStackVector2, "Operator!= 1");
-	compareValues(testNmb++, stdStackVector1 == stdStackVector3, ftStackVector1 == ftStackVector3, "Operator!= 2");
+	compareValues(++testNmb, stdStackVector1 == stdStackVector2, ftStackVector1 == ftStackVector2, "Operator!= 1");
+	compareValues(++testNmb, stdStackVector1 == stdStackVector3, ftStackVector1 == ftStackVector3, "Operator!= 2");
 
-	compareValues(testNmb++, stdStackVector1 < stdStackVector2, ftStackVector1 < ftStackVector2, "Operator< 1");
-	compareValues(testNmb++, stdStackVector1 < stdStackVector3, ftStackVector1 < ftStackVector3, "Operator< 2");
+	compareValues(++testNmb, stdStackVector1 < stdStackVector2, ftStackVector1 < ftStackVector2, "Operator< 1");
+	compareValues(++testNmb, stdStackVector1 < stdStackVector3, ftStackVector1 < ftStackVector3, "Operator< 2");
 
-	compareValues(testNmb++, stdStackVector1 <= stdStackVector2, ftStackVector1 <= ftStackVector2, "Operator<= 1");
-	compareValues(testNmb++, stdStackVector1 <= stdStackVector3, ftStackVector1 <= ftStackVector3, "Operator<= 2");
+	compareValues(++testNmb, stdStackVector1 <= stdStackVector2, ftStackVector1 <= ftStackVector2, "Operator<= 1");
+	compareValues(++testNmb, stdStackVector1 <= stdStackVector3, ftStackVector1 <= ftStackVector3, "Operator<= 2");
 
-	compareValues(testNmb++, stdStackVector1 > stdStackVector2, ftStackVector1 > ftStackVector2, "Operator> 1");
-	compareValues(testNmb++, stdStackVector1 > stdStackVector3, ftStackVector1 > ftStackVector3, "Operator> 2");
+	compareValues(++testNmb, stdStackVector1 > stdStackVector2, ftStackVector1 > ftStackVector2, "Operator> 1");
+	compareValues(++testNmb, stdStackVector1 > stdStackVector3, ftStackVector1 > ftStackVector3, "Operator> 2");
 
-	compareValues(testNmb++, stdStackVector1 >= stdStackVector2, ftStackVector1 >= ftStackVector2, "Operator>= 1");
-	compareValues(testNmb++, stdStackVector1 >= stdStackVector3, ftStackVector1 >= ftStackVector3, "Operator>= 2");
+	compareValues(++testNmb, stdStackVector1 >= stdStackVector2, ftStackVector1 >= ftStackVector2, "Operator>= 1");
+	compareValues(++testNmb, stdStackVector1 >= stdStackVector3, ftStackVector1 >= ftStackVector3, "Operator>= 2");
 
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	

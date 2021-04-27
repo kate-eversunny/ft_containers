@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   containers_test.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:45:56 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/23 15:28:33 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/27 18:17:25 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,11 @@ void	compareContainers(int const & testNmb, const T1 & stdCont, const T2 & ftCon
 			return;
 		}
 	}
+	if (sIt == stdCont.end() && fIt != ftCont.end())
+	{
+		std::cout << RED << "WRONG" << NORMAL << std::endl;
+			return;
+	}
 	std::cout << GREEN << "OK" << NORMAL << std::endl;
 }
 
@@ -122,5 +127,28 @@ void print_container (std::string testName, Container cont)
 		std::cout << ' ' << *it;
 	std::cout << std::endl;
 }
+
+// for remove_if
+template <class T>
+struct ft_is_odd {
+  bool operator() (const T& value) { return (value%2) ==1 ; }
+};
+
+// for unique
+template<class T>
+struct ft_is_near {
+  bool operator() (T first, T second)
+  { return (first-second < 1); }
+};
+
+// for merge
+template<class T>
+bool mycomparison (T first, T second)
+{ return ( first < second ); }
+
+// for sort
+template<class T>
+bool mycomparison2 (T first, T second)
+{ return ( first > second ); }
 
 #endif

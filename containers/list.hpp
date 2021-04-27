@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/26 20:53:37 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/27 18:26:10 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,8 @@ namespace ft
 		{
 			erase(begin(), end());
 			iterator it = x.begin();
-			create_list_head(it.ptr->value);
+			if (x.size() > 0)
+				create_list_head(it.ptr->value);
 			for (++it; it != x.end(); it++)
 				push_back(it.ptr->value);
 			return *this;
@@ -231,7 +232,7 @@ namespace ft
 		size(void) const { return this->list_size; }
 		
 		size_type
-		max_size(void) const { return std::numeric_limits<difference_type>::max() / sizeof(node); }
+		max_size(void) const { return std::numeric_limits<size_type>::max() / sizeof(node); }
 	
 	// *************** Element access ***************
 		reference
@@ -451,6 +452,8 @@ namespace ft
 			node * prev = i.ptr->prev;
 			node * next = i.ptr->next;
 			
+			if (x.head == i.ptr)
+				x.head = next;
 			i.ptr->prev = pos->prev;
 			i.ptr->next = pos;
 			pos->prev->next = i.ptr;
@@ -475,9 +478,12 @@ namespace ft
 				temp = ++first;
 				splice(position, x, it);
 			}
-			x.head = last.ptr;
 			last.ptr->prev = tmp;
 			tmp->next = last.ptr;
+			if (tmp == x.end().ptr)
+				x.head = last.ptr;
+			else
+				x.head = tmp;
 			return;
 		}
 		
@@ -531,16 +537,22 @@ namespace ft
 		unique (BinaryPredicate binary_pred)
 		{
 			iterator it = begin();
-			iterator temp;
+			iterator temp1;
+			iterator temp2;
 			while (it != end())
 			{
-				temp = it;
-				++it;
-				if (it != end() && binary_pred(*it, *temp))
+				temp1 = it;
+				temp2 = temp1;
+				while (temp1 != end())
 				{
-					erase(it);
-					it = temp;
-				}	
+					++temp2;
+					if (temp2 != end() && binary_pred(*temp1, *temp2))
+						erase(temp2);
+					else if (temp2 == end())
+						break;
+					temp2 = temp1;
+				}
+				++it;
 			}
 			return;
 		}

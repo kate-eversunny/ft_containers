@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:16 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/26 21:05:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/27 13:32:06 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void constructor(void)
 
 
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Constructor map(size)");
-
 	compareContainers(++testNmb, stdmap, ftmap, "Constructor map(value)");
 
 	/*		COPY		*/
@@ -48,8 +47,13 @@ static void constructor(void)
 	std::map<VALUE_TYPE>stdmapCopy(stdmap);
 	
 	compareValues(++testNmb, stdmapCopy.size(), ftmapCopy.size(), "Constructor copy (size)");
-	
 	compareContainers(++testNmb, stdmapCopy, ftmapCopy, "Constructor copy (value)");
+
+	ftmap = ftmapBlanc;
+	stdmap = stdmapBlanc;
+
+	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Operator= (size)");
+	compareContainers(++testNmb, stdmap, ftmap, "Operator=  (value)");
 
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;

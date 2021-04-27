@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:44:26 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/23 14:29:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/27 13:33:16 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int main()
 	// 		return (0);
 	// 	}
 	// 	if ("list" == command)
-			// list_test();
+			list_test();
 	// 	else if ("map" == command)
-			map_test();
+			// map_test();
 	// 	else if ("queue" == command)
 			// queue_test();
 	// 	else if ("stack" == command)

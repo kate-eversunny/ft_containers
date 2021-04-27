@@ -3,935 +3,744 @@
 /*                                                        :::      ::::::::   */
 /*   list_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:13 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/26 15:21:50 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/27 18:25:25 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "containers_test.hpp"
 
-void	capacity(int testNmb)
-{
-	ft::list <int> testMyList;
-	std::list <int> testOriginalList;
+#define VALUE_TYPE int
 
-	std::list <int> :: iterator sysData;
-	ft::list <int> :: iterator userData = testMyList.begin(); // delete  = testMyList.begin()
+static void	constructor(void)
+{
+	size_t testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                              *** CONSTRUCTOR ***                          " << NORMAL << std::endl;
+
+	ft::list  <VALUE_TYPE> ftListBlanc;
+	std::list <VALUE_TYPE> stdListBlanc;
+
+	compareValues(++testNmb, stdListBlanc.size(), ftListBlanc.size(), "Constructor default (size)");
+	compareContainers(++testNmb, stdListBlanc, ftListBlanc, "Constructor default (value)");
+
+	ft::list  <VALUE_TYPE> ftList((size_t)10, 42);
+	std::list <VALUE_TYPE> stdList((size_t)10, 42);
+
+	compareValues(++testNmb, stdList.size(), ftList.size(), "Constructor (size)");
+	compareContainers(++testNmb, stdList, ftList, "Constructor (value)");
+
+	ft::list  <VALUE_TYPE> ftListCopy(ftList);
+	std::list <VALUE_TYPE> stdListCopy(stdList);
+	
+	compareValues(++testNmb, stdListCopy.size(), ftListCopy.size(), "Constructor copy (size)");
+	compareContainers(++testNmb, stdListCopy, ftListCopy, "Constructor copy (value)");
+	
+	ft::list  <VALUE_TYPE> ftListrange(ftList.begin(), ftList.end());
+	std::list <VALUE_TYPE> stdListrange(stdList.begin(), stdList.end());
+	
+	compareValues(++testNmb, stdListrange.size(), ftListrange.size(), "Constructor range (size)");
+	compareContainers(++testNmb, stdListrange, ftListrange, "Constructor copy (value)");
+
+	ftList = ftListBlanc;
+	stdList = stdListBlanc;
+
+	compareValues(++testNmb, stdList.size(), ftList.size(), "Operator= (size)");
+	compareContainers(++testNmb, stdList, ftList, "Operator= (value)");
+
+	getchar();
+	std::system("clear");
+}
+
+static void	iterators(void)
+{
+	size_t testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                         *** ITERATORS ***                          " << NORMAL << std::endl;
+	
+	std::list<VALUE_TYPE>::iterator stdIterator;
+	ft::list<VALUE_TYPE>::iterator ftIterator;
+
+
+	std::list<VALUE_TYPE> stdlist;
+	for (size_t i = 0; i < 20; i++)
+		stdlist.push_back(i + 5);
+
+	ft::list<VALUE_TYPE> ftlist;
+	for (int i = 0; i < 20; i++)
+		ftlist.push_back(i + 5);
+
+	ftIterator = ftlist.begin();
+	stdIterator = stdlist.begin();
+
+	compareValues(++testNmb, *stdIterator, *ftIterator, "Begin (value)");
+	
+	ftIterator = ftlist.end();
+	stdIterator = stdlist.end();
+
+	ftIterator--;
+	stdIterator--;
+
+	compareValues(++testNmb, *stdIterator, *ftIterator, "End (value)");
+
+	std::list<VALUE_TYPE>::reverse_iterator stdRevIterator;
+	ft::list<VALUE_TYPE>::reverse_iterator ftRevIterator;
+
+	ftRevIterator = ftlist.rbegin();
+	stdRevIterator = stdlist.rbegin();
+
+	compareValues(++testNmb, *stdRevIterator, *ftRevIterator, "Rbegin (value)");
+	
+	ftRevIterator = ftlist.rend();
+	stdRevIterator = stdlist.rend();
+
+	--ftRevIterator;
+	--stdRevIterator;
+	
+	compareValues(++testNmb, *stdRevIterator, *ftRevIterator, "Rend (value)");
+	
+	compareContainers(++testNmb, stdlist, ftlist, "Iterator (all values)");
+
+	// const iterators - need tests
+	
+	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
+	
+	getchar();
+	std::system("clear");
+}
+
+static void	capacity(void)
+{
+	size_t testNmb = 0;
 
 	std::cout << std::endl << YELLOW << "                                 *** SIZE ***                          " << NORMAL << std::endl;
 	
-	compareValues(++testNmb, testMyList.empty(), testOriginalList.empty(), "Empty list - true");
-
-	compareValues(++testNmb, testMyList.size(), testOriginalList.size(), "Size test free list");
+	ft::list <VALUE_TYPE> ftlist;
+	std::list <VALUE_TYPE> stdlist;
 	
-	testMyList.push_front(10);
-	testOriginalList.push_front(10);
-	compareValues(++testNmb, testMyList.size(), testOriginalList.size(), "Size test");
-
-	compareValues(++testNmb, testMyList.empty(), testOriginalList.empty(), "Empty list - false");
-
-	testMyList.push_back(11);
-	testOriginalList.push_back(11);
-	compareValues(++testNmb, testMyList.size(), testOriginalList.size(), "Size test free list");
-
-	testMyList.push_front(9);
-	testOriginalList.push_front(9);
-	compareValues(++testNmb, testMyList.size(), testOriginalList.size(), "Size test free list");
-
+	compareValues(++testNmb, ftlist.empty(), stdlist.empty(), "Empty list - true");
+	compareValues(++testNmb, ftlist.size(), stdlist.size(), "Size 1");
 	
-	/*		Size of list CHAR		*/
-	std::cout << std::endl << YELLOW << "Size of list CHAR" << NORMAL << std::endl;
-	
-	ft::list <char> userListChar;
-	std::list <char> sysListChar;
-	
-	for (int i = 0; i < 33; i++)
-	{
-		sysListChar.push_back('a');			
-		userListChar.push_back('a');
-	}
+	ftlist.push_front(10);
+	stdlist.push_front(10);
+	compareValues(++testNmb, ftlist.empty(), stdlist.empty(), "Empty list - false");
+	compareValues(++testNmb, ftlist.size(), stdlist.size(), "Size 2 test");
 
-	std::list <char> :: iterator sysIteratorChar = sysListChar.begin();
-	ft::list <char> :: iterator userIteratorChar  = userListChar.begin();
+	ftlist.push_back(11);
+	stdlist.push_back(11);
+	compareValues(++testNmb, ftlist.size(), stdlist.size(), "Size 3");
 
-	for (int i = 0; i < 33; i++)
-	{
-		sysIteratorChar++;
-		userIteratorChar++;
-	}
-	compareValues(++testNmb, userListChar.size(), userListChar.size(), "Size is <char>");
-	// compareValues(++testNmb, *sysIteratorChar, *userIteratorChar, "Size of list <char>");
+	ftlist.push_front(9);
+	stdlist.push_front(9);
+	compareValues(++testNmb, ftlist.size(), stdlist.size(), "Size 4");
+
+	compareValues(++testNmb, ftlist.max_size(), stdlist.max_size(), "Max_size");
+
 	getchar();
-	std::system("clear");
 }
 
-void	operators(int testNmb)
+static void	elementAccess(void)
 {
-	std::cout << std::endl << YELLOW << "                         *** VALUES AND OPERATORS ***                          " << NORMAL << std::endl;
-
-	ft::list <int> testMyList;
-	std::list <int> testOriginalList;
-
-	std::list <int> :: iterator sysData;
-	ft::list <int> :: iterator userData = testMyList.begin(); // delete  = testMyList.begin()
-
-	try
-	{
-		ft::list  <int> testMyListTest;
-		std::list <int> testOriginalListTest;
-
-		std::list <int> :: iterator sysDataTest = testOriginalListTest.begin();
-		ft::list <int> :: iterator userDataTest = testMyListTest.begin();
-
-		compareValues(++testNmb, *sysDataTest, *userDataTest, "Operators test *a");
-
-		sysDataTest++;
-		userDataTest++;
-		compareValues(++testNmb, *sysDataTest, *userDataTest, "Operators test a++");
-
-		sysDataTest--;
-		userDataTest--;
-		compareValues(++testNmb, *sysDataTest, *userDataTest, "Operators test a--");
-
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	size_t testNmb = 0;
 	
-	sysData = testOriginalList.begin();
-	userData = testMyList.begin();
-	compareValues(++testNmb, *sysData, *userData, "Operators test *a");
-
-	sysData = testOriginalList.begin();
-	userData = testMyList.begin();
-	sysData++;
-	userData++;
-	compareValues(++testNmb, *sysData, *userData, "Operators test a++");
-
-	sysData++;
-	userData++;
-	compareValues(++testNmb, *sysData, *userData, "Operators test a++");
-
-	sysData++;
-	userData++;
-	sysData++;
-	userData++;
-	compareValues(++testNmb, *sysData, *userData, "Operators test a++");
-
-	// // sysData = testOriginalList.begin();
-	// // userData = testMyList.begin();
-	// // sysData++;
-	// // itML02++;
-	// std::cout << LIGHT_BLUE << ++testNmb << ". Begin value test ++a ...................................... " << NORMAL;
-	// // if (*sysData == *itML02)
-	// // {
-	// // 	std::cout << GREEN << "OK" << NORMAL << std::endl;
-	// // 	std::cout << std::setw(69) << "Answer: " << *sysData << std::endl;
-	// // }
-	// // else
-	// 	std::cout << RED << "NO TEST" << NORMAL << std::endl;
-
-	testOriginalList.push_back(5); 
-	testOriginalList.push_back(4);
-	testMyList.push_back(5);      // can be incorrect if push_back doesn't work
-	testMyList.push_back(4);
-	sysData = testOriginalList.begin();
-	userData = testMyList.begin();
-	++sysData;
-	++userData;
-	compareValues(++testNmb, *sysData, *userData, "Begin value test ++a");
-	
-	sysData = testOriginalList.end();
-	userData = testMyList.end();
-	sysData--;
-	userData--;
-	compareValues(++testNmb, *sysData, *userData, "End value test a--");
-
-	// // sysData = testOriginalList.end();
-	// // userData = testMyList.end();
-	// // sysData--;
-	// // userData--;
-	// std::cout << LIGHT_BLUE << ++testNmb << ". End value test --a ...................................... " << NORMAL;
-	// // if (*itTOL == *userData)
-	// // {
-	// // 	std::cout << GREEN << "OK" << NORMAL << std::endl;
-	// // 	std::cout << std::setw(69) << "Answer: " << *itTOL << std::endl;
-	// // }
-	// // else
-	// // {
-	// 	std::cout << RED << "NO TEST" << NORMAL << std::endl;
-	// // 	std::cout << std::setw(69) << "Expected answer: " << *itTOL << std::endl;
-	// // 	std::cout << std::setw(69) << "Your answer: " << *userData << std::endl;
-	// // }
-
-	sysData = testOriginalList.end();
-	userData = testMyList.end();
-	--sysData;
-	--userData;
-	compareValues(++testNmb, *sysData, *userData, "End value test --a");
-	
-	// try
-	// {
-	// 	ft::list <int> testMyList1;
-	// 	std::list <int> testOriginalList1;
-
-	// 	testMyList1.push_front(55);
-	// 	testOriginalList1.push_front(55);
-		
-	// 	sysData = testOriginalList.end();
-	// 	userData = testMyList.end();
-		
-	// 	sysData = testOriginalList.begin();
-	// 	userData = testMyList.begin();
-
-		std::cout << LIGHT_BLUE << ++testNmb << ". End value test a=b ...................................... " << NORMAL;
-	// 	if (*sysData == *userData)
-	// 	{
-	// 		std::cout << GREEN << "OK" << NORMAL << std::endl;
-	// 		std::cout << std::setw(69) << "Answer: " << *sysData << std::endl;
-	// 	}
-	// 	else
-	// 	{
-			std::cout << RED << "NO TEST" << NORMAL << std::endl;
-	// 		std::cout << std::setw(69) << "Expected answer: " << *sysData << std::endl;
-	// 		std::cout << std::setw(69) << "Your answer: " << *userData << std::endl;
-	// 	}
-	// }
-	// catch(const std::exception& e)
-	// {
-	// 	std::cerr << e.what() << '\n';
-	// }
-	getchar();
-	std::system("clear");
-}
-
-void	constructor(int testNmb)
-{
-	std::cout << std::endl << YELLOW << "                              *** CONSTRUCTOR ***                          " << NORMAL << std::endl;
-
-	ft::list  <int> userList((size_t)10, 42);
-	std::list <int> sysList((size_t)10, 42);
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Constructor list(size, value)");
-
-	std::list <int> :: iterator sysIterator = sysList.begin();
-	ft::list <int> :: iterator userIterator = userList.begin();
-
-	compareValues(++testNmb, *sysIterator, *userIterator, "Constructor list(size, value)");
-
-	/*		COPY		*/
-	ft::list  <int> userListCopy(userList);
-	std::list <int> sysListCopy(sysList);
-	compareValues(++testNmb, sysListCopy.size(), userListCopy.size(), "Constructor copy");
-	
-	sysIterator = sysListCopy.begin();
-	userIterator = userListCopy.begin();
-	
-	compareValues(++testNmb, *sysIterator, *userIterator, "Constructor copy - value");
-
-	userList.push_front(0);
-	sysList.push_front(0);
-
-	sysIterator = sysList.begin();
-	userIterator = userList.begin();
-
-	compareValues(++testNmb, *sysIterator, *userIterator, "Front value is");
-
-	userList.push_back(50);
-	sysList.push_back(50);
-
-	sysIterator = sysList.end();
-	userIterator = userList.end();
-
-	sysIterator--;
-	userIterator--;
-
-	compareValues(++testNmb, *sysIterator, *userIterator, "Back value is");
-
-	userList.pop_front();
-	sysList.pop_front();
-
-	sysIterator = sysList.begin();
-	userIterator = userList.begin();
-
-	compareValues(++testNmb, *sysIterator, *userIterator, "Front value is");
-
-	userList.pop_back();
-	sysList.pop_back();
-
-	sysIterator = sysList.end();
-	userIterator = userList.end();
-
-	sysIterator--;
-	userIterator--;
-
-	compareValues(++testNmb, *sysIterator, *userIterator, "Back value is");
-	getchar();
-	std::system("clear");
-}
-
-void	elementAccess(int testNmb)
-{
 	std::cout << std::endl << YELLOW << "                              *** ELEMENT ACCESS ***                          " << NORMAL << std::endl;
 
-	ft::list  <int> userList((size_t)10, 42);
-	std::list <int> sysList((size_t)10, 42);
+	ft::list  <VALUE_TYPE> ftlist((size_t)10, 42);
+	std::list <VALUE_TYPE> stdlist((size_t)10, 42);
 
-	userList.push_front(11111111);
-	sysList.push_front(11111111);
+	ftlist.push_front(11111111);
+	stdlist.push_front(11111111);
 
-	userList.push_back(22222222);
-	sysList.push_back(22222222);
+	ftlist.push_back(22222222);
+	stdlist.push_back(22222222);
 	
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is");
+	compareValues(++testNmb, stdlist.front(), ftlist.front(), "Front value is");
+	compareValues(++testNmb, stdlist.back(), ftlist.back(), "Back value is");
+
+	compareContainers(++testNmb, stdlist, ftlist, "Compare all values");
+	
+	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
 	getchar();
 	std::system("clear");
 }
 
-void	modifiers(int testNmb)
+static void	modifiers(void)
 {
+	size_t testNmb = 0;
+	
 	std::cout << std::endl << YELLOW << "                              *** MODIFIERS ***                          " << NORMAL << std::endl;
 
-	ft::list  <int> userList((size_t)10, 42);
-	std::list <int> sysList((size_t)10, 42);
+	ft::list<VALUE_TYPE> ftlist((size_t)10, 42);
+	std::list<VALUE_TYPE> stdlist((size_t)10, 42);
 
-	std::list <int> :: iterator sysIterator = sysList.begin();
-	ft::list <int> :: iterator userIterator = userList.begin();
+	std::list<VALUE_TYPE> empty;
+	ft::list<VALUE_TYPE> ftempty;
+	std::list<VALUE_TYPE> temp(80, 12);
 
+//assign
 	std::cout << std::endl << YELLOW << "assign" << NORMAL << std::endl;
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (assign 1)");
 
-	/*		assign 1		*/
-	userList.assign(5, 21);
-	sysList.assign(5, 21);
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (assign 1)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (assign 1)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (assign 1)");
-	std::cout << std::endl;
+	ftlist.assign(5, 21);
+	stdlist.assign(5, 21);
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Assign 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Assign 1 (values)");
 
-	/*		assign 2		*/
+	ftlist.assign(empty.begin(), empty.end());
+	stdlist.assign(empty.begin(), empty.end());
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Assign 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Assign 2 (values)");
 
-	// userList.push_front(11111111);
-	// sysList.push_front(11111111);
-
-	// userList.push_back(22222222);
-	// sysList.push_back(22222222);
+	ftlist.assign(temp.begin(), temp.end());
+	stdlist.assign(temp.begin(), temp.end());
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Assign 3 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Assign 3 (values)");
 	
-	// // userList.assign(5, 21);
-	// sysList.assign(sysList.begin(), sysList.end());
-	// compareValues(++testNmb, sysList.size(), userList.size(), "Size is");
-	// compareValues(++testNmb, sysList.front(), userList.front(), "Front value is");
-	// compareValues(++testNmb, sysList.back(), userList.back(), "Back value is");
+	std::cout << std::endl;
 	getchar();
-	std::system("clear");
 
-
-
-
+//insert
 	std::cout << std::endl << YELLOW << "insert" << NORMAL << std::endl;
-	/*		insert 1		*/
-	sysList.clear();
-	userList.clear();
 
-	sysList.assign(1, 100);
-	userList.assign(1, 100);
+	stdlist.clear();
+	ftlist.clear();
 
-	sysList.insert(sysList.begin(), 5);
-	userList.insert(userList.begin(), 5);
+	std::list<VALUE_TYPE>::iterator sit = stdlist.insert(stdlist.begin(), 5);
+	ft::list<VALUE_TYPE>::iterator fit = ftlist.insert(ftlist.begin(), 5);
 
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (insert 1)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (insert 1)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (insert 1)");
-	std::cout << std::endl;
+	compareValues(++testNmb, *sit, *fit, "Insert 1 (return value)");
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Insert 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Insert 1 (values)");
+
+	stdlist.insert(stdlist.begin(), 3, 7);
+	ftlist.insert(ftlist.begin(), 3, 7);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Insert 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Insert 2 (values)");
 	
-	/*		insert 2		*/
-	sysList.clear();
-	userList.clear();
+	empty.insert(empty.begin(), temp.begin(), temp.end());
+	ftempty.insert(ftempty.begin(), temp.begin(), temp.end());
 
-	sysList.assign(1, 100);
-	userList.assign(1, 100);
-
-	sysList.insert(sysList.begin(), 3, 5);
-	userList.insert(userList.begin(), 3, 5);
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (insert 2)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (insert 2)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (insert 2)");
+	compareValues(++testNmb, empty.size(), ftempty.size(), "Insert 3 (size)");
+	compareContainers(++testNmb, empty, ftempty, "Insert 3 (values)");
+	
 	std::cout << std::endl;
 	getchar();
 	std::system("clear");
 
+//erase
 	std::cout << std::endl << YELLOW << "erase" << NORMAL << std::endl;
-	/*		erase 1		*/
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(1);			// 1 2 3
-	userList.push_back(1);
-
-	sysList.push_back(2);			// 1 2 3
-	userList.push_back(2);
-
-	sysList.push_back(3);			// 1 2 3
-	userList.push_back(3);
-
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
   
-	sysIterator = sysList.erase(sysList.begin());
-	userIterator = userList.erase(userList.begin());
+	sit = stdlist.erase(stdlist.begin());
+	fit = ftlist.erase(ftlist.begin());
 
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
+	compareValues(++testNmb, *sit, *fit, "Erase 1 (return value)");
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Erase 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Erase 1 (values)");
 
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 1)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 1)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 1)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 1)");
-	std::cout << std::endl;
+	sit = stdlist.erase(stdlist.begin(), stdlist.begin());
+	fit = ftlist.erase(ftlist.begin(), ftlist.begin());
 
-	/*		erase 1.1		*/
-	sysList.clear();
-	userList.clear();
+	compareValues(++testNmb, *sit, *fit, "Erase 2 (return value)");
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Erase 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Erase 2 (values)");
 
-	sysList.push_back(1);			// 1 
-	userList.push_back(1);
+	sit = stdlist.erase(stdlist.begin(), stdlist.end());
+	fit = ftlist.erase(ftlist.begin(), ftlist.end());
 
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-  
-	sysIterator = sysList.erase(sysList.begin());
-	userIterator = userList.erase(userList.begin());
+	compareValues(++testNmb, *sit, *fit, "Erase 3 (return value)");
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Erase 3 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Erase 3 (values)");
 
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 1.1)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 1.1)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 1.1)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 1.1)");
-	std::cout << std::endl;
-
-	/*		erase 2		*/
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(1);			// 1 2 3
-	userList.push_back(1);
-
-	sysList.push_back(2);			// 1 2 3
-	userList.push_back(2);
-
-	sysList.push_back(3);			// 1 2 3
-	userList.push_back(3);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-  
-	sysIterator = sysList.begin();
-
-	userIterator = userList.begin();
-  
-	sysIterator = sysList.erase(sysList.begin(), sysIterator);
-	userIterator = userList.erase(userList.begin(), userIterator);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 2)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 2)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 2)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 2)");
-	std::cout << std::endl;
-
-	/*		erase 2.0		*/
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(1);			// 1 2 3
-	userList.push_back(1);
-
-	sysList.push_back(2);			// 1 2 3
-	userList.push_back(2);
-
-	sysList.push_back(3);			// 1 2 3
-	userList.push_back(3);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-  
-	sysIterator = sysList.begin();
-	sysIterator++;
-
-	userIterator = userList.begin();
-	userIterator++;
-  
-	sysIterator = sysList.erase(sysList.begin(), sysIterator);
-	userIterator = userList.erase(userList.begin(), userIterator);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 2.0)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 2.0)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 2.0)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 2.0)");
-	std::cout << std::endl;
-
-	/*		erase 2.1		*/
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(1);			// 1 2 3
-	userList.push_back(1);
-
-	sysList.push_back(2);			// 1 2 3
-	userList.push_back(2);
-
-	sysList.push_back(3);			// 1 2 3
-	userList.push_back(3);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-  
-	sysIterator = sysList.begin();
-	sysIterator++;
-	sysIterator++;
-
-	userIterator = userList.begin();
-	userIterator++;
-	userIterator++;
-  
-	sysIterator = sysList.erase(sysList.begin(), sysIterator);
-	userIterator = userList.erase(userList.begin(), userIterator);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 2.1)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 2.1)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 2.1)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 2.1)");
-	std::cout << std::endl;
-
-	/*		erase 2.2		*/
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(1);			// 1 2 3
-	userList.push_back(1);
-
-	sysList.push_back(2);			// 1 2 3
-	userList.push_back(2);
-
-	sysList.push_back(3);			// 1 2 3
-	userList.push_back(3);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-  
-	sysIterator = sysList.begin();
-	sysIterator++;
-	sysIterator++;
-	sysIterator++;
-
-	userIterator = userList.begin();
-	userIterator++;
-	userIterator++;
-	userIterator++;
-  
-	sysIterator = sysList.erase(sysList.begin(), sysIterator);
-	userIterator = userList.erase(userList.begin(), userIterator);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 2.2)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 2.2)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 2.2)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 2.2)");
-	std::cout << std::endl;
-
-	/*		erase 2.3		*/
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(5);			// 5 6 7
-	userList.push_back(5);
-
-	sysList.push_back(6);			// 5 6 7
-	userList.push_back(6);
-
-	sysList.push_back(7);			// 5 6 7
-	userList.push_back(7);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-  
-	sysIterator = sysList.begin();
-	sysIterator++;
-	sysIterator++;
-	sysIterator++;
-	sysIterator++;
-
-	userIterator = userList.begin();
-	userIterator++;
-	userIterator++;
-	userIterator++;
-	userIterator++;
-
-	compareValues(++testNmb, *(sysList.begin()), *(userList.begin()), "First iterator is (erase 2.3)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Last iterator is (erase 2.3)");
-  
-	sysIterator = sysList.erase(sysList.begin(), sysIterator);
-	userIterator = userList.erase(userList.begin(), userIterator);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (erase 2.3)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (erase 2.3)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (erase 2.3)");
-	compareValues(++testNmb, *sysIterator, *userIterator, "Return value (erase 2.3)");
 	std::cout << std::endl;
 	getchar();
-	std::system("clear");
 
-
-	/*		swap 1		*/
+//swap
 	std::cout << std::endl << YELLOW << "swap" << NORMAL << std::endl;
 
-	std::list <int> sysListSwap1;
-	ft::list <int> userListSwap1;
+	std::list<VALUE_TYPE> empty2;
+	std::list<VALUE_TYPE> stdtemp;
+	ft::list<VALUE_TYPE> ftempty2;
+	ft::list<VALUE_TYPE> fttemp;
 
-	sysListSwap1.push_back(1);
-	userListSwap1.push_back(1);
+	for (size_t i = 0; i < 300; i++)
+	{
+		stdlist.push_back(i);
+		ftlist.push_back(i);
+	}
+
+	stdlist.swap(empty2);
+	ftlist.swap(ftempty2);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Swap 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Swap 1 (values)");
+
+	compareValues(++testNmb, empty2.size(), ftempty2.size(), "Swap 2 (size)");
+	compareContainers(++testNmb, empty2, ftempty2, "Swap 2 (values)");
+
+	for (size_t i = 0; i < 300; i++)
+	{
+		stdlist.push_back(i);
+		ftlist.push_back(i);
+	}
+
+	for (size_t i = 100; i < 300; i++)
+	{
+		stdtemp.push_back(i);
+		fttemp.push_back(i);
+	}
+
+	stdlist.swap(stdtemp);
+	ftlist.swap(fttemp);
 	
-	sysListSwap1.push_back(2);
-	userListSwap1.push_back(2);
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Swap 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Swap 1 (values)");
+
+	compareValues(++testNmb, stdtemp.size(), fttemp.size(), "Swap 2 (size)");
+	compareContainers(++testNmb, stdtemp, fttemp, "Swap 2 (values)");
 	
-	sysListSwap1.push_back(3);
-	userListSwap1.push_back(3);
+	getchar();
+	std::system("clear");
 
-	std::list <int> sysListSwap2;
-	ft::list <int> userListSwap2;
-
-	sysListSwap2.push_back(4);
-	userListSwap2.push_back(4);
+//resize
+	std::cout << std::endl << YELLOW << "resize" << NORMAL << std::endl;
 	
-	sysListSwap2.push_back(5);
-	userListSwap2.push_back(5);
+	stdlist.clear();
+	ftlist.clear();
+
+	stdlist.resize(300, 9);
+	ftlist.resize(300, 9);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Resize 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Resize 1 (values)");
+
+	empty2.resize(300, 9);
+	ftempty2.resize(300, 9);
+
+	compareValues(++testNmb, empty2.size(), ftempty2.size(), "Resize 2 (size)");
+	compareContainers(++testNmb, empty2, ftempty2, "Resize 2 (values)");
+
+	stdlist.resize(3, 7);
+	ftlist.resize(3, 7);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Resize 3 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Resize 3 (values)");
+
+//pop_back
+	std::cout << std::endl << YELLOW << "pop_back" << NORMAL << std::endl;
+
+	stdlist.pop_back();
+	ftlist.pop_back();
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Pop_back (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Pop_back (values)");
+
+//pop_front
+	std::cout << std::endl << YELLOW << "pop_front" << NORMAL << std::endl;
+
+	stdlist.pop_front();
+	ftlist.pop_front();
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Pop_front (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Pop_front (values)");
+
+//push_back
+	std::cout << std::endl << YELLOW << "push_back" << NORMAL << std::endl;
+	std::list<VALUE_TYPE> empty3;
+	ft::list<VALUE_TYPE> ftempty3;
 	
-	sysListSwap2.push_back(6);
-	userListSwap2.push_back(6);
+	empty3.push_back(222);
+	empty3.push_back(333);
+	ftempty3.push_back(222);
+	ftempty3.push_back(333);
 
-	sysListSwap2.push_back(7);
-	userListSwap2.push_back(7);
-	
-	sysListSwap2.push_back(8);
-	userListSwap2.push_back(8);
-	
-	sysListSwap2.push_back(9);
-	userListSwap2.push_back(9);
+	compareValues(++testNmb, empty3.size(), ftempty3.size(), "Push_back 1 (size)");
+	compareContainers(++testNmb, empty3, ftempty3, "Push_back 1 (values)");
 
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" SysListSwap1:", sysListSwap1);
-	// print_container(" SysListSwap2:", sysListSwap2);
-	// std::cout << std::endl;
-	// print_container("UserListSwap1:", userListSwap1);
-	// print_container("UserListSwap2:", userListSwap2);
-	// std::cout << std::endl;
+	stdlist.push_back(222);
+	stdlist.push_back(333);
+	ftlist.push_back(222);
+	ftlist.push_back(333);
 
-	sysListSwap1.swap(sysListSwap2);
-	userListSwap1.swap(userListSwap2);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" SysListSwap1:", sysListSwap1);
-	// print_container(" SysListSwap2:", sysListSwap2);
-	// std::cout << std::endl;
-	// print_container("UserListSwap1:", userListSwap1);
-	// print_container("UserListSwap2:", userListSwap2);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysListSwap1.size(), userListSwap1.size(), "Size is (swap)");
-	compareValues(++testNmb, sysListSwap1.front(), userListSwap1.front(), "Front value is (swap)");
-	compareValues(++testNmb, sysListSwap1.back(), userListSwap1.back(), "Back value is (swap)");
-
-	compareValues(++testNmb, sysListSwap2.size(), userListSwap2.size(), "Size is (swap)");
-	compareValues(++testNmb, sysListSwap2.front(), userListSwap2.front(), "Front value is (swap)");
-	compareValues(++testNmb, sysListSwap2.back(), userListSwap2.back(), "Back value is (swap)");
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Push_back 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Push_back 2 (values)");
 
 	getchar();
 	std::system("clear");
 
-	/*		resize 1		*/
-	std::cout << std::endl << YELLOW << "resize" << NORMAL << std::endl;
+//push_front
+	std::cout << std::endl << YELLOW << "push_front" << NORMAL << std::endl;
 	
-	sysList.clear();
-	userList.clear();
+	std::list<VALUE_TYPE> empty4;
+	ft::list<VALUE_TYPE> ftempty4;
+
+	empty4.push_front(222);
+	empty4.push_front(444);
+	ftempty4.push_front(222);
+	ftempty4.push_front(444);
+
+	compareValues(++testNmb, empty4.size(), ftempty4.size(), "Push_front 1 (size)");
+	compareContainers(++testNmb, empty4, ftempty4, "Push_front 1 (values)");
+
+	stdlist.push_front(222);
+	stdlist.push_front(444);
+	ftlist.push_front(222);
+	ftlist.push_front(444);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Push_front 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Push_front 2 (values)");
+
+//clear
+	std::cout << std::endl << YELLOW << "clear" << NORMAL << std::endl;
 	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
+	std::list<VALUE_TYPE> empty5;
+	ft::list<VALUE_TYPE> ftempty5;
 
-	sysList.resize(3, 9);
-	userList.resize(3, 9);
+	empty5.clear();
+	ftempty5.clear();
 
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
+	compareValues(++testNmb, empty5.size(), ftempty5.size(), "Clear 1 (size)");
+	compareContainers(++testNmb, empty5, ftempty5, "Clear 1 (values)");
 
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (resize 1)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (resize 1)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (resize 1)");
-	getchar();
-	// std::system("clear");
+	stdlist.clear();
+	ftlist.clear();
 
-	/*		resize 2		*/
-	std::cout << std::endl << YELLOW << "resize" << NORMAL << std::endl;
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Clear 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Clear 2 (values)");
 	
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(5);			// 5 6 7
-	userList.push_back(5);
-
-	sysList.push_back(6);			// 5 6 7
-	userList.push_back(6);
-
-	sysList.push_back(7);			// 5 6 7
-	userList.push_back(7);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	sysList.resize(3, 9);
-	userList.resize(3, 9);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (resize 2)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (resize 2)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (resize 2)");
-	getchar();
-	// std::system("clear");
-
-	/*		resize 3		*/
-	std::cout << std::endl << YELLOW << "resize" << NORMAL << std::endl;
-	
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(5);			// 5 6 7
-	userList.push_back(5);
-
-	sysList.push_back(6);			// 5 6 7
-	userList.push_back(6);
-
-	sysList.push_back(7);			// 5 6 7
-	userList.push_back(7);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	sysList.resize(5, 9);
-	userList.resize(5, 9);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (resize 3)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (resize 3)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (resize 3)");
-	getchar();
-	// std::system("clear");
-
-
-	/*		resize 4		*/
-	std::cout << std::endl << YELLOW << "resize" << NORMAL << std::endl;
-	
-	sysList.clear();
-	userList.clear();
-
-	sysList.push_back(5);			// 5 6 7
-	userList.push_back(5);
-
-	sysList.push_back(6);			// 5 6 7
-	userList.push_back(6);
-
-	sysList.push_back(7);			// 5 6 7
-	userList.push_back(7);
-	
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	sysList.resize(1, 9);
-	userList.resize(1, 9);
-
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" Sys Erase:", sysList);
-	// print_container("User Erase:", userList);
-	// std::cout << std::endl;
-
-	compareValues(++testNmb, sysList.size(), userList.size(), "Size is (resize 4)");
-	compareValues(++testNmb, sysList.front(), userList.front(), "Front value is (resize 4)");
-	compareValues(++testNmb, sysList.back(), userList.back(), "Back value is (resize 4)");
 	getchar();
 	std::system("clear");
 }
 
-void	operations(int testNmb)
+static void	operations(void)
 {
+	size_t testNmb = 0;
+	
 	std::cout << std::endl << YELLOW << "                              *** OPERATIONS ***                          " << NORMAL << std::endl;
 
-	/*		splice 1		*/
+//splice
 	std::cout << std::endl << YELLOW << "splice" << NORMAL << std::endl;
 
-	std::list <int> sysListSplice1;
-	ft::list <int> userListSplice1;
+	std::list <VALUE_TYPE> stdlistSplice1;
+	ft::list <VALUE_TYPE> ftlistSplice1;
 
-	for (int i = 1; i <= 3; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		sysListSplice1.push_back(i);
-		userListSplice1.push_back(i);
+		stdlistSplice1.push_back(i);
+		ftlistSplice1.push_back(i);
 	}
 
-	std::list <int> sysListSplice2;
-	ft::list <int> userListSplice2;
+	std::list <VALUE_TYPE> stdlistSplice2;
+	ft::list <VALUE_TYPE> ftlistSplice2;
 
-	for (int i = 4; i <= 9; i++)
+	for (int i = 100; i < 200; i++)
 	{
-		sysListSplice2.push_back(i);
-		userListSplice2.push_back(i);
+		stdlistSplice2.push_back(i);
+		ftlistSplice2.push_back(i);
 	}
 
-	std::cout << "*** BEFORE ***" << std::endl;
-	print_container(" SysListSplice1:", sysListSplice1);
-	print_container(" SysListSplice2:", sysListSplice2);
-	std::cout << std::endl;
-	print_container("UserListSplice1:", userListSplice1);
-	print_container("UserListSplice2:", userListSplice2);
-	std::cout << std::endl;
+	stdlistSplice1.splice(stdlistSplice1.begin(), stdlistSplice2);
+	ftlistSplice1.splice(ftlistSplice1.begin(), ftlistSplice2);
 
-	sysListSplice1.splice(sysListSplice1.begin(), sysListSplice2);
-	userListSplice1.splice(userListSplice1.begin(), userListSplice2);
+	compareValues(++testNmb, stdlistSplice1.size(), ftlistSplice1.size(), "Splice 1 (size)");
+	compareContainers(++testNmb, stdlistSplice1, ftlistSplice1, "Splice 1 (values)");
 
-	std::cout << "*** AFTER ***" << std::endl;
-	print_container(" SysListSplice1:", sysListSplice1);
-	print_container(" SysListSplice2:", sysListSplice2);
-	std::cout << std::endl;
-	print_container("UserListSplice1:", userListSplice1);
-	print_container("UserListSplice2:", userListSplice2);
-	std::cout << std::endl;
+	compareValues(++testNmb, stdlistSplice2.size(), ftlistSplice2.size(), "Splice 2 (size)");
+	compareContainers(++testNmb, stdlistSplice2, ftlistSplice2, "Splice 2 (values)");
 
-	compareValues(++testNmb, sysListSplice1.size(), userListSplice1.size(), "Size is (Splice 1)");
-	compareValues(++testNmb, sysListSplice1.front(), userListSplice1.front(), "Front value is (Splice 1)");
-	compareValues(++testNmb, sysListSplice1.back(), userListSplice1.back(), "Back value is (Splice 1)");
+	stdlistSplice1.clear();
+	ftlistSplice1.clear();
 
-	compareValues(++testNmb, sysListSplice2.size(), userListSplice2.size(), "Size is (Splice 1)");
-	compareValues(++testNmb, sysListSplice2.front(), userListSplice2.front(), "Front value is (Splice 1)");
-	compareValues(++testNmb, sysListSplice2.back(), userListSplice2.back(), "Back value is (Splice 1)");
+	for (int i = 0; i < 100; i++)
+	{
+		stdlistSplice1.push_back(i);
+		ftlistSplice1.push_back(i);
+	}
+
+	stdlistSplice2.clear();
+	ftlistSplice2.clear();
+
+	for (int i = 100; i < 200; i++)
+	{
+		stdlistSplice2.push_back(i);
+		ftlistSplice2.push_back(i);
+	}
+
+	stdlistSplice1.splice(stdlistSplice1.begin(), stdlistSplice2, stdlistSplice2.begin());
+	ftlistSplice1.splice(ftlistSplice1.begin(), ftlistSplice2, ftlistSplice2.begin());
+
+	compareValues(++testNmb, stdlistSplice1.size(), ftlistSplice1.size(), "Splice 3 (size)");
+	compareContainers(++testNmb, stdlistSplice1, ftlistSplice1, "Splice 3 (values)");
+
+	compareValues(++testNmb, stdlistSplice2.size(), ftlistSplice2.size(), "Splice 4 (size)");
+	compareContainers(++testNmb, stdlistSplice2, ftlistSplice2, "Splice 4 (values)");
+
+	stdlistSplice1.clear();
+	ftlistSplice1.clear();
+
+	for (int i = 0; i < 100; i++)
+	{
+		stdlistSplice1.push_back(i);
+		ftlistSplice1.push_back(i);
+	}
+
+	stdlistSplice2.clear();
+	ftlistSplice2.clear();
+
+	for (int i = 100; i < 200; i++)
+	{
+		stdlistSplice2.push_back(i);
+		ftlistSplice2.push_back(i);
+	}
+
+	stdlistSplice1.splice(stdlistSplice1.begin(), stdlistSplice2, ++stdlistSplice2.begin(), stdlistSplice2.end());
+	ftlistSplice1.splice(ftlistSplice1.begin(), ftlistSplice2, ++ftlistSplice2.begin(), ftlistSplice2.end());
+
+	compareValues(++testNmb, stdlistSplice1.size(), ftlistSplice1.size(), "Splice 5 (size)");
+	compareContainers(++testNmb, stdlistSplice1, ftlistSplice1, "Splice 5 (values)");
+
+	compareValues(++testNmb, stdlistSplice2.size(), ftlistSplice2.size(), "Splice 6 (size)");
+	compareContainers(++testNmb, stdlistSplice2, ftlistSplice2, "Splice 6 (values)");
+
+	std::list<VALUE_TYPE> empty;
+	ft::list<VALUE_TYPE> ftempty;
+
+	stdlistSplice1.splice(stdlistSplice1.begin(), empty);
+	ftlistSplice1.splice(ftlistSplice1.begin(), ftempty);
+	
+	compareValues(++testNmb, stdlistSplice1.size(), ftlistSplice1.size(), "Splice 7 (size)");
+	compareContainers(++testNmb, stdlistSplice1, ftlistSplice1, "Splice 7 (values)");
+
+	compareValues(++testNmb, empty.size(), ftempty.size(), "Splice 8 (size)");
+	compareContainers(++testNmb, empty, ftempty, "Splice 8 (values)");
+	
+	getchar();
+	std::system("clear");
+
+//remove
+	std::cout << std::endl << YELLOW << "remove" << NORMAL << std::endl;
+	
+	std::list <VALUE_TYPE> stdlist;
+	ft::list <VALUE_TYPE> ftlist;
+
+	for (int i = 0; i < 100; i++)
+	{
+		stdlist.push_back(i);
+		ftlist.push_back(i);
+	}
+	
+	stdlist.remove(50);
+	ftlist.remove(50);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Remove 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Remove 1 (values)");
+	
+	stdlist.remove(1000);
+	ftlist.remove(1000);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Remove 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Remove 2 (values)");
+	
+//remove_if
+	std::cout << std::endl << YELLOW << "remove if" << NORMAL << std::endl;
+
+	stdlist.remove_if(ft_is_odd<VALUE_TYPE>());
+	ftlist.remove_if(ft_is_odd<VALUE_TYPE>());
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Remove_if (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Remove_if (values)");
+
+//remove_if
+	std::cout << std::endl << YELLOW << "remove if" << NORMAL << std::endl;
+
+	stdlist.remove_if(ft_is_odd<VALUE_TYPE>());
+	ftlist.remove_if(ft_is_odd<VALUE_TYPE>());
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Remove_if (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Remove_if (values)");
+
+//unique
+	std::cout << std::endl << YELLOW << "unique" << NORMAL << std::endl;
+
+	for (int i = 0; i < 50; i++)
+	{
+		stdlist.push_back(1);
+		ftlist.push_back(1);
+	}
+	
+	stdlist.unique();
+	ftlist.unique();
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Unique 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Unique 1 (values)");
+	
+	stdlist.unique(ft_is_near<VALUE_TYPE>());
+	ftlist.unique(ft_is_near<VALUE_TYPE>());
+	
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Unique 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Unique 2 (values)");
+
+	getchar();
+	std::system("clear");
+	
+//merge
+	std::cout << std::endl << YELLOW << "merge" << NORMAL << std::endl;
+
+	for (int i = 0; i < 50; i++)
+	{
+		stdlist.push_back(i);
+		ftlist.push_back(i);
+	}
+
+	stdlist.merge(empty);
+	ftlist.merge(ftempty);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Merge 1 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Merge 1 (values)");
+
+	std::list <VALUE_TYPE> stdlist2;
+	ft::list <VALUE_TYPE> ftlist2;
+
+	for (int i = 0; i < 100; i++)
+	{
+		stdlist2.push_back(i);
+		ftlist2.push_back(i);
+	}
+
+	stdlist.merge(stdlist2);
+	ftlist.merge(ftlist2);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Merge 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Merge 2 (values)");
+	compareValues(++testNmb, stdlist2.size(), ftlist2.size(), "Merge 3 (size)");
+	compareContainers(++testNmb, stdlist2, ftlist2, "Merge 3 (values)");
+
+	for (int i = 100; i < 200; i++)
+	{
+		stdlist2.push_back(i);
+		ftlist2.push_back(i);
+	}
+
+	stdlist.merge(stdlist2, mycomparison<VALUE_TYPE>);
+	ftlist.merge(ftlist2, mycomparison<VALUE_TYPE>);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Merge 4 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Merge 4 (values)");
+	compareValues(++testNmb, stdlist2.size(), ftlist2.size(), "Merge 5 (size)");
+	compareContainers(++testNmb, stdlist2, ftlist2, "Merge 5 (values)");
+	
+
+//sort
+	std::cout << std::endl << YELLOW << "sort" << NORMAL << std::endl;
+
+	empty.sort();
+	ftempty.sort();
+	
+	compareValues(++testNmb, empty.size(), ftempty.size(), "Sort 1 (size)");
+	compareContainers(++testNmb, empty, ftempty, "Sort 1 (values)");
+
+	stdlist.sort();
+	ftlist.sort();
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Sort 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Sort 2 (values)");
+
+	stdlist.sort(mycomparison2<VALUE_TYPE>);
+	ftlist.sort(mycomparison2<VALUE_TYPE>);
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Sort 3 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Sort 3 (values)");
+
+//reverse
+	std::cout << std::endl << YELLOW << "reverse" << NORMAL << std::endl;
+	
+	empty.reverse();
+	ftempty.reverse();
+	
+	compareValues(++testNmb, empty.size(), ftempty.size(), "Reverse 1 (size)");
+	compareContainers(++testNmb, empty, ftempty, "Reverse 1 (values)");
+
+	stdlist.reverse();
+	ftlist.reverse();
+
+	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Reverse 2 (size)");
+	compareContainers(++testNmb, stdlist, ftlist, "Reverse 2 (values)");
+	
 
 	getchar();
 	std::system("clear");
 
-	/*		splice 1.1		*/
-	// std::cout << std::endl << YELLOW << "splice" << NORMAL << std::endl;
+}
 
-	// sysListSplice1.clear();
-	// userListSplice1.clear();
+static void non_member_func(void)
+{
+	int testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                              *** Non-member functions overloads ***                          " << NORMAL << std::endl;
 
-	// for (int i = 1; i <= 3; i++)
-	// {
-	// 	sysListSplice1.push_back(i);
-	// 	userListSplice1.push_back(i);
-	// }
+	std::list<VALUE_TYPE> stdlist1;
+	for (size_t i = 0; i < 300; i++)
+		stdlist1.push_back(i + 10);
 
-	// sysListSplice2.clear();
-	// userListSplice2.clear();
+	std::list<VALUE_TYPE> stdlist2;
+	for (size_t i = 0; i < 300; i++)
+		stdlist2.push_back(i + 10);
 
-	// for (int i = 4; i <= 9; i++)
-	// {
-	// 	sysListSplice2.push_back(i);
-	// 	userListSplice2.push_back(i);
-	// }
+	std::list<VALUE_TYPE> stdlist3;
+	for (size_t i = 0; i < 100; i++)
+		stdlist3.push_back(i + 11);
 
-	// std::cout << "*** BEFORE ***" << std::endl;
-	// print_container(" SysListSplice1:", sysListSplice1);
-	// print_container(" SysListSplice2:", sysListSplice2);
-	// std::cout << std::endl;
-	// print_container("UserListSplice1:", userListSplice1);
-	// print_container("UserListSplice2:", userListSplice2);
-	// std::cout << std::endl;
+	ft::list<VALUE_TYPE> ftlist1;
+	for (int i = 0; i < 300; i++)
+		ftlist1.push_back(i + 10);
 
-	// sysListSplice1.splice(sysListSplice1.begin(), sysListSplice2);
-	// // userListSplice1.splice(userListSplice1.begin(), userListSplice2);
+	ft::list<VALUE_TYPE> ftlist2;
+	for (int i = 0; i < 300; i++)
+		ftlist2.push_back(i + 10);
 
-	// std::cout << "*** AFTER ***" << std::endl;
-	// print_container(" SysListSplice1:", sysListSplice1);
-	// print_container(" SysListSplice2:", sysListSplice2);
-	// std::cout << std::endl;
-	// print_container("UserListSplice1:", userListSplice1);
-	// print_container("UserListSplice2:", userListSplice2);
-	// std::cout << std::endl;
+	ft::list<VALUE_TYPE> ftlist3;
+	for (size_t i = 0; i < 100; i++)
+		ftlist3.push_back(i + 11);
+	
+	compareValues(++testNmb, stdlist1 == stdlist2, ftlist1 == ftlist2, "Operator== 1");
+	compareValues(++testNmb, stdlist1 == stdlist3, ftlist1 == ftlist3, "Operator== 2");
 
-	// compareValues(++testNmb, sysListSplice1.size(), userListSplice1.size(), "Size is (Splice 1.1)");
-	// compareValues(++testNmb, sysListSplice1.front(), userListSplice1.front(), "Front value is (Splice 1.1)");
-	// compareValues(++testNmb, sysListSplice1.back(), userListSplice1.back(), "Back value is (Splice 1.1)");
+	compareValues(++testNmb, stdlist1 == stdlist2, ftlist1 == ftlist2, "Operator!= 1");
+	compareValues(++testNmb, stdlist1 == stdlist3, ftlist1 == ftlist3, "Operator!= 2");
 
-	// compareValues(++testNmb, sysListSplice2.size(), userListSplice2.size(), "Size is (Splice 1.1)");
-	// compareValues(++testNmb, sysListSplice2.front(), userListSplice2.front(), "Front value is (Splice 1.1)");
-	// compareValues(++testNmb, sysListSplice2.back(), userListSplice2.back(), "Back value is (Splice 1.1)");
+	compareValues(++testNmb, stdlist1 < stdlist2, ftlist1 < ftlist2, "Operator< 1");
+	compareValues(++testNmb, stdlist1 < stdlist3, ftlist1 < ftlist3, "Operator< 2");
 
-	// getchar();
-	// std::system("clear");
+	compareValues(++testNmb, stdlist1 <= stdlist2, ftlist1 <= ftlist2, "Operator<= 1");
+	compareValues(++testNmb, stdlist1 <= stdlist3, ftlist1 <= ftlist3, "Operator<= 2");
 
+	compareValues(++testNmb, stdlist1 > stdlist2, ftlist1 > ftlist2, "Operator> 1");
+	compareValues(++testNmb, stdlist1 > stdlist3, ftlist1 > ftlist3, "Operator> 2");
+
+	compareValues(++testNmb, stdlist1 >= stdlist2, ftlist1 >= ftlist2, "Operator>= 1");
+	compareValues(++testNmb, stdlist1 >= stdlist3, ftlist1 >= ftlist3, "Operator>= 2");
+	
+	getchar();
+	std::cout << std::endl;
+	
+// swap
+
+	ft::swap(ftlist1, ftlist3);
+	std::swap(stdlist1, stdlist3);
+
+	compareContainers(++testNmb, stdlist1, ftlist1, "Swap1 (value)");
+	compareValues(++testNmb, stdlist1.size(), ftlist1.size(), "Swap1 (size)");
+
+	compareContainers(++testNmb, stdlist3, ftlist3, "Swap2 (value)");
+	compareValues(++testNmb, stdlist3.size(), ftlist3.size(), "Swap2 (size)");
+	
+	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
+	
+	getchar();
+	std::system("clear");
+	return;
 }
 
 void	list_test()
@@ -943,23 +752,14 @@ void	list_test()
 	std::cout << "|                                |" << std::endl;
 	std::cout << "+ ------------------------------ +" << std::endl << std::endl;
 	std::cout << NORMAL;
-
-	int testNmb = 0;
 	
 	/*			Member functions			*/
-	
-	/* extra */
-	operators(testNmb);
 
-	constructor(testNmb);
-	// destructor(testNmb);			// need tests
-	// operator=(testNmb);			// need tests
-	
-	// iterators(testNmb);			// need tests
-	capacity(testNmb);
-	elementAccess(testNmb);
-	modifiers(testNmb);
-	operations(testNmb);
-	// observers(testNmb);			// need tests
-	// overloads(testNmb);			// need tests
+	constructor();
+	iterators();
+	capacity();
+	elementAccess();
+	modifiers();
+	operations();
+	non_member_func();
 }

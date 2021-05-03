@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/26 22:06:43 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/05/03 13:26:06 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,8 @@ namespace ft
 				else
 					current = current->left;
 			}
+			if (current == this->_first || current == this->_last)
+				current = NULL;
 			return current;
 		}
 		
@@ -428,16 +430,18 @@ namespace ft
 					}
 					else if (s)
 					{
-						if (s->right->color == BLACK_NODE)
+						if (!s->right || s->right->color == BLACK_NODE)
 						{
-							s->left->color = BLACK_NODE;
+							if (s->left)
+								s->left->color = BLACK_NODE;
 							s->color = RED_NODE;
 							_rightRotate(s);
 							s = x->parent->right;
 						}
 						s->color = x->parent->color;
 						x->parent->color = BLACK_NODE;
-						s->right->color = BLACK_NODE;
+						if (s->right)
+							s->right->color = BLACK_NODE;
 						_leftRotate(x->parent);
 						x = this->_root;
 					}
@@ -447,33 +451,37 @@ namespace ft
 				else
 				{
 					s = x->parent->left;
-					if (s->color == RED_NODE)
+					if (s && s->color == RED_NODE)
 					{
 						s->color = BLACK_NODE;
 						x->parent->color = RED_NODE;
 						_rightRotate(x->parent);
 						s = x->parent->left;
 					}
-					if (s->right->color == BLACK_NODE && s->right->color == BLACK_NODE)
+					if (s && (!s->left || s->left->color == BLACK_NODE) && (!s->right || s->right->color == BLACK_NODE))
 					{
 						s->color = RED_NODE;
 						x = x->parent;
 					}
-					else
+					else if (s)
 					{
-						if (s->left->color == BLACK_NODE)
+						if (!s->left || s->left->color == BLACK_NODE)
 						{
-							s->right->color = BLACK_NODE;
+							if (s->right)
+								s->right->color = BLACK_NODE;
 							s->color = RED_NODE;
 							_leftRotate(s);
 							s = x->parent->left;
 						}
 						s->color = x->parent->color;
 						x->parent->color = BLACK_NODE;
-						s->left->color = BLACK_NODE;
+						if (s->left)
+							s->left->color = BLACK_NODE;
 						_rightRotate(x->parent);
 						x = this->_root;
 					}
+					else
+						x = this->_root;
 				}
 			}
 			x->color = BLACK_NODE;

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/26 20:53:46 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/04/28 12:14:11 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ namespace ft
 			bool res = false;
 			treeNode<key_type, mapped_type>* node = this->_tree.findNode(val.first);
 	
-			if (node == NULL || node == this->_tree.getFirst() || node == this->_tree.getLast())
+			if (node == NULL)
 			{
 				_check_init_len(this->size() + 1);
 				node = this->_tree.insert(this->_tree.getRoot(), val);
@@ -221,7 +221,7 @@ namespace ft
 		insert(iterator position, const value_type& val)
 		{
 			treeNode<key_type, mapped_type>* node = this->_tree.findNode(val.first);
-			if (node == NULL || node == this->_tree.getFirst() || node == this->_tree.getLast())
+			if (node == NULL)
 			{
 				_check_init_len(this->size() + 1);
 				node = this->_tree.insert(position.ptr, val);
@@ -247,6 +247,7 @@ namespace ft
 		{
 			if (this->size() != 0)
 				this->_tree.deleteNode(position.ptr);
+			// this->_tree.print(this->_tree.getRoot(), "", true);
 			return;
 		}
 

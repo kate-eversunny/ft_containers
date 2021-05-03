@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_test.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:16 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/27 13:32:06 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/05/03 13:17:57 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static void constructor(void)
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
-	// getchar();
-	// std::system("clear");
+	getchar();
+	std::system("clear");
 	return;
 }
 
@@ -169,8 +169,8 @@ static void element_access(void)
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
-	// getchar();
-	// std::system("clear");
+	getchar();
+	std::system("clear");
 	return;
 }
 
@@ -228,7 +228,7 @@ static void modifiers(void)
 	compareContainers(++testNmb, stdmap, ftmap, "Insert4 range (value)");
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Insert4 range (size)");
 
-	// getchar();
+	getchar();
 	std::cout << std::endl;
 	
 // swap
@@ -245,7 +245,7 @@ static void modifiers(void)
 	compareContainers(++testNmb, stdmap2, ftmap2, "Swap2 (value)");
 	compareValues(++testNmb, stdmap2.size(), ftmap2.size(), "Swap2 (size)");
 
-	// getchar();
+	getchar();
 	std::cout << std::endl;
 
 // erase
@@ -308,7 +308,7 @@ static void modifiers(void)
 	compareContainers(++testNmb, stdmap, ftmap, "Erase range of elements 2 (values)");
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Erase range of elements 2  (size)");
 
-	// getchar();
+	getchar();
 	std::cout << std::endl;
 
 // clear
@@ -326,8 +326,8 @@ static void modifiers(void)
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
-	// getchar();
-	// std::system("clear");
+	getchar();
+	std::system("clear");
 	return;
 }
 
@@ -359,8 +359,8 @@ static void observers(void)
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
-	// getchar();
-	// std::system("clear");
+	getchar();
+	std::system("clear");
 }
 
 static void operations(void)
@@ -450,8 +450,8 @@ static void operations(void)
 	
 	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
 	
-	// getchar();
-	// std::system("clear");
+	getchar();
+	std::system("clear");
 }
 
 static void non_member_func(void)

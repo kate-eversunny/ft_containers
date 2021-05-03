@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 12:57:48 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/23 14:29:08 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/05/03 14:19:06 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ namespace ft
 		~allocator(void) throw() {}
 		
 		pointer address ( reference x ) const
+		{
+			return &x;
+		}
+
+		const_pointer address ( const_reference x ) const
 		{
 			return &x;
 		}

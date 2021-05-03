@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/05/03 13:26:06 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/05/03 16:37:29 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,9 @@ namespace ft
 		node*
 		findNode(const key_type& key) const
 		{
+			if (this->_size == 0)
+				return NULL;
+				
 			node* current = this->_root;
 			while (current != NULL && current != this->_first && current != this->_last)
 			{

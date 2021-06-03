@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:25:38 by pvivian           #+#    #+#             */
-/*   Updated: 2021/05/03 16:36:24 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/03 15:37:05 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,6 @@ namespace ft
 		{
 			if (this->size() != 0)
 				this->_tree.deleteNode(position.ptr);
-			// this->_tree.print(this->_tree.getRoot(), "", true);
 			return;
 		}
 
@@ -337,32 +336,46 @@ namespace ft
 		iterator
 		lower_bound (const key_type& k)
 		{
-			return find(k);
+			for (iterator it = begin(); it != end(); it++)
+			{
+				if (!_compare(it->first, k))
+					return it;
+			}
+			return end();
 		}
 		
 		const_iterator
 		lower_bound (const key_type& k) const
 		{
-			return find(k);
+			for (iterator it = begin(); it != end(); it++)
+			{
+				if (!_compare(it->first, k))
+					return it;
+			}
+			return end();
 		}
 		
 
 		iterator
 		upper_bound (const key_type& k)
 		{
-			iterator it = find(k);
-			if (it == end())
-				return it;
-			return ++it;
+			for (iterator it = begin(); it != end(); it++)
+			{
+				if (_compare(k, it->first))
+					return it;
+			}
+			return end();
 		}
 		
 		const_iterator
 		upper_bound (const key_type& k) const
 		{
-			const_iterator it = find(k);
-			if (it == end())
-				return it;
-			return ++it;
+			for (iterator it = begin(); it != end(); it++)
+			{
+				if (_compare(k, it->first))
+					return it;
+			}
+			return end();
 		}
 
 		std::pair<const_iterator, const_iterator>

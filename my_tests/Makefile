@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/01 11:32:12 by gbroccol          #+#    #+#              #
-#    Updated: 2021/04/22 21:20:30 by pvivian          ###   ########.fr        #
+#    Updated: 2021/06/02 17:09:44 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ SRCS =	main.cpp \
 		vector_test.cpp \
 		list_test.cpp \
 		map_test.cpp \
-		# stack_test.cpp \
-		# queue_test.cpp \
+		stack_test.cpp \
+		queue_test.cpp \
 
 
 SRCS_DIR = ./sources/

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:57:56 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/27 18:26:10 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/02 15:56:46 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -482,8 +482,8 @@ namespace ft
 			tmp->next = last.ptr;
 			if (tmp == x.end().ptr)
 				x.head = last.ptr;
-			else
-				x.head = tmp;
+			// else
+			// 	x.head = tmp;
 			return;
 		}
 		
@@ -568,14 +568,14 @@ namespace ft
 			{
 				iterator it1 = begin();
 				iterator it2 = x.begin();
-				iterator temp;
 				
 				while (it1 != end() && it2 != x.end())
 				{
-					if (comp(*it1, *it2))
-						++it1;
-					else
+					if (comp(*it2, *it1)) 
 						splice(it1, x, it2, ++it2);
+					else {
+						++it1;
+					}
 				}
 				splice(it1, x);
 			}
@@ -589,28 +589,20 @@ namespace ft
 		void
 		sort (Compare comp)
 		{
-			for (iterator it = begin(); it!= end(); )
-			{
-				iterator min = it;
-				for (iterator temp = it; temp != end(); ++temp)
-					if (comp(*temp, *min))
-						min = temp;
-				if (min != it)
-				{
-					if (it.ptr == this->head)
-						this->head = min.ptr;
-					min.ptr->next->prev = min.ptr->prev;
-					min.ptr->prev->next = min.ptr->next;
-					
-					min.ptr->next = it.ptr;
-					min.ptr->prev = it.ptr->prev;
-					it.ptr->prev->next = min.ptr;
-					it.ptr->prev = min.ptr;
-				}
-				else
-					++it;
-			}
-			return;
+			if (this->size() <= 1)
+				return;
+
+			size_t middle_pos = this->size() / 2;
+			iterator it = begin();
+			ft::list<value_type> x;
+			
+			for (size_t i = 0; i < middle_pos && it != end(); i++)
+				it++;
+			x.splice(x.begin(), *this, it, end());
+
+			sort(comp);
+			x.sort(comp);
+    		merge(x, comp);
 		}
 
 		void

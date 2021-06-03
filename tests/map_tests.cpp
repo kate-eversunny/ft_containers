@@ -21,8 +21,8 @@ namespace ft_map
 		ft::map<std::string, ft::stack<double> > my_mp2;
 		ASSERT_EQUAL(0u, my_mp2.size());
 
-		// ft::map<int, int> my_mp3 = my_mp1;
-		// ASSERT_EQUAL(0u, my_mp3.size());
+		ft::map<int, int> my_mp3 = my_mp1;
+		ASSERT_EQUAL(0u, my_mp3.size());
 	}
 
 	void constructorCopy_test() {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 20:28:19 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/23 14:28:36 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/02 17:07:52 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,13 @@ namespace ft
 		{
 			this->_allocator = allocator_type(x._allocator);
 			size_type capacity = x.capacity();
-			this->_start = this->_allocator.allocate(_check_init_len(capacity));
-			this->_end_of_storage = this->_start + capacity;
+			if (capacity > 0)
+			{
+				this->_start = this->_allocator.allocate(_check_init_len(capacity));
+				this->_end_of_storage = this->_start + capacity;
+			}
+			else
+				this->_start = this->_end_of_storage = 0;
 			this->_size = x.size();
 			_setFinish();
 			if (this->_size != 0)
@@ -114,15 +119,6 @@ namespace ft
 		vector & 
 		operator=(vector const & x)
 		{
-			// size_type size = x.size();
-			// this->_allocator = x._allocator;
-			// if (this->capacity() < size)
-			// 	_reallocate(size);
-			// this->_size = size;
-			// _setFinish();
-			// iterator it = x.begin();
-			// for (pointer i = this->_start; i != this->_end_of_storage; i++, it++)
-			// 	*i = *it;
 			assign(x.begin(), x.end());
 			return *this;
 		}

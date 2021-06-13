@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_test.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:13 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/27 18:25:25 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:00:54 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ static void	constructor(void)
 
 	compareValues(++testNmb, stdList.size(), ftList.size(), "Operator= (size)");
 	compareContainers(++testNmb, stdList, ftList, "Operator= (value)");
-
-	getchar();
-	std::system("clear");
 }
 
 static void	iterators(void)
@@ -102,13 +99,6 @@ static void	iterators(void)
 	compareValues(++testNmb, *stdRevIterator, *ftRevIterator, "Rend (value)");
 	
 	compareContainers(++testNmb, stdlist, ftlist, "Iterator (all values)");
-
-	// const iterators - need tests
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 }
 
 static void	capacity(void)
@@ -137,8 +127,6 @@ static void	capacity(void)
 	compareValues(++testNmb, ftlist.size(), stdlist.size(), "Size 4");
 
 	compareValues(++testNmb, ftlist.max_size(), stdlist.max_size(), "Max_size");
-
-	getchar();
 }
 
 static void	elementAccess(void)
@@ -160,11 +148,6 @@ static void	elementAccess(void)
 	compareValues(++testNmb, stdlist.back(), ftlist.back(), "Back value is");
 
 	compareContainers(++testNmb, stdlist, ftlist, "Compare all values");
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 }
 
 static void	modifiers(void)
@@ -199,7 +182,6 @@ static void	modifiers(void)
 	compareContainers(++testNmb, stdlist, ftlist, "Assign 3 (values)");
 	
 	std::cout << std::endl;
-	getchar();
 
 //insert
 	std::cout << std::endl << YELLOW << "insert" << NORMAL << std::endl;
@@ -227,8 +209,6 @@ static void	modifiers(void)
 	compareContainers(++testNmb, empty, ftempty, "Insert 3 (values)");
 	
 	std::cout << std::endl;
-	getchar();
-	std::system("clear");
 
 //erase
 	std::cout << std::endl << YELLOW << "erase" << NORMAL << std::endl;
@@ -255,8 +235,7 @@ static void	modifiers(void)
 	compareContainers(++testNmb, stdlist, ftlist, "Erase 3 (values)");
 
 	std::cout << std::endl;
-	getchar();
-
+	
 //swap
 	std::cout << std::endl << YELLOW << "swap" << NORMAL << std::endl;
 
@@ -300,9 +279,6 @@ static void	modifiers(void)
 
 	compareValues(++testNmb, stdtemp.size(), fttemp.size(), "Swap 2 (size)");
 	compareContainers(++testNmb, stdtemp, fttemp, "Swap 2 (values)");
-	
-	getchar();
-	std::system("clear");
 
 //resize
 	std::cout << std::endl << YELLOW << "resize" << NORMAL << std::endl;
@@ -367,9 +343,6 @@ static void	modifiers(void)
 	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Push_back 2 (size)");
 	compareContainers(++testNmb, stdlist, ftlist, "Push_back 2 (values)");
 
-	getchar();
-	std::system("clear");
-
 //push_front
 	std::cout << std::endl << YELLOW << "push_front" << NORMAL << std::endl;
 	
@@ -409,9 +382,6 @@ static void	modifiers(void)
 
 	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Clear 2 (size)");
 	compareContainers(++testNmb, stdlist, ftlist, "Clear 2 (values)");
-	
-	getchar();
-	std::system("clear");
 }
 
 static void	operations(void)
@@ -515,9 +485,6 @@ static void	operations(void)
 
 	compareValues(++testNmb, empty.size(), ftempty.size(), "Splice 8 (size)");
 	compareContainers(++testNmb, empty, ftempty, "Splice 8 (values)");
-	
-	getchar();
-	std::system("clear");
 
 //remove
 	std::cout << std::endl << YELLOW << "remove" << NORMAL << std::endl;
@@ -581,9 +548,6 @@ static void	operations(void)
 	
 	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Unique 2 (size)");
 	compareContainers(++testNmb, stdlist, ftlist, "Unique 2 (values)");
-
-	getchar();
-	std::system("clear");
 	
 //merge
 	std::cout << std::endl << YELLOW << "merge" << NORMAL << std::endl;
@@ -667,11 +631,6 @@ static void	operations(void)
 
 	compareValues(++testNmb, stdlist.size(), ftlist.size(), "Reverse 2 (size)");
 	compareContainers(++testNmb, stdlist, ftlist, "Reverse 2 (values)");
-	
-
-	getchar();
-	std::system("clear");
-
 }
 
 static void non_member_func(void)
@@ -722,9 +681,6 @@ static void non_member_func(void)
 	compareValues(++testNmb, stdlist1 >= stdlist2, ftlist1 >= ftlist2, "Operator>= 1");
 	compareValues(++testNmb, stdlist1 >= stdlist3, ftlist1 >= ftlist3, "Operator>= 2");
 	
-	getchar();
-	std::cout << std::endl;
-	
 // swap
 
 	ft::swap(ftlist1, ftlist3);
@@ -735,12 +691,44 @@ static void non_member_func(void)
 
 	compareContainers(++testNmb, stdlist3, ftlist3, "Swap2 (value)");
 	compareValues(++testNmb, stdlist3.size(), ftlist3.size(), "Swap2 (size)");
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
+}
+
+static void various_types(void)
+{
+	int testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                              *** VARIOUS TYPES of DATA ***                          " << NORMAL << std::endl;
+	
+	std::string str1("Hello friend");
+	std::string str2("Bebebebe");
+
+	std::list<std::string> stdlist1(20, str1);
+	ft::list<std::string> ftlist1(20, str1);
+
+	stdlist1.push_back(str2);
+	ftlist1.push_back(str2);
+	stdlist1.push_back(str2);
+	ftlist1.push_back(str2);
+	compareContainers(++testNmb, stdlist1, ftlist1, "Std:string");
+
+	float f = 1.234;
+
+	std::vector<float> vectorData(15, f);
+	std::list<std::vector<float> > stdlist2(20, vectorData);
+	ft::list<std::vector<float> > ftlist2(20, vectorData);
+	compareContainers(++testNmb, stdlist2, ftlist2, "Class");
+	
+	char a = 'a';
+	std::list<char> stdlist3(20, a);
+	ft::list<char> ftlist3(20, a);
+	compareContainers(++testNmb, stdlist3, ftlist3, "Char");
+
+
+	std::list<const float> stdlist4(20, f);
+	ft::list<const float> ftlist4(20, f);
+	compareContainers(++testNmb, stdlist4, ftlist4, "Const float");
+	
 }
 
 void	list_test()
@@ -762,4 +750,5 @@ void	list_test()
 	modifiers();
 	operations();
 	non_member_func();
+	various_types();
 }

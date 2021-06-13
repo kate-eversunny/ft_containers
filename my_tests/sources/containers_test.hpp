@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   containers_test.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:45:56 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/27 18:17:25 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 15:04:55 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define RED			"\x1b[31m"
 # define GREEN			"\x1b[32m"
 # define YELLOW			"\x1b[33m"
-# define BLUE			"\x1b[34m"
+# define BLUE			"\033[1;34m"
 # define PURPLE			"\x1b[35m"
 # define LIGHT_BLUE		"\x1b[36m"
 # define WHITE			"\x1b[37m"

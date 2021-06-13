@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 13:54:47 by pvivian           #+#    #+#             */
-/*   Updated: 2021/04/26 21:11:40 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:22:38 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,6 @@ namespace ft
 		const_reference operator*(void) const { return *this->base_iterator; }
 
 		const_pointer operator->(void) const { return &this->base_iterator; }
-		
-		// const_reference & operator[](int index) const { return this->base_iterator[index]; }
-
   };
   
 }

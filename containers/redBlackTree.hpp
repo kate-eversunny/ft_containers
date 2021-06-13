@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redBlackTree.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:24 by pvivian           #+#    #+#             */
-/*   Updated: 2021/06/03 15:08:55 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:23:17 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ namespace ft
 					_last->left = NULL;
 					_first->right = NULL;
 				}
-				// this->_allocator.destroy(&(this->_root->pair));
 				this->_allocator.construct(&(this->_root->pair), val);
 				newNode = this->_root;
 			}

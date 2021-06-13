@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_test.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:16 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/06/03 15:41:06 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:20:05 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,6 @@ static void constructor(void)
 
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Operator= (size)");
 	compareContainers(++testNmb, stdmap, ftmap, "Operator=  (value)");
-
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -115,11 +109,6 @@ static void iterators(void)
 	compareValues(++testNmb, stdRevIterator->second, ftRevIterator->second, "Rend(value)");
 	
 	compareContainers(++testNmb, stdmap, ftmap, "Iterator (all values)");
-
-	// const iterators - need tests
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
 	return;
 }
 
@@ -143,9 +132,6 @@ static void capacity(void)
 	
 	compareValues(++testNmb, stdmap.empty(), ftmap.empty(), "Empty (full)");
 	compareValues(++testNmb, stdmap.max_size(), ftmap.max_size(), "Max_size");
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-
 	return;
 }
 
@@ -166,11 +152,6 @@ static void element_access(void)
 	compareValues(++testNmb, stdmap[100], ftmap[100], "Operator[]1");
 	compareValues(++testNmb, stdmap[200], ftmap[200], "Operator[]2");
 	compareContainers(++testNmb, stdmap, ftmap, "Operator[] (all values)");
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -227,8 +208,6 @@ static void modifiers(void)
 
 	compareContainers(++testNmb, stdmap, ftmap, "Insert4 range (value)");
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Insert4 range (size)");
-
-	getchar();
 	std::cout << std::endl;
 	
 // swap
@@ -245,7 +224,6 @@ static void modifiers(void)
 	compareContainers(++testNmb, stdmap2, ftmap2, "Swap2 (value)");
 	compareValues(++testNmb, stdmap2.size(), ftmap2.size(), "Swap2 (size)");
 
-	getchar();
 	std::cout << std::endl;
 
 // erase
@@ -282,8 +260,7 @@ static void modifiers(void)
 
 	compareContainers(++testNmb, stdmap, ftmap, "Erase one element 3 (values)");
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Erase one element 3 (size)");
-	
-	// getchar();
+
 	std::cout << std::endl;
 	
 	ftIterator = ftmap.begin();
@@ -308,7 +285,6 @@ static void modifiers(void)
 	compareContainers(++testNmb, stdmap, ftmap, "Erase range of elements 2 (values)");
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Erase range of elements 2  (size)");
 
-	getchar();
 	std::cout << std::endl;
 
 // clear
@@ -324,10 +300,6 @@ static void modifiers(void)
 	compareContainers(++testNmb, stdmap, ftmap, "Clear (values)");
 	compareValues(++testNmb, stdmap.size(), ftmap.size(), "Clear (size)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -357,10 +329,6 @@ static void observers(void)
 	compareValues(++testNmb, stdcomp(stdIterator->first, ftIterator->second), ftcomp(stdIterator->first, ftIterator->second), "Key_comp");
 	compareValues(++testNmb, stdmap.value_comp()(*stdIterator, *ftIterator), ftmap.value_comp()(*stdIterator, *ftIterator), "Value_comp");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 }
 
 static void operations(void)
@@ -448,10 +416,6 @@ static void operations(void)
 		stdRes = true;
 	compareValues(++testNmb, stdRes, ftRes, "Equal_range(invalid value)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 }
 
 static void non_member_func(void)
@@ -502,7 +466,6 @@ static void non_member_func(void)
 	compareValues(++testNmb, stdmap1 >= stdmap2, ftmap1 >= ftmap2, "Operator>= 1");
 	compareValues(++testNmb, stdmap1 >= stdmap3, ftmap1 >= ftmap3, "Operator>= 2");
 	
-	getchar();
 	std::cout << std::endl;
 	
 // swap
@@ -516,11 +479,51 @@ static void non_member_func(void)
 	compareContainers(++testNmb, stdmap3, ftmap3, "Swap2 (value)");
 	compareValues(++testNmb, stdmap3.size(), ftmap3.size(), "Swap2 (size)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
+}
+
+static void various_types(void)
+{
+	int testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                              *** VARIOUS TYPES of DATA ***                          " << NORMAL << std::endl;
+	
+	std::string str1("Hello friend");
+	std::string str2("Bebebebe");
+
+	std::map<std::string, std::string> stdmap1;
+	ft::map<std::string, std::string> ftmap1;
+
+	stdmap1.insert(std::make_pair(str1, str2));
+	ftmap1.insert(std::make_pair(str1, str2));
+	compareContainers(++testNmb, stdmap1, ftmap1, "Std:string");
+
+	float f1 = 1.234;
+	float f2 = 4.321;
+
+	std::list<float> vectorData(15, f1);
+	std::map<float, std::list<float> > stdmap2;
+	ft::map<float, std::list<float> > ftmap2;
+
+	stdmap2.insert(std::make_pair(f2, vectorData));
+	ftmap2.insert(std::make_pair(f2, vectorData));
+	compareContainers(++testNmb, stdmap2, ftmap2, "Class");
+	
+	char a = 'a';
+	char b = 'b';
+	std::map<char, char> stdmap3;
+	ft::map<char, char> ftmap3;
+
+	stdmap3.insert(std::make_pair(a, b));
+	ftmap3.insert(std::make_pair(a, b));
+	compareContainers(++testNmb, stdmap3, ftmap3, "Char");
+
+	std::map<float, const float> stdmap4;
+	ft::map<float, const float> ftmap4;
+	
+	stdmap4.insert(std::make_pair(f1, f2));
+	ftmap4.insert(std::make_pair(f1, f2));
+	compareContainers(++testNmb, stdmap4, ftmap4, "Const float");
 }
 
 void map_test()
@@ -541,6 +544,7 @@ void map_test()
 	observers();
 	operations();
 	non_member_func();
+	various_types();
 
 	return;
 }

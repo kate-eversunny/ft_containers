@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 12:57:48 by pvivian           #+#    #+#             */
-/*   Updated: 2021/05/03 14:19:06 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:22:48 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,7 @@ namespace ft
 		allocator() throw() {}
 
 		~allocator(void) throw() {}
-		
-		pointer address ( reference x ) const
-		{
-			return &x;
-		}
-
-		const_pointer address ( const_reference x ) const
-		{
-			return &x;
-		}
-		
+	
 		pointer allocate (size_type n)
 		{
 			pointer mem = (pointer)::operator new(n * sizeof(value_type));
@@ -59,7 +49,7 @@ namespace ft
 		void deallocate (pointer p, size_type n)
 		{
 			if (n > 0)
-				::operator delete (p);
+				delete p;
 		}
 
 		size_type max_size(void) const throw()

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:04:46 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/26 15:21:56 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 16:01:02 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,17 @@ static void constructor(void)
 	
 	compareValues(++testNmb, *stdIterator, *ftIterator, "Constructor copy (value)");
 
-	// /*     RANGE     */
-	// ft::vector<VALUE_TYPE>ftVectorRange(ftVector.begin(), ftVector.end());
-	// std::vector<VALUE_TYPE>stdVectorRange(stdVector.begin(), stdVector.end());
+	/*     RANGE     */
+	ft::vector<VALUE_TYPE>ftVectorRange(ftVector.begin(), ftVector.end());
+	std::vector<VALUE_TYPE>stdVectorRange(stdVector.begin(), stdVector.end());
 
-	// compareValues(++testNmb, stdVectorRange.size(), ftVectorRange.size(), "Constructor range (size)");
+	compareValues(++testNmb, stdVectorRange.size(), ftVectorRange.size(), "Constructor range (size)");
 
-	// stdIterator = stdVectorRange.begin();
-	// ftIterator = ftVectorRange.begin();
+	stdIterator = stdVectorRange.begin();
+	ftIterator = ftVectorRange.begin();
 	
-	// compareValues(++testNmb, *stdIterator, *ftIterator, "Constructor range (value)");
+	compareValues(++testNmb, *stdIterator, *ftIterator, "Constructor range (value)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -109,13 +105,6 @@ static void iterators(void)
 	
 	compareValues(++testNmb, *stdRevIterator, *ftRevIterator, "Rend (value)");
 	
-
-	// const iterators - need tests
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -173,10 +162,6 @@ static void capacity(void)
 	compareValues(++testNmb, stdVector.capacity(), ftVector.capacity(), "Resize2 (capacity)");
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Resize2 (size)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -218,10 +203,6 @@ static void element_access(void)
 	compareValues(++testNmb, stdVector.front(), ftVector.front(), "Front");
 	compareValues(++testNmb, stdVector.back(), ftVector.back(), "Back");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -270,7 +251,6 @@ static void modifiers(void)
 
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Pop_back2 (size)");
 	
-	getchar();
 	std::cout << std::endl;
 	
 // assign
@@ -293,7 +273,6 @@ static void modifiers(void)
 	compareValues(++testNmb, *stdIterator, *ftIterator, "Assign2 (value)");
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Assign2 (size)");
 
-	getchar();
 	std::cout << std::endl;
 
 // insert
@@ -337,7 +316,6 @@ static void modifiers(void)
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Insert3 range (size)");
 	compareValues(++testNmb, stdVector.capacity(), ftVector.capacity(), "Insert3 range(capacity)");
 
-	getchar();
 	std::cout << std::endl;
 	
 // swap
@@ -357,7 +335,6 @@ static void modifiers(void)
 	compareValues(++testNmb, *stdIterator, *ftIterator, "Swap2 (value)");
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Swap2 (size)");
 
-	getchar();
 	std::cout << std::endl;
 
 // erase
@@ -395,7 +372,6 @@ static void modifiers(void)
 	compareValues(++testNmb, *stdIterator, *ftIterator, "Erase one element 3 (value)");
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Erase one element 3 (size)");
 	
-	getchar();
 	std::cout << std::endl;
 	
 	ftIterator = ftVector.begin();
@@ -425,10 +401,8 @@ static void modifiers(void)
 	ftIterator = ftVector.erase(ftIterator, ftVector.end());
 	stdIterator = stdVector.erase(stdIterator, stdVector.end());
 
-	// compareValues(++testNmb, *stdIterator, *ftIterator, "Erase range of elements 3 (value)");
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Erase range of elements 3  (size)");
 
-	getchar();
 	std::cout << std::endl;
 
 // clear
@@ -444,14 +418,9 @@ static void modifiers(void)
 	ftIterator = ftVector.begin();
 	stdIterator = stdVector.begin();
 
-	// compareValues(++testNmb, *stdIterator, *ftIterator, "Clear (value)");
 	compareValues(++testNmb, stdVector.size(), ftVector.size(), "Clear (size)");
 	compareValues(++testNmb, stdVector.capacity(), ftVector.capacity(), "Clear (capacity)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -487,7 +456,6 @@ static void non_member_func(void)
 	compareValues(++testNmb, stdVector1 >= stdVector2, ftVector1 >= ftVector2, "Operator>= 1");
 	compareValues(++testNmb, stdVector1 >= stdVector3, ftVector1 >= ftVector3, "Operator>= 2");
 	
-	getchar();
 	std::cout << std::endl;
 	
 // swap
@@ -506,12 +474,45 @@ static void non_member_func(void)
 
 	compareValues(++testNmb, *stdIterator, *ftIterator, "Swap2 (value)");
 	compareValues(++testNmb, stdVector3.size(), ftVector3.size(), "Swap2 (size)");
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
+
 	return;
+}
+
+static void various_types(void)
+{
+	int testNmb = 0;
+	
+	std::cout << std::endl << YELLOW << "                              *** VARIOUS TYPES of DATA ***                          " << NORMAL << std::endl;
+	
+	std::string str1("Hello friend");
+	std::string str2("Bebebebe");
+
+	std::vector<std::string> stdVector1(20, str1);
+	ft::vector<std::string> ftVector1(20, str1);
+
+	stdVector1.push_back(str2);
+	ftVector1.push_back(str2);
+	stdVector1.push_back(str2);
+	ftVector1.push_back(str2);
+	compareContainers(++testNmb, stdVector1, ftVector1, "Std:string");
+
+	float f = 1.234;
+
+	std::list<float> listData(15, f);
+	std::vector<std::list<float> > stdVector2(20, listData);
+	ft::vector<std::list<float> > ftVector2(20, listData);
+	compareContainers(++testNmb, stdVector2, ftVector2, "Class");
+	
+	char a = 'a';
+	std::vector<char> stdVector3(20, a);
+	ft::vector<char> ftVector3(20, a);
+	compareContainers(++testNmb, stdVector3, ftVector3, "Char");
+
+
+	std::vector<const float> stdVector4(20, f);
+	ft::vector<const float> ftVector4(20, f);
+	compareContainers(++testNmb, stdVector4, ftVector4, "Const float");
+	
 }
 
 void vector_test()
@@ -530,6 +531,7 @@ void vector_test()
 	element_access();
 	modifiers();
 	non_member_func();
+	various_types();
 
 	return;
 }

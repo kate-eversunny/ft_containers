@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:20 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/26 15:21:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 15:24:28 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ static void constructor(void)
 	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Constructor vector stack (size)");
 	compareValues(++testNmb, stdStackVector.empty(), ftStackVector.empty(), "Constructor vector stack (empty)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -68,9 +64,6 @@ static void capacity(void)
 	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Size2 list stack");
 	compareValues(++testNmb, stdStackList.empty(), ftStackList.empty(), "Empty2 list stack");
 
-	getchar();
-	std::cout << std::endl;
-
 	ft::stack<VALUE_TYPE, ft::vector<VALUE_TYPE> > ftStackVector;
 	std::stack<VALUE_TYPE, std::vector<VALUE_TYPE> > stdStackVector;
 	
@@ -94,10 +87,6 @@ static void capacity(void)
 	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Size2 vector stack");
 	compareValues(++testNmb, stdStackVector.empty(), ftStackVector.empty(), "Empty2 vector stack");
 
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -151,14 +140,8 @@ static void element_access(void)
 	stdStackVector.pop();
 	stdStackVector.push(553);
 
-	
 	compareValues(++testNmb, stdStackVector.top(), ftStackVector.top(), "Top2 vector stack");
 
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -201,7 +184,6 @@ static void modifiers(void)
 	compareValues(++testNmb, stdStackList.size(), ftStackList.size(), "Pop2 list(size)");
 
 	std::cout << std::endl;
-	getchar();
 
 	ft::stack<VALUE_TYPE, ft::vector<VALUE_TYPE> > ftStackVector;
 	std::stack<VALUE_TYPE, std::vector<VALUE_TYPE> > stdStackVector;
@@ -234,11 +216,6 @@ static void modifiers(void)
 	stdStackVector.pop();
 
 	compareValues(++testNmb, stdStackVector.size(), ftStackVector.size(), "Pop2 vector(size)");
-	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -283,7 +260,6 @@ static void non_member_func(void)
 	compareValues(++testNmb, stdStackList1 >= stdStackList3, ftStackList1 >= ftStackList3, "Operator>= 2");
 
 	std::cout << std::endl;
-	getchar();
 	
 	std::cout << GREEN << "Vector stack" << NORMAL << std::endl;
 	
@@ -319,10 +295,6 @@ static void non_member_func(void)
 	compareValues(++testNmb, stdStackVector1 >= stdStackVector2, ftStackVector1 >= ftStackVector2, "Operator>= 1");
 	compareValues(++testNmb, stdStackVector1 >= stdStackVector3, ftStackVector1 >= ftStackVector3, "Operator>= 2");
 
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 

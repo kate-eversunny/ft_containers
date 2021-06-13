@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:48:18 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/04/26 15:21:35 by pvivian          ###   ########.fr       */
+/*   Updated: 2021/06/13 15:23:42 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ static void constructor(void)
 	compareValues(++testNmb, stdQueueList.size(), ftQueueList.size(), "Constructor list queue (size)");
 	compareValues(++testNmb, stdQueueList.empty(), ftQueueList.empty(), "Constructor list queue (empty)");
 	
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -61,11 +57,6 @@ static void capacity(void)
 
 	compareValues(++testNmb, stdQueueList.size(), ftQueueList.size(), "Size2 list queue");
 	compareValues(++testNmb, stdQueueList.empty(), ftQueueList.empty(), "Empty2 list queue");
-
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -100,10 +91,6 @@ static void element_access(void)
 	compareValues(++testNmb, stdqueueList.front(), ftqueueList.front(), "Front2 list queue");
 	compareValues(++testNmb, stdqueueList.back(), ftqueueList.back(), "Back2 list queue");
 
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -147,10 +134,6 @@ static void modifiers(void)
 
 	compareValues(++testNmb, stdqueueList.size(), ftqueueList.size(), "Pop2 list(size)");
 
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
@@ -192,10 +175,6 @@ static void non_member_func(void)
 	compareValues(++testNmb, stdqueueList1 >= stdqueueList2, ftqueueList1 >= ftqueueList2, "Operator>= 1");
 	compareValues(++testNmb, stdqueueList1 >= stdqueueList3, ftqueueList1 >= ftqueueList3, "Operator>= 2");
 
-	std::cout << std::endl << YELLOW << "*** *** *** *** ***" << NORMAL << std::endl;
-	
-	getchar();
-	std::system("clear");
 	return;
 }
 
